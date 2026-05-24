@@ -1,4 +1,4 @@
-# Moment — Minimal Timestamp Logger
+# NoteKar - Minimal Timestamp Logger
 
 A tiny, elegant timestamp logger (PWA-ready). Tap to record a moment, long-press to add a note, view history, and adjust a configurable tap delay.
 

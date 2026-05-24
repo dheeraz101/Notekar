@@ -6,8 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000" id="theme-meta">
+<meta name="apple-mobile-web-app-title" content="NoteKar">
 <meta name="description" content="Instant timestamp logger — one tap, one moment saved.">
-<title>Moment</title>
+<title>NoteKar</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="shortcut icon" href="favicon.ico">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -171,11 +174,12 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   left:50%;transform:translateX(-50%);
   z-index:200;
   display:flex;align-items:center;
-  gap:8px;
+  gap:10px;
   padding:8px 10px;
   border-radius:var(--r-pill);
-  box-shadow:0 8px 32px rgba(0,0,0,.45),0 2px 8px rgba(0,0,0,.3);
-  /* min-width so it's stable */
+  background:var(--surf2);
+  border:1px solid var(--border);
+  box-shadow:0 8px 32px rgba(0,0,0,.35),0 2px 10px rgba(0,0,0,.2);
   min-width:220px;
   max-width:calc(100vw - 32px);
 }
@@ -183,36 +187,38 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 /* Icon-only toolbar button */
 .tb-icon{
   width:46px;height:46px;
-  border-radius:var(--r-pill);
+  border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   color:var(--text2);
+  background:var(--surf);
+  border:1px solid var(--border);
   flex-shrink:0;
   transition:color .15s ease,background .15s ease,transform .15s var(--ease);
   -webkit-tap-highlight-color:transparent;
   position:relative;z-index:1;
 }
 .tb-icon svg{width:21px;height:21px;pointer-events:none;}
-.tb-icon:active{transform:scale(0.86);background:var(--surf3);color:var(--text);}
+.tb-icon:active{transform:scale(0.95);background:var(--surf3);color:var(--text);}
 
-/* History pill — middle, stretches */
-#btn-history{
-  flex:1;
+/* History pill between icon buttons */
+.tb-pill{
+  min-width:96px;
   height:46px;
+  padding:0 14px;
   border-radius:var(--r-pill);
   display:flex;align-items:center;justify-content:center;
-  gap:7px;
+  gap:8px;
   color:var(--text2);
   font-size:13px;font-weight:500;letter-spacing:-.01em;
-  background:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.08);
   border:1px solid var(--border);
   transition:color .15s ease,background .15s ease,transform .15s var(--ease);
   -webkit-tap-highlight-color:transparent;
   position:relative;z-index:1;
-  min-width:0;
 }
-[data-theme="light"] #btn-history{background:rgba(0,0,0,.04);}
-#btn-history svg{width:16px;height:16px;flex-shrink:0;opacity:.65;pointer-events:none;}
-#btn-history:active{transform:scale(0.95);background:var(--surf3);color:var(--text);}
+[data-theme="light"] .tb-pill{background:rgba(0,0,0,.05);}
+.tb-pill svg{width:16px;height:16px;flex-shrink:0;opacity:.7;pointer-events:none;}
+.tb-pill:active{transform:scale(0.98);background:var(--surf3);color:var(--text);}
 
 /* ─────────────────────────────────────────
    POPUP SYSTEM (reusable)
@@ -220,7 +226,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 .popup{
   position:fixed;inset:0;
   z-index:400;
-  display:flex;flex-direction:column;justify-content:flex-end;
+  display:flex;align-items:center;justify-content:center;
   pointer-events:none;
   /* NOT display:none — use opacity+pointer-events for GPU compositing */
 }
@@ -236,16 +242,18 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 
 .pop-sheet{
   position:relative;z-index:1;
-  border-radius:var(--r-l) var(--r-l) 0 0;
+  border-radius:var(--r-l);
   overflow:hidden;
-  transform:translateY(102%);
-  transition:transform .38s var(--ease2);
-  padding-bottom:calc(var(--sb) + 12px);
+  transform:translateY(15px);
+  opacity:0;
+  transition:transform .28s var(--ease2),opacity .28s var(--ease2);
+  padding-bottom:12px;
   max-height:88dvh;
+  width:min(100%,460px);
   display:flex;flex-direction:column;
-  box-shadow:0 -2px 40px rgba(0,0,0,.6);
+  box-shadow:0 16px 64px rgba(0,0,0,.35);
 }
-.popup.open .pop-sheet{transform:translateY(0);}
+.popup.open .pop-sheet{transform:translateY(0);opacity:1;}
 
 /* drag handle */
 .dh{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:12px auto 0;flex-shrink:0;}
@@ -280,6 +288,11 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 }
 .chip.on{color:var(--accent);background:var(--accent-bg);border-color:transparent;}
 .chip:active{opacity:.7;}
+.chip.chip-icon{
+  padding:5px 9px;display:flex;align-items:center;justify-content:center;
+}
+.chip.chip-icon svg{width:14px;height:14px;color:var(--text2);}
+.chip.chip-icon.on svg{color:var(--accent);}
 
 /* history list */
 #hist-list{
@@ -306,6 +319,12 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 .ebadge{font-size:10px;font-weight:600;letter-spacing:.04em;padding:2px 7px;border-radius:var(--r-pill);}
 .ebadge.in{color:var(--green);background:var(--green-bg);}
 .ebadge.out{color:var(--orange);background:var(--orange-bg);}
+.ebadge.single{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--accent);color:#fff;padding:0;flex-shrink:0;
+}
+.ebadge.single svg{width:12px;height:12px;pointer-events:none;}
 .enote{font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;-webkit-user-select:text;user-select:text;max-width:100%;}
 .edel{
   width:26px;height:26px;border-radius:var(--r-pill);
@@ -323,6 +342,124 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
    SETTINGS POPUP
 ───────────────────────────────────────── */
 #popup-settings .pop-sheet{min-height:50dvh;}
+
+@media(max-width:539px){
+  :root{
+    --r-s: 12px;
+    --r-m: 18px;
+    --r-l: 24px;
+  }
+  #toolbar{
+    gap:9px;
+    padding:9px 11px;
+  }
+  .tb-icon{
+    width:48px;height:48px;
+  }
+  .tb-icon svg{width:22px;height:22px;}
+  .tb-pill{
+    min-width:104px;
+    height:48px;
+    padding:0 15px;
+    font-size:14px;
+  }
+  .tb-pill svg{width:17px;height:17px;}
+
+  .ph{padding:17px 18px 11px;}
+  .ph-title{font-size:20px;letter-spacing:-.02em;}
+  .ph-close{width:32px;height:32px;}
+  .ph-close svg{width:14px;height:14px;}
+  .dh{width:40px;height:5px;margin:13px auto 0;}
+
+  #popup-history,
+  #popup-settings{
+    align-items:center;
+    justify-content:flex-end;
+  }
+  #popup-history .pop-sheet,
+  #popup-settings .pop-sheet{
+    width:calc(100% - 16px);
+    margin:0 8px 0;
+    align-self:flex-end;
+  }
+  #popup-note .pop-sheet{
+    width:calc(100% - 16px);
+    margin:0 8px;
+  }
+  #popup-reset .pop-sheet,
+  #popup-welcome .pop-sheet{
+    width:calc(100% - 16px);
+    margin:0 8px;
+  }
+  #popup-history .pop-sheet,
+  #popup-settings .pop-sheet{
+    border-radius:var(--r-l) var(--r-l) 0 0;
+    max-height:calc(100dvh - var(--st) - 88px);
+    padding-bottom:calc(var(--sb) + 2px);
+  }
+  #popup-history:not(.open) .pop-sheet,
+  #popup-settings:not(.open) .pop-sheet{
+    transform:translateY(130vh);
+    opacity:0;
+    visibility:hidden;
+  }
+  #popup-history.open .pop-sheet,
+  #popup-settings.open .pop-sheet{
+    transform:translateY(0);
+    opacity:1;
+    visibility:visible;
+  }
+
+  .chips{gap:7px;padding:6px 16px 12px;}
+  .chip{
+    padding:7px 13px;
+    font-size:13px;
+    border-radius:999px;
+  }
+  .chip.chip-icon{padding:7px 10px;}
+  .chip.chip-icon svg{width:15px;height:15px;}
+
+  .slabel{
+    font-size:12px;
+    margin:14px 0 7px;
+  }
+  .scard{border-radius:18px;}
+  .srow{
+    min-height:56px;
+    padding:14px 16px;
+  }
+  .srow-ico{
+    width:36px;height:36px;border-radius:10px;
+  }
+  .srow-t{font-size:17px;line-height:1.25;}
+  .srow-s{font-size:14px;margin-top:2px;line-height:1.3;}
+  .srow-chev svg{width:16px;height:16px;}
+
+  .tgrid{gap:10px;padding:14px;}
+  .tbtn{
+    gap:8px;
+    padding:15px 8px;
+  }
+  .tswatch{width:36px;height:36px;}
+  .tlbl{font-size:12px;}
+
+  .delay-btn{width:38px;height:38px;}
+  .delay-btn svg{width:17px;height:17px;}
+  .track-dots span{width:5px;height:5px;}
+  .track-labels{font-size:12px;}
+  .delay-value{font-size:26px;}
+
+  .danger-btn{
+    min-height:50px;
+    font-size:16px;
+    border-radius:14px;
+  }
+
+  .about{padding:24px 16px 8px;}
+  .about-name{font-size:18px;}
+  .about-ver{font-size:13px;}
+  .about-desc{font-size:14px;line-height:1.65;max-width:310px;}
+}
 .sbody{flex:1;overflow-y:auto;padding:0 16px 4px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
 .sbody::-webkit-scrollbar{display:none;}
 .slabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin:14px 0 6px;}
@@ -338,6 +475,104 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 .srow-s{font-size:12px;color:var(--text2);margin-top:1px;}
 .srow-chev{color:var(--text3);flex-shrink:0;pointer-events:none;}
 .srow-chev svg{width:14px;height:14px;}
+#btn-pwa-action{width:100%;text-align:left;}
+#btn-pwa-action .srow-l{justify-content:flex-start;}
+#btn-pwa-action .srow-l > div:last-child{display:flex;flex-direction:column;align-items:flex-start;text-align:left;}
+
+input[type="range"]{
+  width:100%;
+  appearance:none;
+  -webkit-appearance:none;
+  height:5px;
+  background:var(--border);
+  border-radius:999px;
+  outline:none;
+  flex:1;
+}
+input[type="range"]::-webkit-slider-runnable-track{
+  height:5px;
+  border-radius:999px;
+  background:var(--border);
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--accent);
+  border:3px solid var(--bg);
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+  margin-top:-8.5px;
+}
+input[type="range"]::-moz-range-track{
+  height:5px;
+  border-radius:999px;
+  background:var(--border);
+  border:none;
+}
+input[type="range"]::-moz-range-thumb{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--accent);
+  border:3px solid var(--bg);
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+
+.delay-controls{
+  display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;
+}
+.delay-btn{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--surf3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text2);font-size:16px;flex-shrink:0;
+  transition:background .15s,color .15s,transform .15s var(--ease);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.delay-btn:active{transform:scale(0.92);background:var(--accent);color:#fff;}
+
+.delay-slider-wrap{
+  --slider-pad:11px;
+  position:relative;flex:1;
+}
+  
+.delay-slider-track{
+  position:relative;height:22px;display:flex;align-items:center;margin-bottom:8px;
+}
+.delay-slider-inner{
+  width:100%;
+  padding:0 var(--slider-pad);
+}
+.delay-slider-inner input[type="range"]{
+  width:100%;
+}
+
+.track-dots{
+  display:grid;grid-template-columns:repeat(7,1fr);width:100%;
+  padding:0 var(--slider-pad);margin-bottom:6px;
+}
+.track-dots span{
+  width:4px;height:4px;border-radius:50%;
+  background:color-mix(in srgb, var(--text3) 45%, transparent);
+  justify-self:center;
+  transform:translateX(0.5px);
+}
+
+.track-labels{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  font-size:11px;color:var(--text3);gap:0;padding:0;margin:0;
+  width:100%;text-align:center;padding:0 var(--slider-pad);
+}
+.track-labels span{
+  text-align:center;white-space:nowrap;font-weight:500;letter-spacing:0;padding:0;margin:0;
+  height:16px;display:flex;align-items:center;justify-content:center;
+  width:100%;
+  font-variant-numeric:tabular-nums;
+  transform:translateX(0.5px);
+}
 
 /* theme grid */
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;}
@@ -371,6 +606,21 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 .about-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;}
 .about-ver{font-size:12px;color:var(--text3);margin-bottom:8px;}
 .about-desc{font-size:13px;color:var(--text2);line-height:1.6;max-width:280px;margin:0 auto;}
+.about-link{color:var(--accent);text-decoration:none;}
+.about-link:hover{text-decoration:underline;}
+.settings-social{
+  display:flex;justify-content:center;align-items:center;gap:14px;
+  padding:10px 0 2px;
+}
+.social-btn{
+  width:38px;height:38px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--text2);background:var(--surf3);border:1px solid var(--border);
+  transition:transform .15s var(--ease),opacity .15s,color .15s,background .15s;
+}
+.social-btn:hover{color:var(--text);background:var(--surf2);}
+.social-btn:active{transform:scale(.95);opacity:.85;}
+.social-btn svg{width:18px;height:18px;}
 
 /* ─────────────────────────────────────────
    NOTE POPUP
@@ -391,6 +641,73 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 .nbtn-skip{background:var(--surf3);border:1px solid var(--border);color:var(--text2);}
 .nbtn-save{background:var(--accent);color:#fff;font-weight:600;}
 
+/* reset confirm popup */
+#popup-reset .pop-sheet{width:min(100%,380px);min-height:auto;}
+.reset-body{padding:6px 18px 18px;}
+.reset-msg{
+  font-size:14px;line-height:1.55;color:var(--text2);
+  margin:2px 0 14px;
+}
+.reset-msg strong{color:var(--text);font-weight:600;}
+.reset-acts{display:flex;gap:10px;}
+.reset-btn{
+  flex:1;height:42px;border-radius:12px;font-size:15px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .15s,transform .15s var(--ease);
+}
+.reset-btn:active{opacity:.75;transform:scale(.97);}
+.reset-no{background:var(--surf3);border:1px solid var(--border);color:var(--text2);}
+.reset-yes{background:var(--red-bg);border:1px solid rgba(255,69,58,.28);color:var(--red);}
+
+/* welcome popup */
+#popup-welcome .pop-sheet{width:min(100%,420px);min-height:auto;}
+.welcome-body{padding:6px 18px 18px;}
+.welcome-msg{
+  font-size:14px;line-height:1.6;color:var(--text2);
+  margin:2px 0 14px;
+}
+.welcome-msg strong{color:var(--text);font-weight:600;}
+.welcome-acts{display:flex;gap:10px;}
+.welcome-btn{
+  flex:1;height:42px;border-radius:12px;font-size:15px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .15s,transform .15s var(--ease);
+}
+.welcome-btn:active{opacity:.75;transform:scale(.97);}
+.welcome-ok{background:var(--accent);color:#fff;}
+
+/* ─────────────────────────────────────────
+   KEYBOARD SHORTCUTS HELPER
+───────────────────────────────────────── */
+#shortcuts-helper{
+  position:fixed;bottom:calc(var(--sb) + 14px);right:16px;
+  display:none;z-index:100;
+  height:52px;
+  padding:0 14px;border-radius:14px;
+  background:rgba(0,0,0,.12);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(8px);border:1px solid var(--border);
+  font-size:13px;color:var(--text2);letter-spacing:-.2px;
+  pointer-events:none;-webkit-user-select:none;user-select:none;
+  text-align:left;
+}
+#shortcuts-helper.show{display:flex;align-items:center;white-space:nowrap;}
+.shortcut-item{
+  display:inline-flex;align-items:center;justify-content:flex-start;gap:7px;font-weight:500;
+  height:100%;
+}
+.shortcut-item + .shortcut-item{
+  margin-left:14px;
+}
+.shortcut-key{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:24px;height:24px;padding:0 7px;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+  border:1px solid var(--border2);
+  border-radius:7px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size:11px;font-weight:700;
+  color:var(--text);letter-spacing:0;
+}
+
 /* ─────────────────────────────────────────
    RESPONSIVE — bigger on wide screens
 ───────────────────────────────────────── */
@@ -402,9 +719,15 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   .tb-icon svg{width:23px;height:23px;}
   #btn-history{height:50px;font-size:14px;}
 }
+@media(max-width:899px){
+  #shortcuts-helper{display:none!important;}
+}
 @media(min-width:768px){
   #clock-hm{font-size:clamp(7rem,14vw,11rem);}
   .pop-sheet{max-width:500px;}
+}
+@media(max-height:600px){
+  #shortcuts-helper{display:none!important;}
 }
 </style>
 </head>
@@ -445,7 +768,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   </button>
 
   <!-- 2. History pill -->
-  <button id="btn-history" type="button" aria-label="Open history">
+  <button class="tb-pill" id="btn-history" type="button" aria-label="Open history">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/>
     </svg>
@@ -479,6 +802,9 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
       <button class="chip" data-filter="week" type="button">This Week</button>
       <button class="chip" data-filter="in" type="button">IN</button>
       <button class="chip" data-filter="out" type="button">OUT</button>
+      <button class="chip chip-icon" data-filter="single" type="button" aria-label="Single tap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      </button>
       <button class="chip" data-filter="notes" type="button">Notes</button>
     </div>
     <div id="hist-list" role="list">
@@ -537,6 +863,56 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
         </div>
       </div>
 
+      <div class="slabel" id="pwa-label" style="display:none;">App</div>
+      <div class="scard" id="pwa-card" style="display:none;">
+        <button class="srow" id="btn-pwa-action" type="button">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--accent-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M20 14v3a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-3"/></svg>
+            </div>
+            <div>
+              <div class="srow-t" id="pwa-action-title">Install App</div>
+              <div class="srow-s" id="pwa-action-sub">Install this app on your device</div>
+            </div>
+          </div>
+          <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+      </div>
+
+      <div class="slabel">Delay</div>
+      <div class="scard">
+        <div class="srow" style="flex-direction:column;align-items:flex-start;cursor:default;">
+          <div class="delay-label" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <div>
+              <div class="srow-t">Tap delay</div>
+              <div class="srow-s">Minimum time between taps</div>
+            </div>
+            <div class="delay-value" id="delay-value">0s</div>
+          </div>
+          <div class="delay-controls">
+            <button class="delay-btn" id="delay-minus" type="button" aria-label="Decrease delay">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="delay-slider-wrap">
+              <div class="delay-slider-track">
+                <div class="delay-slider-inner">
+                  <input type="range" id="delay-range" min="0" max="6" step="1">
+                </div>
+              </div>
+              <div class="track-dots" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="track-labels">
+                <span>0s</span><span>5s</span><span>10s</span><span>15s</span><span>20s</span><span>30s</span><span>1m</span>
+              </div>
+            </div>
+            <button class="delay-btn" id="delay-plus" type="button" aria-label="Increase delay">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="slabel">Stats</div>
       <div class="scard">
         <div class="srow" style="cursor:default;">
@@ -556,9 +932,17 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
       </button>
 
       <div class="about">
-        <div class="about-name">Moment</div>
+        <div class="about-name">NoteKar</div>
         <div class="about-ver">v2.0 · PWA</div>
-        <div class="about-desc">A minimal timestamp logger. Tap to log. Long-press to add a note.</div>
+        <div class="about-desc">Made with ❤ in India.<br>An initiative of <a class="about-link" href="https://yabp.netlify.app/" target="_blank" rel="noopener noreferrer">YABP (Yet Another Boring Project)</a>.</div>
+      </div>
+      <div class="settings-social" aria-label="Contact links">
+        <a class="social-btn" href="mailto:yabp.ub8ke@aleeas.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>
+        </a>
+        <a class="social-btn" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.5 1.4-4.5-2.6-6-3m12 6v-3.5a3 3 0 0 0-.9-2.3c3-.3 6-1.5 6-6.8a5.3 5.3 0 0 0-1.4-3.6 4.9 4.9 0 0 0-.1-3.5s-1.1-.3-3.6 1.4a12.6 12.6 0 0 0-6.5 0C6 2 4.9 2.3 4.9 2.3a4.9 4.9 0 0 0-.1 3.5A5.3 5.3 0 0 0 3.4 9.4c0 5.3 3 6.5 6 6.8a3 3 0 0 0-.9 2.3V22"/></svg>
+        </a>
       </div>
       <div style="height:4px"></div>
     </div>
@@ -578,7 +962,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
     </div>
     <div class="note-body">
       <div class="note-lbl">Optional note</div>
-      <input type="text" id="note-input" placeholder="What's happening…" maxlength="120" autocomplete="off" autocorrect="on" spellcheck="true">
+      <input type="text" id="note-input" placeholder="What's happening…" maxlength="40" autocomplete="off" autocorrect="on" spellcheck="true">
       <div class="note-acts">
         <button class="nbtn nbtn-skip" id="btn-skip" type="button">Skip</button>
         <button class="nbtn nbtn-save" id="btn-save-note" type="button">Save Moment</button>
@@ -587,9 +971,74 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   </div>
 </div>
 
+<!-- ══════ RESET CONFIRM POPUP ══════ -->
+<div class="popup" id="popup-reset" role="dialog" aria-modal="true" aria-label="Confirm reset">
+  <div class="pop-bg" data-close="popup-reset"></div>
+  <div class="pop-sheet glass">
+    <div class="dh"></div>
+    <div class="ph">
+      <span class="ph-title">Reset All Data</span>
+      <button class="ph-close" data-close="popup-reset" type="button" aria-label="Close reset dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="reset-body">
+      <div class="reset-msg"><strong>This action cannot be undone.</strong><br>Do you want to permanently delete all moments and notes?</div>
+      <div class="reset-acts">
+        <button class="reset-btn reset-no" id="btn-reset-cancel" type="button">No</button>
+        <button class="reset-btn reset-yes" id="btn-reset-confirm" type="button">Yes, Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ WELCOME POPUP ══════ -->
+<div class="popup" id="popup-welcome" role="dialog" aria-modal="true" aria-label="Welcome">
+  <div class="pop-bg" data-close="popup-welcome"></div>
+  <div class="pop-sheet glass">
+    <div class="dh"></div>
+    <div class="ph">
+      <span class="ph-title">Welcome to NoteKar</span>
+      <button class="ph-close" data-close="popup-welcome" type="button" aria-label="Close welcome dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="welcome-body">
+      <div class="welcome-msg">
+        <strong>Thanks for trying NoteKar.</strong><br>
+        A minimal timestamp logger built with care in India.<br><br>
+        <strong>Beta Notice:</strong> This app is currently in beta, so you may see occasional bugs or small issues.
+      </div>
+      <div class="welcome-acts">
+        <button class="welcome-btn welcome-ok" id="btn-welcome-ok" type="button">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ KEYBOARD SHORTCUTS HELPER ══════ -->
+<div id="shortcuts-helper">
+  <div class="shortcut-item">
+    <span><span class="shortcut-key">N</span> New Note</span>
+  </div>
+  <div class="shortcut-item">
+    <span><span class="shortcut-key">Space</span> Quick Log</span>
+  </div>
+  <div class="shortcut-item">
+    <span><span class="shortcut-key">Esc</span> Close</span>
+  </div>
+</div>
+
 <script>
-'use strict';
-// ═══════ DB ═══════
+// ═══════ KEYBOARD SHORTCUTS HELPER ═══════
+function initShortcutsHelper() {
+  const helper = document.getElementById('shortcuts-helper');
+  const isDesktop = window.matchMedia('(min-width: 900px) and (pointer: fine)').matches;
+  if (isDesktop) helper.classList.add('show');
+}
+
+initShortcutsHelper();
+
 const db = new Dexie('MomentV2');
 db.version(1).stores({ entries: '++id, timestamp, type, date' });
 
@@ -604,12 +1053,21 @@ let undoTimer   = null;
 let modeTimer   = null;
 let lpTimer     = null;
 let lpFired     = false;
+let tapDelay    = parseInt(localStorage.getItem('m-delay') || '0', 10) || 0;
+let lastTapTime = 0;
 let anyPopupOpen = false;
+let deferredInstallPrompt = null;
+let isInstalledPwa = (
+  localStorage.getItem('m-pwa-installed') === '1' ||
+  window.matchMedia('(display-mode: standalone)').matches ||
+  window.navigator.standalone === true
+);
 
 // ═══════ INIT ═══════
 applyTheme(theme, false);
 updateModeIcon();
 startClock();
+initDelaySetting();
 updateStats();
 
 // ═══════ CLOCK ═══════
@@ -660,7 +1118,7 @@ function updateModeIcon() {
     ico.innerHTML = `<path d="M17 3l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 21l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>`;
   } else {
     btn.style.color = 'var(--accent)';
-    ico.innerHTML = `<path d="M5 12h14"/><path d="M15 8l4 4-4 4"/><circle cx="12" cy="12" r="2.5" fill="currentColor" opacity=".4"/>`;
+    ico.innerHTML = `<polyline points="18 15 12 9 6 15"/>`;
   }
 }
 
@@ -668,10 +1126,10 @@ function showModeToast() {
   const toast = document.getElementById('mode-toast');
   const inner = document.getElementById('mode-toast-inner');
   const label = mode === 'two-way' ? 'Two-Way Mode' : 'Single Mode';
-  const col   = mode === 'two-way' ? 'var(--accent)' : 'var(--green)';
+  const col   = mode === 'two-way' ? 'var(--accent)' : 'var(--accent)';
   const ico   = mode === 'two-way'
     ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round"><path d="M17 3l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 21l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`
-    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="M15 8l4 4-4 4"/></svg>`;
+    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>`;
   inner.innerHTML = ico + `<span style="color:${col}">${label}</span>`;
   if (modeTimer) clearTimeout(modeTimer);
   toast.classList.add('on');
@@ -693,6 +1151,7 @@ function ripple(x,y) {
 // ═══════ LOG ENTRY ═══════
 async function logEntry(note=null) {
   const now = new Date();
+  lastTapTime = now.getTime();
   let type = 'single';
   if (mode === 'two-way') {
     type = inout;
@@ -773,6 +1232,9 @@ tapZone.addEventListener('pointermove', e => {
 tapZone.addEventListener('pointerup', e => {
   if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
   if (lpFired || anyPopupOpen) return;
+  const now = Date.now();
+  if (now - lastTapTime < tapDelay * 1000) return;
+  lastTapTime = now;
   ripple(e.clientX, e.clientY);
   logEntry();
 });
@@ -789,7 +1251,57 @@ function openPopup(id) {
 
 function closePopup(id) {
   document.getElementById(id).classList.remove('open');
+  if (id === 'popup-welcome') localStorage.setItem('m-welcome-seen', '1');
   anyPopupOpen = document.querySelectorAll('.popup.open').length > 0;
+}
+
+function initSheetSwipeToClose(id) {
+  const popup = document.getElementById(id);
+  if (!popup) return;
+  const sheet = popup.querySelector('.pop-sheet');
+  const header = popup.querySelector('.ph');
+  const handle = popup.querySelector('.dh');
+  if (!sheet || !header || !handle) return;
+
+  let startY = 0;
+  let dy = 0;
+  let dragging = false;
+  const threshold = 90;
+  const isMobileSheetSwipe = () => window.matchMedia('(max-width: 539px) and (pointer: coarse)').matches;
+
+  const startDrag = (e) => {
+    if (!isMobileSheetSwipe()) return;
+    if (!popup.classList.contains('open')) return;
+    if (e.target.closest('button')) return;
+    startY = e.clientY;
+    dy = 0;
+    dragging = true;
+    sheet.style.transition = 'none';
+  };
+
+  const moveDrag = (e) => {
+    if (!isMobileSheetSwipe()) return;
+    if (!dragging) return;
+    dy = Math.max(0, e.clientY - startY);
+    sheet.style.transform = `translateY(${dy}px)`;
+    sheet.style.opacity = String(Math.max(0.75, 1 - dy / 420));
+  };
+
+  const endDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    sheet.style.transition = '';
+    sheet.style.transform = '';
+    sheet.style.opacity = '';
+    if (dy >= threshold) closePopup(id);
+  };
+
+  [header, handle].forEach(el => {
+    el.addEventListener('pointerdown', startDrag);
+    el.addEventListener('pointermove', moveDrag);
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+  });
 }
 
 // Delegate all [data-close] clicks
@@ -805,17 +1317,50 @@ document.addEventListener('click', e => {
 // Toolbar buttons
 document.getElementById('btn-mode').addEventListener('click', toggleMode);
 document.getElementById('btn-history').addEventListener('click', () => { openPopup('popup-history'); refreshHistory(); });
-document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); });
+document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); syncPwaActionUI(); });
+initSheetSwipeToClose('popup-history');
+initSheetSwipeToClose('popup-settings');
+initSheetSwipeToClose('popup-note');
+initSheetSwipeToClose('popup-reset');
+initSheetSwipeToClose('popup-welcome');
+document.getElementById('btn-welcome-ok').addEventListener('click', () => {
+  closePopup('popup-welcome');
+});
 
-// Keyboard ESC
+// Keyboard shortcuts
 document.addEventListener('keydown', e => {
-  if (e.key !== 'Escape') return;
-  ['popup-note','popup-history','popup-settings'].forEach(id => {
-    if (document.getElementById(id).classList.contains('open')) {
-      if (id === 'popup-note') closeNote(false);
-      else closePopup(id);
-    }
-  });
+  if (e.repeat) return;
+  if (e.key === 'Escape') {
+    const openPopups = Array.from(document.querySelectorAll('.popup.open'));
+    const topPopup = openPopups[openPopups.length - 1];
+    if (!topPopup) return;
+    if (topPopup.id === 'popup-note') closeNote(false);
+    else closePopup(topPopup.id);
+    return;
+  }
+
+  const active = document.activeElement;
+  const isTyping = !!active && (
+    active.tagName === 'INPUT' ||
+    active.tagName === 'TEXTAREA' ||
+    active.isContentEditable
+  );
+
+  if (!isTyping && !anyPopupOpen && (e.key === 'n' || e.key === 'N')) {
+    e.preventDefault();
+    openPopup('popup-note');
+    setTimeout(() => document.getElementById('note-input').focus(), 340);
+    return;
+  }
+
+  if (!isTyping && !anyPopupOpen && (e.key === ' ' || e.key === 'Enter')) {
+    e.preventDefault();
+    const now = Date.now();
+    if (now - lastTapTime < tapDelay * 1000) return;
+    lastTapTime = now;
+    ripple(window.innerWidth / 2, window.innerHeight / 2);
+    logEntry();
+  }
 });
 
 // ═══════ NOTE POPUP ═══════
@@ -847,6 +1392,7 @@ async function refreshHistory() {
   else if (filter==='week')   rows = rows.filter(e => e.timestamp>=weekAgo);
   else if (filter==='in')     rows = rows.filter(e => e.type==='in');
   else if (filter==='out')    rows = rows.filter(e => e.type==='out');
+  else if (filter==='single') rows = rows.filter(e => e.type==='single');
   else if (filter==='notes')  rows = rows.filter(e => e.note && e.note.length>0);
 
   if (!rows.length) {
@@ -866,7 +1412,12 @@ async function refreshHistory() {
       const t = new Date(e.timestamp);
       const ts = t.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
       const dot = e.type==='in'?'in':e.type==='out'?'out':'single';
-      const badge = (e.type==='in'||e.type==='out') ? `<span class="ebadge ${e.type}">${e.type.toUpperCase()}</span>` : '';
+      let badge = '';
+      if (e.type==='in'||e.type==='out') {
+        badge = `<span class="ebadge ${e.type}">${e.type.toUpperCase()}</span>`;
+      } else if (e.type==='single') {
+        badge = `<span class="ebadge single"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></span>`;
+      }
       html += `
         <div class="ei" role="listitem">
           <div class="edot ${dot}"></div>
@@ -919,6 +1470,98 @@ document.querySelectorAll('[data-theme-set]').forEach(btn => {
   btn.addEventListener('click', () => { applyTheme(btn.dataset.themeSet); haptic(); });
 });
 
+function initDelaySetting() {
+  const delayValues = [0, 5, 10, 15, 20, 30, 60];
+  const range = document.getElementById('delay-range');
+  const label = document.getElementById('delay-value');
+  const minusBtn = document.getElementById('delay-minus');
+  const plusBtn = document.getElementById('delay-plus');
+  
+  if (!range || !label || !minusBtn || !plusBtn) return;
+  
+  // Find index of current delay
+  let currentIndex = delayValues.indexOf(tapDelay);
+  if (currentIndex === -1) currentIndex = 0;
+  
+  const updateDisplay = (index) => {
+    index = Math.max(0, Math.min(6, index));
+    tapDelay = delayValues[index];
+    const display = tapDelay === 60 ? '1m' : `${tapDelay}s`;
+    label.textContent = display;
+    range.value = index;
+    localStorage.setItem('m-delay', tapDelay);
+    haptic(8);
+  };
+  
+  range.value = currentIndex;
+  label.textContent = tapDelay === 60 ? '1m' : `${tapDelay}s`;
+  
+  range.addEventListener('input', () => {
+    const index = parseInt(range.value, 10);
+    updateDisplay(index);
+  });
+  
+  minusBtn.addEventListener('click', () => {
+    const currentIndex = delayValues.indexOf(tapDelay);
+    updateDisplay(Math.max(0, currentIndex - 1));
+  });
+  
+  plusBtn.addEventListener('click', () => {
+    const currentIndex = delayValues.indexOf(tapDelay);
+    updateDisplay(Math.min(6, currentIndex + 1));
+  });
+}
+
+function initNoteCharLimit() {
+  const noteInput = document.getElementById('note-input');
+  if (!noteInput) return;
+  const max = 40;
+  noteInput.maxLength = max;
+  if (noteInput.value.length > max) {
+    noteInput.value = noteInput.value.slice(0, max);
+  }
+}
+
+function syncPwaActionUI() {
+  const label = document.getElementById('pwa-label');
+  const card = document.getElementById('pwa-card');
+  const actionBtn = document.getElementById('btn-pwa-action');
+  const title = document.getElementById('pwa-action-title');
+  const sub = document.getElementById('pwa-action-sub');
+  if (!label || !card || !actionBtn || !title || !sub) return;
+
+  const canInstall = !!deferredInstallPrompt;
+  const shouldShow = true;
+  label.style.display = shouldShow ? '' : 'none';
+  card.style.display = shouldShow ? '' : 'none';
+  if (!shouldShow) return;
+
+  if (isInstalledPwa) {
+    title.textContent = 'Open App';
+    sub.textContent = 'Open this web app in app mode';
+    actionBtn.disabled = false;
+  } else {
+    title.textContent = 'Install App';
+    sub.textContent = canInstall
+      ? 'Install this app on your device'
+      : 'Use browser menu: Add to Home Screen';
+    actionBtn.disabled = false;
+  }
+}
+
+async function detectInstalledPwaState() {
+  if (isInstalledPwa) return;
+  if (!('getInstalledRelatedApps' in navigator)) return;
+  try {
+    const related = await navigator.getInstalledRelatedApps();
+    if (Array.isArray(related) && related.length > 0) {
+      isInstalledPwa = true;
+      localStorage.setItem('m-pwa-installed', '1');
+      syncPwaActionUI();
+    }
+  } catch (e) {}
+}
+
 document.getElementById('btn-csv').addEventListener('click', async () => {
   const rows = await db.entries.orderBy('timestamp').toArray();
   let csv = 'id,timestamp,iso,date,time,type,note\n';
@@ -946,20 +1589,83 @@ function dl(name, content, type) {
   setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(a.href); },100);
 }
 
-document.getElementById('btn-reset').addEventListener('click', async () => {
-  if (!confirm('Delete all moments? This cannot be undone.')) return;
+document.getElementById('btn-reset').addEventListener('click', () => {
+  openPopup('popup-reset');
+});
+
+document.getElementById('btn-reset-cancel').addEventListener('click', () => {
+  closePopup('popup-reset');
+});
+
+document.getElementById('btn-reset-confirm').addEventListener('click', async () => {
   await db.entries.clear();
   lastId=null; inout='in'; sesStart=null;
   localStorage.removeItem('m-inout'); localStorage.removeItem('m-ses');
-  haptic(20); refreshIfOpen(); updateStats(); closePopup('popup-settings');
+  haptic(20); refreshIfOpen(); updateStats();
+  closePopup('popup-reset');
+  closePopup('popup-settings');
+});
+
+document.getElementById('btn-pwa-action').addEventListener('click', async () => {
+  if (isInstalledPwa) {
+    window.open('./', '_blank', 'noopener');
+    return;
+  }
+  if (!deferredInstallPrompt) return;
+
+  deferredInstallPrompt.prompt();
+  try {
+    await deferredInstallPrompt.userChoice;
+  } catch (e) {}
+  deferredInstallPrompt = null;
+  syncPwaActionUI();
 });
 </script>
 
 <script>
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  syncPwaActionUI();
+});
+
+window.addEventListener('appinstalled', () => {
+  isInstalledPwa = true;
+  localStorage.setItem('m-pwa-installed', '1');
+  deferredInstallPrompt = null;
+  syncPwaActionUI();
+});
+
+const dm = window.matchMedia('(display-mode: standalone)');
+if (dm.addEventListener) {
+  dm.addEventListener('change', e => {
+    if (e.matches) {
+      isInstalledPwa = true;
+      localStorage.setItem('m-pwa-installed', '1');
+    }
+    syncPwaActionUI();
+  });
+} else if (dm.addListener) {
+  dm.addListener(e => {
+    if (e.matches) {
+      isInstalledPwa = true;
+      localStorage.setItem('m-pwa-installed', '1');
+    }
+    syncPwaActionUI();
+  });
+}
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   });
+}
+
+syncPwaActionUI();
+detectInstalledPwaState();
+initNoteCharLimit();
+if (localStorage.getItem('m-welcome-seen') !== '1') {
+  setTimeout(() => openPopup('popup-welcome'), 300);
 }
 </script>
 </body>

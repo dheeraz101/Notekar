@@ -155,7 +155,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   bottom:calc(var(--sb) + 106px);
   left:50%;transform:translateX(-50%) translateY(10px);
   opacity:0;pointer-events:none;
-  z-index:998;
+  z-index:250;
   transition:transform 0.26s var(--ease),opacity 0.26s ease;
   white-space:nowrap;
 }
@@ -256,10 +256,10 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 .popup.open .pop-sheet{transform:translateY(0);opacity:1;}
 
 /* drag handle */
-.dh{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:12px auto 0;flex-shrink:0;}
+.dh{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:12px auto 0;flex-shrink:0;touch-action:pan-y;}
 
 /* popup header */
-.ph{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px;flex-shrink:0;}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px;flex-shrink:0;touch-action:pan-y;}
 .ph-title{font-size:17px;font-weight:600;letter-spacing:-.02em;color:var(--text);}
 .ph-close{
   width:28px;height:28px;border-radius:var(--r-pill);
@@ -1266,37 +1266,43 @@ function initSheetSwipeToClose(id) {
   let startY = 0;
   let dy = 0;
   let dragging = false;
+  let activePointerId = null;
   const threshold = 90;
   const isMobileSheetSwipe = () => window.matchMedia('(max-width: 539px) and (pointer: coarse)').matches;
 
   const startDrag = (e) => {
     if (!isMobileSheetSwipe()) return;
     if (!popup.classList.contains('open')) return;
-    if (e.target.closest('button')) return;
+    if (e.target.closest('button, input, textarea, select, label, a')) return;
     startY = e.clientY;
     dy = 0;
     dragging = true;
+    activePointerId = e.pointerId;
     sheet.style.transition = 'none';
+    sheet.setPointerCapture(activePointerId);
+    e.preventDefault();
   };
 
   const moveDrag = (e) => {
     if (!isMobileSheetSwipe()) return;
-    if (!dragging) return;
+    if (!dragging || e.pointerId !== activePointerId) return;
     dy = Math.max(0, e.clientY - startY);
     sheet.style.transform = `translateY(${dy}px)`;
     sheet.style.opacity = String(Math.max(0.75, 1 - dy / 420));
   };
 
-  const endDrag = () => {
-    if (!dragging) return;
+  const endDrag = (e) => {
+    if (!dragging || e.pointerId !== activePointerId) return;
     dragging = false;
+    activePointerId = null;
+    sheet.releasePointerCapture(e.pointerId);
     sheet.style.transition = '';
     sheet.style.transform = '';
     sheet.style.opacity = '';
     if (dy >= threshold) closePopup(id);
   };
 
-  [header, handle].forEach(el => {
+  [sheet, header, handle].forEach(el => {
     el.addEventListener('pointerdown', startDrag);
     el.addEventListener('pointermove', moveDrag);
     el.addEventListener('pointerup', endDrag);

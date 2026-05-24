@@ -12,7 +12,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
@@ -146,6 +146,34 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   padding:9px 16px;border-radius:var(--r-pill);
   font-size:13px;font-weight:500;letter-spacing:-.01em;
 }
+
+#touch-toast{
+  position:fixed;
+  top:calc(var(--st) + 70px);
+  left:50%;transform:translateX(-50%) translateY(-20px);
+  opacity:0;pointer-events:none;
+  z-index:999;
+  transition:transform 0.28s var(--ease),opacity 0.28s ease;
+  white-space:nowrap;
+}
+#touch-toast.on{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
+#touch-toast-inner{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:999px;
+  font-size:13px;font-weight:500;
+  background:var(--surf2);border:1px solid var(--border);
+  color:var(--text);
+}
+#touch-toast-close{
+  width:30px;height:30px;
+  border:none;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  color:var(--text2);
+  font-size:16px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .15s,color .15s;
+}
+#touch-toast-close:hover{background:rgba(255,255,255,0.14);color:var(--text);}
 
 /* ─────────────────────────────────────────
    UNDO TOAST
@@ -748,6 +776,14 @@ input[type="range"]::-moz-range-thumb{
   <div id="mode-toast-inner" class="glass2"></div>
 </div>
 
+<!-- ══════ TOUCH TIP TOAST (mobile only) ══════ -->
+<div id="touch-toast" role="status" aria-live="polite">
+  <div id="touch-toast-inner" class="glass2">
+    <span>Touch and hold to add notes</span>
+    <button id="touch-toast-close" type="button" aria-label="Dismiss tip">×</button>
+  </div>
+</div>
+
 <!-- ══════ UNDO TOAST ══════ -->
 <div id="undo-toast">
   <div id="undo-inner" class="glass">
@@ -762,8 +798,8 @@ input[type="range"]::-moz-range-thumb{
   <!-- 1. Mode icon button -->
   <button class="tb-icon" id="btn-mode" type="button" aria-label="Toggle mode">
     <svg id="icon-mode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M17 3l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-      <path d="M7 21l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+      <path d="M15.5 5v14m0 0l-3.5-3.5m3.5 3.5l3.5-3.5"/>
+      <path d="M8.5 19V5m0 0L5 8.5m3.5-3.5l3.5 3.5"/>
     </svg>
   </button>
 
@@ -803,7 +839,9 @@ input[type="range"]::-moz-range-thumb{
       <button class="chip" data-filter="in" type="button">IN</button>
       <button class="chip" data-filter="out" type="button">OUT</button>
       <button class="chip chip-icon" data-filter="single" type="button" aria-label="Single tap">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 19V5m0 0L8 9m4-4l4 4"/>
+        </svg>
       </button>
       <button class="chip" data-filter="notes" type="button">Notes</button>
     </div>
@@ -1090,9 +1128,12 @@ function applyTheme(t, save=true) {
   if (save) localStorage.setItem('m-theme', t);
   const html = document.documentElement;
   html.removeAttribute('data-theme');
-  if (t === 'light')  html.setAttribute('data-theme','light');
-  if (t === 'amoled') html.setAttribute('data-theme','amoled');
-  document.getElementById('theme-meta').content = t === 'light' ? '#F2F2F7' : '#000000';
+  if (t === 'light') html.setAttribute('data-theme','light');
+  else if (t === 'amoled') html.setAttribute('data-theme','amoled');
+  else html.setAttribute('data-theme','dark');
+  const themeColor = t === 'light' ? '#F2F2F7' : t === 'amoled' ? '#000000' : '#0B0B0B';
+  const themeMeta = document.getElementById('theme-meta');
+  if (themeMeta) themeMeta.content = themeColor;
   document.querySelectorAll('[data-theme-set]').forEach(b => b.classList.toggle('on', b.dataset.themeSet === t));
 }
 
@@ -1107,7 +1148,7 @@ function toggleMode() {
   }
   updateModeIcon();
   showModeToast();
-  haptic();
+  haptic(5);
 }
 
 function updateModeIcon() {
@@ -1115,11 +1156,24 @@ function updateModeIcon() {
   const btn = document.getElementById('btn-mode');
   if (mode === 'two-way') {
     btn.style.color = '';
-    ico.innerHTML = `<path d="M17 3l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 21l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>`;
+    ico.innerHTML = `<path d="M15.5 5v14m0 0l-3.5-3.5m3.5 3.5l3.5-3.5"/><path d="M8.5 19V5m0 0L5 8.5m3.5-3.5l3.5 3.5"/>`;
   } else {
     btn.style.color = 'var(--accent)';
-    ico.innerHTML = `<polyline points="18 15 12 9 6 15"/>`;
+    ico.innerHTML = `<path d="M12 19V5m0 0L8 9m4-4l4 4"/>`;
   }
+}
+
+function showTouchTip() {
+  const toast = document.getElementById('touch-toast');
+  if (!toast) return;
+  toast.classList.add('on');
+}
+
+function dismissTouchTip() {
+  const toast = document.getElementById('touch-toast');
+  if (!toast) return;
+  toast.classList.remove('on');
+  localStorage.setItem('m-touch-tip-dismissed', '1');
 }
 
 function showModeToast() {
@@ -1128,8 +1182,8 @@ function showModeToast() {
   const label = mode === 'two-way' ? 'Two-Way Mode' : 'Single Mode';
   const col   = mode === 'two-way' ? 'var(--accent)' : 'var(--accent)';
   const ico   = mode === 'two-way'
-    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round"><path d="M17 3l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 21l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`
-    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>`;
+    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 5v14m0 0l-3.5-3.5m3.5 3.5l3.5-3.5"/><path d="M8.5 19V5m0 0L5 8.5m3.5-3.5l3.5 3.5"/></svg>`
+    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0L8 9m4-4l4 4"/></svg>`;
   inner.innerHTML = ico + `<span style="color:${col}">${label}</span>`;
   if (modeTimer) clearTimeout(modeTimer);
   toast.classList.add('on');
@@ -1137,7 +1191,20 @@ function showModeToast() {
 }
 
 // ═══════ HAPTIC ═══════
-function haptic(d=8) { if (navigator.vibrate) try { navigator.vibrate(d); } catch(e){} }
+function haptic(pattern = 8) {
+  if (!navigator.vibrate) return;
+  if (typeof pattern === 'string') {
+    if (pattern === 'tick') pattern = 5;
+    else if (pattern === 'pop') pattern = 15;
+    else pattern = 8;
+  }
+  try { navigator.vibrate(pattern); } catch (e) {}
+}
+
+function hapticHeavy() {
+  if (!navigator.vibrate) return;
+  try { navigator.vibrate([10, 30, 20]); } catch (e) {}
+}
 
 // ═══════ RIPPLE ═══════
 function ripple(x,y) {
@@ -1172,7 +1239,7 @@ async function logEntry(note=null) {
       date: now.toISOString().split('T')[0]
     });
     lastId = id;
-    haptic(); showUndo(); refreshIfOpen(); updateStats();
+    haptic(15); showUndo(); refreshIfOpen(); updateStats();
   } catch(e) { console.error(e); }
 }
 
@@ -1208,6 +1275,7 @@ async function undoLast() {
   } catch(e) { console.error(e); }
 }
 document.getElementById('btn-undo').addEventListener('click', e => { e.stopPropagation(); undoLast(); });
+document.getElementById('touch-toast-close').addEventListener('click', e => { e.stopPropagation(); dismissTouchTip(); });
 
 // ═══════ TAP ZONE ═══════
 const tapZone = document.getElementById('tap-zone');
@@ -1422,7 +1490,7 @@ async function refreshHistory() {
       if (e.type==='in'||e.type==='out') {
         badge = `<span class="ebadge ${e.type}">${e.type.toUpperCase()}</span>`;
       } else if (e.type==='single') {
-        badge = `<span class="ebadge single"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></span>`;
+        badge = `<span class="ebadge single"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0L8 9m4-4l4 4"/></svg></span>`;
       }
       html += `
         <div class="ei" role="listitem">
@@ -1454,6 +1522,7 @@ async function refreshHistory() {
 document.getElementById('filter-row').addEventListener('click', e => {
   const chip = e.target.closest('.chip');
   if (!chip) return;
+  haptic(5);
   filter = chip.dataset.filter;
   document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c===chip));
   refreshHistory();
@@ -1473,7 +1542,7 @@ async function updateStats() {
 
 // ═══════ SETTINGS ACTIONS ═══════
 document.querySelectorAll('[data-theme-set]').forEach(btn => {
-  btn.addEventListener('click', () => { applyTheme(btn.dataset.themeSet); haptic(); });
+  btn.addEventListener('click', () => { applyTheme(btn.dataset.themeSet); haptic(5); });
 });
 
 function initDelaySetting() {
@@ -1607,7 +1676,7 @@ document.getElementById('btn-reset-confirm').addEventListener('click', async () 
   await db.entries.clear();
   lastId=null; inout='in'; sesStart=null;
   localStorage.removeItem('m-inout'); localStorage.removeItem('m-ses');
-  haptic(20); refreshIfOpen(); updateStats();
+  hapticHeavy(); refreshIfOpen(); updateStats();
   closePopup('popup-reset');
   closePopup('popup-settings');
 });
@@ -1667,9 +1736,37 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  if (urlParams.get('action') === 'note') {
+    // Let the framework render before popping open the wrapper
+    setTimeout(() => {
+      // Clear url trace parameter so user reloads do not auto-trigger
+      window.history.replaceState({}, document.title, window.location.pathname);
+      
+      // Open your text entry window interface modal
+      if (typeof openNotePopup === 'function') {
+        openNotePopup();
+      } else if (document.getElementById('popup-note')) {
+        document.getElementById('popup-note').classList.add('open');
+      }
+      haptic('tick');
+    }, 250);
+  }
+});
+
 syncPwaActionUI();
 detectInstalledPwaState();
 initNoteCharLimit();
+const isMobileTouchDevice = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
+if (isMobileTouchDevice && !localStorage.getItem('m-touch-tip-dismissed')) {
+  setTimeout(() => {
+    if (!document.getElementById('popup-welcome').classList.contains('open')) {
+      showTouchTip();
+    }
+  }, 900);
+}
 if (localStorage.getItem('m-welcome-seen') !== '1') {
   setTimeout(() => openPopup('popup-welcome'), 300);
 }

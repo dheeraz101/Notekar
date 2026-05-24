@@ -1,16 +1,24 @@
-﻿const CACHE_NAME = 'notekar-cache-v2';
+﻿const CACHE_NAME = 'notekar-cache-v3';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
   './favicon.ico',
+  './apple-touch-icon.png',
   './icon-192.png',
-  './icon-512.png'
+  './icon-maskable-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png',
+  './screenshot.png',
+  './screenshot-2.png',
+  './sw.js'
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
   self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
+  );
 });
 
 self.addEventListener('activate', event => {
@@ -21,37 +29,21 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Stale-While-Revalidate Strategy
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-
   const url = new URL(event.request.url);
-
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy));
-          return response;
-        })
-        .catch(() => caches.match('./index.html'))
-    );
-    return;
-  }
-
-  if (url.origin !== self.location.origin) {
-    return;
-  }
+  if (url.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-      return fetch(event.request).then(response => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-        return response;
-      });
+    caches.match(event.request).then(cachedResponse => {
+      const fetchPromise = fetch(event.request).then(networkResponse => {
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, networkResponse.clone()));
+        return networkResponse;
+      }).catch(() => {/* Ignore network errors if offline */});
+      
+      // Return cached immediately if available, while network fetch runs in background
+      return cachedResponse || fetchPromise;
     })
   );
 });
-

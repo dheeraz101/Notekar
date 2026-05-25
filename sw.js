@@ -1,8 +1,17 @@
-﻿const CACHE_NAME = 'notekar-cache-v3';
+const SW_CHANNEL = new URL(self.location.href).searchParams.get('channel') === 'beta' ? 'beta' : 'stable';
+importScripts(SW_CHANNEL === 'beta' ? './releases/beta.js' : './releases/stable.js');
+
+const SW_META = SW_CHANNEL === 'beta' ? globalThis.NOTEKAR_BETA_META : globalThis.NOTEKAR_META;
+const CACHE_NAME = `notekar-${SW_CHANNEL}-cache-v${SW_META.version}`;
 const APP_SHELL = [
   './',
   './index.html',
+  './releases/stable.js',
+  './releases/beta.js',
+  './app-version.js',
+  './app-version-beta.js',
   './manifest.json',
+  './health.json',
   './favicon.ico',
   './apple-touch-icon.png',
   './icon-192.png',
@@ -15,7 +24,6 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
-  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
   );
@@ -29,21 +37,51 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Stale-While-Revalidate Strategy
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.source.postMessage({
+      type: 'VERSION_INFO',
+      version: SW_META.version,
+      channel: SW_CHANNEL
+    });
+    return;
+  }
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+// Cache-first app shell. New builds wait until the user installs them.
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
+  if (url.searchParams.has('nk-refresh')) {
+    const cleanUrl = new URL(event.request.url);
+    cleanUrl.searchParams.delete('nk-refresh');
+    const cleanHref = cleanUrl.toString();
+
+    event.respondWith(
+      fetch(cleanHref, {cache:'reload', credentials:'same-origin'}).then(networkResponse => {
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(cleanHref, networkResponse.clone());
+          return networkResponse;
+        });
+      }).catch(() => caches.match(cleanHref))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
-      const fetchPromise = fetch(event.request).then(networkResponse => {
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, networkResponse.clone()));
-        return networkResponse;
-      }).catch(() => {/* Ignore network errors if offline */});
-      
-      // Return cached immediately if available, while network fetch runs in background
-      return cachedResponse || fetchPromise;
+      if (cachedResponse) return cachedResponse;
+      return fetch(event.request).then(networkResponse => {
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        });
+      });
     })
   );
 });

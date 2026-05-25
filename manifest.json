@@ -1,6 +1,8 @@
 ﻿{
   "name": "NoteKar",
   "short_name": "NoteKar",
+  "version": "3.0.6",
+  "release_channel": "stable",
   "description": "Instant timestamp logger — one tap, one moment saved.",
   "start_url": "./",
   "scope": "./",

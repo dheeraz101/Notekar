@@ -1,12 +1,21 @@
 globalThis.NOTEKAR_BETA_META = {
-  version: '3.2.0-beta.2',
+  version: '3.2.0-beta.3',
   buildDate: '2026-05-25',
   channel: 'beta',
   changelog: [
     {
-      version: '3.2.0 Beta 2',
+      version: '3.2.0 Beta 3',
       date: 'May 25, 2026',
       isNew: true,
+      items: [
+        'Added the latest release-audit polish to the beta channel.',
+        'Improved first-run guidance, offline status, empty history help, and accessibility labels.',
+        'Kept beta update checks isolated from stable release changes.'
+      ]
+    },
+    {
+      version: '3.2.0 Beta 2',
+      date: 'May 25, 2026',
       items: [
         'Added the latest Settings polish to the beta channel.',
         'Exports now include version and beta channel details.',
@@ -50,3 +59,5 @@ globalThis.NOTEKAR_BETA_META = {
     }
   ]
 };
+
+globalThis.NOTEKAR_NOTIFICATION_FEED = 'https://raw.githubusercontent.com/dheeraz101/NotekarN/refs/heads/main/notification.json';

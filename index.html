@@ -19,6 +19,80 @@
 <script src="https://unpkg.com/dexie@3/dist/dexie.min.js"></script>
 <script src="releases/stable.js"></script>
 <script src="releases/beta.js"></script>
+<script>
+if (!window.Dexie) {
+  window.Dexie = class MiniDexie {
+    constructor(name) {
+      this.name = name;
+      this.entries = new MiniDexieTable(name, 'entries');
+    }
+    version() { return {stores: () => this}; }
+  };
+
+  class MiniDexieTable {
+    constructor(dbName, storeName) {
+      this.dbName = dbName;
+      this.storeName = storeName;
+    }
+    _db() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(this.dbName, 1);
+        req.onupgradeneeded = () => {
+          const db = req.result;
+          if (!db.objectStoreNames.contains(this.storeName)) {
+            const store = db.createObjectStore(this.storeName, {keyPath:'id', autoIncrement:true});
+            store.createIndex('timestamp', 'timestamp');
+            store.createIndex('type', 'type');
+            store.createIndex('date', 'date');
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+    async _tx(mode, fn) {
+      const db = await this._db();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.storeName, mode);
+        const store = tx.objectStore(this.storeName);
+        const done = fn(store, resolve, reject);
+        tx.oncomplete = () => { db.close(); if (done !== undefined) resolve(done); };
+        tx.onerror = () => { db.close(); reject(tx.error); };
+      });
+    }
+    add(value) { return this._tx('readwrite', (store, resolve) => { const r=store.add(value); r.onsuccess=()=>resolve(r.result); }); }
+    get(id) { return this._tx('readonly', (store, resolve) => { const r=store.get(id); r.onsuccess=()=>resolve(r.result); }); }
+    delete(id) { return this._tx('readwrite', store => store.delete(id)); }
+    clear() { return this._tx('readwrite', store => store.clear()); }
+    count() { return this._tx('readonly', (store, resolve) => { const r=store.count(); r.onsuccess=()=>resolve(r.result); }); }
+    orderBy(field) {
+      const table = this;
+      const read = async () => {
+        const rows = await table.toArray();
+        return rows.sort((a,b)=>(a[field]||0)-(b[field]||0));
+      };
+      return {
+        toArray: read,
+        reverse: () => ({toArray: async () => (await read()).reverse(), first: async () => (await read()).reverse()[0]})
+      };
+    }
+    where(field) {
+      const table = this;
+      return {equals: value => ({
+        toArray: async () => (await table.toArray()).filter(row => row[field] === value),
+        count: async () => (await table.toArray()).filter(row => row[field] === value).length,
+        reverse: () => ({first: async () => (await table.toArray()).filter(row => row[field] === value).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0))[0]})
+      })};
+    }
+    toArray() {
+      return this._tx('readonly', (store, resolve) => {
+        const r = store.getAll();
+        r.onsuccess = () => resolve(r.result || []);
+      });
+    }
+  }
+}
+</script>
 <style>
 /* ─────────────────────────────────────────
    TOKENS
@@ -537,14 +611,17 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-pwa-action .srow-l > div:last-child{display:flex;flex-direction:column;align-items:flex-start;text-align:left;}
 #btn-update-action,
 #btn-beta-channel,
+#btn-notifications,
 #btn-whats-new,
 #btn-changelog{width:100%;text-align:left;}
 #btn-update-action .srow-l,
 #btn-beta-channel .srow-l,
+#btn-notifications .srow-l,
 #btn-whats-new .srow-l,
 #btn-changelog .srow-l{justify-content:flex-start;min-width:0;}
 #btn-update-action .srow-l > div:last-child,
 #btn-beta-channel .srow-l > div:last-child,
+#btn-notifications .srow-l > div:last-child,
 #btn-whats-new .srow-l > div:last-child,
 #btn-changelog .srow-l > div:last-child{
   display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;
@@ -553,6 +630,8 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-update-action .srow-s,
 #btn-beta-channel .srow-t,
 #btn-beta-channel .srow-s,
+#btn-notifications .srow-t,
+#btn-notifications .srow-s,
 #btn-whats-new .srow-t,
 #btn-whats-new .srow-s,
 #btn-changelog .srow-t,
@@ -942,6 +1021,9 @@ input[type="range"]::-moz-range-thumb{
   .wn-title{font-size:24px;line-height:1.1;}
   .wn-sub{font-size:14px;}
   .wn-item{font-size:14.5px;line-height:1.48;}
+  .update-ready-btn,.beta-btn,.reset-btn,.reload-btn,.debug-close{
+    min-width:0;padding:0 10px;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
   .cl-release{padding:16px 0;}
   .cl-top{gap:10px;margin-bottom:10px;}
   .cl-version{font-size:16px;line-height:1.25;}
@@ -1226,6 +1308,19 @@ input[type="range"]::-moz-range-thumb{
         </button>
       </div>
 
+      <div class="slabel">Notifications</div>
+      <div class="scard">
+        <button class="srow" id="btn-notifications" type="button">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--accent-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+            </div>
+            <div><div class="srow-t">Notifications</div><div class="srow-s" id="notification-sub">Get important NoteKar notices</div></div>
+          </div>
+          <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+      </div>
+
       <div class="slabel">Updates</div>
       <div class="scard">
         <button class="srow" id="btn-update-action" type="button">
@@ -1242,7 +1337,7 @@ input[type="range"]::-moz-range-thumb{
           </div>
           <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
         </button>
-        <button class="srow" id="btn-beta-channel" type="button">
+        <button class="srow" id="btn-beta-channel" type="button" aria-pressed="false" aria-label="Beta updates off">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--orange-bg)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.3L4.2 19A2 2 0 0 0 5.9 22h12.2a2 2 0 0 0 1.7-3L14 9.3V2"/><path d="M8 2h8"/><path d="M7 16h10"/></svg>
@@ -1254,7 +1349,7 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-whats-new" type="button">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--accent-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)" aria-hidden="true"><path d="M12 2.9l2.35 5.35 5.82.55-4.38 3.86 1.27 5.7L12 15.28l-5.06 2.98 1.27-5.7L3.83 8.8l5.82-.55L12 2.9z"/><path d="M19.25 3.25l.55 1.2 1.2.55-1.2.55-.55 1.2-.55-1.2-1.2-.55 1.2-.55.55-1.2z"/></svg>
             </div>
             <div><div class="srow-t">What’s New</div><div class="srow-s">See the latest improvements</div></div>
           </div>
@@ -1263,7 +1358,11 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-changelog" type="button">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--green-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6.5 3.75h11A2.25 2.25 0 0 1 19.75 6v12A2.25 2.25 0 0 1 17.5 20.25h-11A2.25 2.25 0 0 1 4.25 18V6A2.25 2.25 0 0 1 6.5 3.75z" fill="var(--green)" opacity=".2"/>
+                <path d="M7.5 7.4h9M7.5 11.7h9M7.5 16h5.8" stroke="var(--green)" stroke-width="1.9" stroke-linecap="round"/>
+                <path d="M6.5 3.75h11A2.25 2.25 0 0 1 19.75 6v12A2.25 2.25 0 0 1 17.5 20.25h-11A2.25 2.25 0 0 1 4.25 18V6A2.25 2.25 0 0 1 6.5 3.75z" stroke="var(--green)" stroke-width="1.5"/>
+              </svg>
             </div>
             <div><div class="srow-t">Changelog</div><div class="srow-s">See updates and new features</div></div>
           </div>
@@ -1279,8 +1378,8 @@ input[type="range"]::-moz-range-thumb{
             <div class="srow-s">Choose how NoteKar starts</div>
           </div>
           <div class="mode-choice" role="group" aria-label="Default mode">
-            <button class="mode-choice-btn" data-default-mode="single" type="button">Single</button>
-            <button class="mode-choice-btn" data-default-mode="two-way" type="button">Two-Way</button>
+            <button class="mode-choice-btn" data-default-mode="single" type="button" aria-pressed="false" aria-label="Start in Single mode">Single</button>
+            <button class="mode-choice-btn" data-default-mode="two-way" type="button" aria-pressed="false" aria-label="Start in Two-Way mode">Two-Way</button>
           </div>
         </div>
       </div>
@@ -1327,6 +1426,14 @@ input[type="range"]::-moz-range-thumb{
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             </div>
             <div><div class="srow-t">All Moments</div><div class="srow-s" id="stats-line">Loading…</div></div>
+          </div>
+        </div>
+        <div class="srow" style="cursor:default;">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--green-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-5"/></svg>
+            </div>
+            <div><div class="srow-t">Offline</div><div class="srow-s" id="offline-status">Checking…</div></div>
           </div>
         </div>
       </div>
@@ -1511,6 +1618,7 @@ input[type="range"]::-moz-range-thumb{
       <div class="welcome-msg">
         <strong>Thanks for trying NoteKar.</strong><br>
         A minimal timestamp logger built with care in India.<br><br>
+        <strong>Quick Tip:</strong> Tap anywhere to save a moment. Long press to add a note. Use Single mode for one-tap logs, or Two-Way mode for IN/OUT tracking and time calculations.<br><br>
         <strong>Beta Notice:</strong> This app is currently in beta, so you may see occasional bugs or small issues.
       </div>
       <div class="welcome-acts">
@@ -1553,13 +1661,14 @@ const APP_META = updateChannel === 'beta' ? BETA_META : STABLE_META;
 const APP_VERSION = APP_META.version || globalThis.NOTEKAR_VERSION || '3.0.6';
 const APP_BUILD_DATE = APP_META.buildDate || '';
 const APP_CHANNEL_LABEL = updateChannel === 'beta' ? 'Beta' : 'Stable';
+const NOTIFICATION_FEED_URL = globalThis.NOTEKAR_NOTIFICATION_FEED || '';
 const CHANGELOG = Array.isArray(APP_META.changelog)
   ? APP_META.changelog
   : (Array.isArray(globalThis.NOTEKAR_CHANGELOG) ? globalThis.NOTEKAR_CHANGELOG : []);
 
 // ═══════ STATE ═══════
 let defaultMode = localStorage.getItem('m-default-mode') || 'two-way';
-let mode        = localStorage.getItem('m-mode') || defaultMode;
+let mode        = defaultMode;
 let inout       = localStorage.getItem('m-inout') || 'in';
 let theme       = localStorage.getItem('m-theme') || 'dark';
 let sesStart    = parseInt(localStorage.getItem('m-ses') || '0') || null;
@@ -1594,6 +1703,7 @@ startClock();
 initDelaySetting();
 initDefaultModeSetting();
 updateStats();
+updateOfflineStatus();
 document.getElementById('about-version').textContent = `v${APP_VERSION} · ${APP_CHANNEL_LABEL}`;
 
 // ═══════ CLOCK ═══════
@@ -1895,7 +2005,7 @@ document.addEventListener('click', e => {
 // Toolbar buttons
 document.getElementById('btn-mode').addEventListener('click', toggleMode);
 document.getElementById('btn-history').addEventListener('click', () => { openPopup('popup-history'); refreshHistory(); });
-document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); syncPwaActionUI(); syncUpdateActionUI(); });
+document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); updateOfflineStatus(); syncPwaActionUI(); syncUpdateActionUI(); });
 initSheetSwipeToClose('popup-history');
 initSheetSwipeToClose('popup-settings');
 initSheetSwipeToClose('popup-note');
@@ -1982,7 +2092,7 @@ async function refreshHistory() {
   else if (filter==='notes')  rows = rows.filter(e => e.note && e.note.length>0);
 
   if (!rows.length) {
-    list.innerHTML = '<div class="hempty"><div class="hempty-ico">◷</div>No moments yet.<br>Tap the screen to log one.</div>';
+    list.innerHTML = '<div class="hempty"><div class="hempty-ico">◷</div>No moments yet.<br>Tap to save a moment. Long press to add a note.<br><span style="color:var(--text3)">Single saves one time. Two-Way alternates IN and OUT.</span></div>';
     return;
   }
 
@@ -2146,10 +2256,9 @@ function renderChangelog(latestOnly=false) {
       <div class="whats-new-body">
         <div class="wn-hero">
           <div class="wn-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/>
-              <path d="M5.6 5.6l2.1 2.1"/><path d="M16.3 16.3l2.1 2.1"/><path d="M18.4 5.6l-2.1 2.1"/><path d="M7.7 16.3l-2.1 2.1"/>
-              <circle cx="12" cy="12" r="2.8"/>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2.8l2.35 5.35 5.82.55-4.38 3.86 1.27 5.7L12 15.28l-5.06 2.98 1.27-5.7L3.83 8.7l5.82-.55L12 2.8z"/>
+              <path d="M19.25 3.25l.55 1.2 1.2.55-1.2.55-.55 1.2-.55-1.2-1.2-.55 1.2-.55.55-1.2z"/>
             </svg>
           </div>
           <div>
@@ -2205,6 +2314,7 @@ document.getElementById('btn-changelog').addEventListener('click', () => {
 });
 document.getElementById('btn-whats-new').addEventListener('click', () => {
   localStorage.setItem('m-whats-new-seen', APP_VERSION);
+  localStorage.setItem('m-last-seen-version', APP_VERSION);
   syncWhatsNewPill();
   renderChangelog(true);
   openPopup('popup-changelog');
@@ -2213,6 +2323,15 @@ document.getElementById('btn-whats-new').addEventListener('click', () => {
 function maybeShowWhatsNew() {
   if (!CHANGELOG.length) return;
   if (pendingChannelSwitch || pendingServiceWorker) return;
+  const lastSeenVersion = localStorage.getItem('m-last-seen-version');
+  const hasSeenWelcome = localStorage.getItem('m-welcome-seen') === '1';
+  if (!lastSeenVersion && !hasSeenWelcome) {
+    localStorage.setItem('m-last-seen-version', APP_VERSION);
+    localStorage.setItem('m-whats-new-seen', APP_VERSION);
+    syncWhatsNewPill();
+    return;
+  }
+  if (lastSeenVersion === APP_VERSION) return;
   const seenVersion = localStorage.getItem('m-whats-new-seen');
   if (seenVersion === APP_VERSION) return;
   setTimeout(() => {
@@ -2221,6 +2340,7 @@ function maybeShowWhatsNew() {
       return;
     }
     localStorage.setItem('m-whats-new-seen', APP_VERSION);
+    localStorage.setItem('m-last-seen-version', APP_VERSION);
     syncWhatsNewPill();
     renderChangelog(true);
     openPopup('popup-changelog');
@@ -2241,6 +2361,21 @@ async function updateStats() {
   const today = new Date().toISOString().split('T')[0];
   const todayN = await db.entries.where('date').equals(today).count();
   el.textContent = `${total} total · ${todayN} today`;
+}
+
+async function updateOfflineStatus() {
+  const el = document.getElementById('offline-status');
+  if (!el) return;
+  if (!('serviceWorker' in navigator)) {
+    el.textContent = 'Not available in this browser';
+    return;
+  }
+  try {
+    const reg = await navigator.serviceWorker.getRegistration();
+    el.textContent = reg ? 'Offline ready' : 'Preparing offline support';
+  } catch (e) {
+    el.textContent = 'Preparing offline support';
+  }
 }
 
 // ═══════ SETTINGS ACTIONS ═══════
@@ -2293,7 +2428,11 @@ function initDelaySetting() {
 function initDefaultModeSetting() {
   const buttons = document.querySelectorAll('[data-default-mode]');
   const sync = () => {
-    buttons.forEach(btn => btn.classList.toggle('on', btn.dataset.defaultMode === defaultMode));
+    buttons.forEach(btn => {
+      const active = btn.dataset.defaultMode === defaultMode;
+      btn.classList.toggle('on', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
   };
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -2402,20 +2541,45 @@ function syncBetaChannelUI() {
   if (!sw || !sub) return;
   const isBeta = updateChannel === 'beta';
   sw.classList.toggle('on', isBeta);
+  const btn = document.getElementById('btn-beta-channel');
+  if (btn) {
+    btn.setAttribute('aria-pressed', String(isBeta));
+    btn.setAttribute('aria-label', isBeta ? 'Beta updates on' : 'Beta updates off');
+  }
   sub.textContent = isBeta
     ? `Beta ${APP_VERSION} · early updates enabled`
     : `Stable ${APP_VERSION} · regular updates`;
 }
 
-function handlePendingUpdate(worker, prompt=false) {
-  pendingServiceWorker = worker;
-  requestPendingUpdateVersion(worker);
-  syncUpdateActionUI();
-  if (pendingChannelSwitch) {
-    installPendingAppUpdate(true);
+function syncNotificationUI() {
+  const sub = document.getElementById('notification-sub');
+  if (!sub) return;
+  if (!('Notification' in window)) {
+    sub.textContent = 'Not supported on this device';
     return;
   }
-  if (prompt && !isPendingUpdateDismissed()) showUpdateReadyPrompt();
+  if (Notification.permission === 'granted') sub.textContent = 'Enabled · controlled by remote notices';
+  else if (Notification.permission === 'denied') sub.textContent = 'Blocked in browser settings';
+  else sub.textContent = 'Tap to allow important NoteKar notices';
+}
+
+function handlePendingUpdate(worker, prompt=false) {
+  inspectPendingWorker(worker).then(info => {
+    if (info.version && info.version === APP_VERSION && info.channel === updateChannel && !pendingChannelSwitch) {
+      pendingServiceWorker = null;
+      pendingUpdateVersion = '';
+      syncUpdateActionUI();
+      return;
+    }
+    pendingServiceWorker = worker;
+    pendingUpdateVersion = info.version || '';
+    syncUpdateActionUI();
+    if (pendingChannelSwitch) {
+      installPendingAppUpdate(true);
+      return;
+    }
+    if (prompt && !isPendingUpdateDismissed()) showUpdateReadyPrompt();
+  });
 }
 
 function showUpdateReadyPrompt() {
@@ -2437,19 +2601,30 @@ function showUpdateReadyPrompt() {
   openPopup('popup-update-ready');
 }
 
-function requestPendingUpdateVersion(worker) {
-  pendingUpdateVersion = '';
-  if (!worker) return;
-  const onMessage = event => {
-    if (!event.data || event.data.type !== 'VERSION_INFO') return;
-    pendingUpdateVersion = event.data.version || '';
-    navigator.serviceWorker.removeEventListener('message', onMessage);
-    if (document.getElementById('popup-update-ready').classList.contains('open')) {
-      showUpdateReadyPrompt();
+function inspectPendingWorker(worker) {
+  return new Promise(resolve => {
+    if (!worker) {
+      resolve({version:'', channel:''});
+      return;
     }
-  };
-  navigator.serviceWorker.addEventListener('message', onMessage);
-  try { worker.postMessage({type:'GET_VERSION'}); } catch (e) {}
+    let settled = false;
+    const finish = info => {
+      if (settled) return;
+      settled = true;
+      navigator.serviceWorker.removeEventListener('message', onMessage);
+      resolve(info);
+    };
+    const onMessage = event => {
+      if (!event.data || event.data.type !== 'VERSION_INFO') return;
+      finish({
+        version: event.data.version || '',
+        channel: event.data.channel || ''
+      });
+    };
+    navigator.serviceWorker.addEventListener('message', onMessage);
+    setTimeout(() => finish({version:'', channel:''}), 1200);
+    try { worker.postMessage({type:'GET_VERSION'}); } catch (e) { finish({version:'', channel:''}); }
+  });
 }
 
 function getPendingUpdateDismissKey() {
@@ -2542,6 +2717,15 @@ async function checkForAppUpdate() {
   const startedAt = Date.now();
   setUpdateActionUI('Checking...', 'Looking for the latest NoteKar build.', true);
   try {
+    const latestVersion = await getHealthLatestVersion();
+    if (latestVersion && latestVersion === APP_VERSION) {
+      markUpdateChecked();
+      await waitForMinimumCheckDelay(startedAt);
+      haptic([6, 20, 6]);
+      setUpdateActionUI('You’re Up to Date', 'No updates available');
+      resetUpdateActionLater();
+      return;
+    }
     const registration = swRegistration || await navigator.serviceWorker.getRegistration();
     if (!registration) {
       await waitForMinimumCheckDelay(startedAt);
@@ -2583,6 +2767,17 @@ async function checkForAppUpdate() {
   }
 }
 
+async function getHealthLatestVersion() {
+  try {
+    const res = await fetch(`health.json?channel=${updateChannel}&t=${Date.now()}`, {cache:'reload'});
+    if (!res.ok) return '';
+    const health = await res.json();
+    return updateChannel === 'beta' ? health.beta : health.stable;
+  } catch (e) {
+    return '';
+  }
+}
+
 async function installPendingAppUpdate(isChannelSwitch=false) {
   if (!pendingServiceWorker) return;
   const startedAt = Date.now();
@@ -2607,6 +2802,7 @@ async function installPendingAppUpdate(isChannelSwitch=false) {
   if (isChannelSwitch) {
     localStorage.removeItem('m-channel-switch-pending');
     pendingChannelSwitch = '';
+    cleanupOldChannelCaches();
   }
   setUpdateActionUI(
     'Check for Update',
@@ -2621,6 +2817,15 @@ async function installPendingAppUpdate(isChannelSwitch=false) {
       : '<strong>Ready to finish updating.</strong>NoteKar will reload once to open the latest version. Your saved moments and settings will stay as they are.',
     false
   );
+}
+
+async function cleanupOldChannelCaches() {
+  if (!('caches' in window)) return;
+  try {
+    const keepPrefix = `notekar-${updateChannel}-cache-`;
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(key => key.startsWith('notekar-') && !key.startsWith(keepPrefix)).map(key => caches.delete(key)));
+  } catch (e) {}
 }
 
 function setReloadPopupState(titleText, messageHtml, loading) {
@@ -2669,6 +2874,57 @@ function renderDiagnostics() {
 function openDiagnostics() {
   renderDiagnostics();
   openPopup('popup-debug');
+}
+
+async function enableNotifications() {
+  if (!('Notification' in window)) {
+    showSystemToast('Notifications not supported', 'var(--orange)');
+    return;
+  }
+  if (Notification.permission === 'default') {
+    try { await Notification.requestPermission(); } catch (e) {}
+  }
+  syncNotificationUI();
+  if (Notification.permission === 'granted') {
+    showSystemToast('Notifications enabled', 'var(--green)');
+    checkRemoteNotice();
+  }
+}
+
+async function checkRemoteNotice() {
+  if (!NOTIFICATION_FEED_URL || !('Notification' in window) || Notification.permission !== 'granted') return;
+  try {
+    const res = await fetch(`${NOTIFICATION_FEED_URL}?t=${Date.now()}`, {cache:'reload'});
+    if (!res.ok) return;
+    const cfg = await res.json();
+    if (!cfg || cfg.enabled === false) return;
+    const channels = Array.isArray(cfg.channels) ? cfg.channels : ['stable','beta'];
+    if (!channels.includes(updateChannel)) return;
+    const now = Date.now();
+    if (cfg.showAfter && now < Date.parse(cfg.showAfter)) return;
+    if (cfg.showUntil && now > Date.parse(cfg.showUntil)) return;
+    const id = String(cfg.id || cfg.title || 'notice');
+    const shownKey = `m-notice-${id}-shown`;
+    const lastKey = `m-notice-${id}-last`;
+    const shown = parseInt(localStorage.getItem(shownKey) || '0', 10);
+    const maxShows = Number.isFinite(cfg.maxShows) ? cfg.maxShows : 1;
+    const cooldownMs = (Number.isFinite(cfg.cooldownHours) ? cfg.cooldownHours : 24) * 60 * 60 * 1000;
+    const last = parseInt(localStorage.getItem(lastKey) || '0', 10);
+    if (shown >= maxShows || now - last < cooldownMs) return;
+    const reg = await navigator.serviceWorker.getRegistration();
+    const title = cfg.title || 'NoteKar';
+    const options = {
+      body: cfg.body || '',
+      tag: id,
+      icon: cfg.icon || './icon-192.png',
+      badge: cfg.badge || './icon-maskable-192.png',
+      data: {url: cfg.url || './'}
+    };
+    if (reg && reg.showNotification) await reg.showNotification(title, options);
+    else new Notification(title, options);
+    localStorage.setItem(shownKey, String(shown + 1));
+    localStorage.setItem(lastKey, String(now));
+  } catch (e) {}
 }
 
 function getServiceWorkerUrl() {
@@ -2832,6 +3088,7 @@ document.getElementById('btn-update-action').addEventListener('click', () => {
   haptic(5);
   checkForAppUpdate();
 });
+document.getElementById('btn-notifications').addEventListener('click', enableNotifications);
 document.getElementById('btn-update-later').addEventListener('click', () => {
   localStorage.setItem('m-update-later-key', getPendingUpdateDismissKey());
   closePopup('popup-update-ready');
@@ -2921,6 +3178,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(getServiceWorkerUrl(), {updateViaCache:'none'})
       .then(registration => watchServiceWorkerRegistration(registration))
+      .then(() => updateOfflineStatus())
       .catch(() => {});
   });
 
@@ -2956,9 +3214,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
 syncPwaActionUI();
 syncUpdateActionUI();
+syncNotificationUI();
 syncWhatsNewPill();
 detectInstalledPwaState();
 initNoteCharLimit();
+setTimeout(checkRemoteNotice, 1800);
 const isMobileTouchDevice = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
 if (isMobileTouchDevice && !localStorage.getItem('m-touch-tip-dismissed')) {
   setTimeout(() => {

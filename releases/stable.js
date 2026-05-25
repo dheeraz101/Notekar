@@ -1,12 +1,22 @@
 globalThis.NOTEKAR_META = {
-  version: '3.0.6',
+  version: '3.1.0',
   buildDate: '2026-05-25',
   channel: 'stable',
   changelog: [
     {
-      version: '3.0.6',
+      version: '3.1.0',
       date: 'May 25, 2026',
       isNew: true,
+      items: [
+        'Added a first-run quick tip for tap, long press, Single mode, and Two-Way mode.',
+        'Added an Offline ready status in Settings.',
+        'Improved the empty history screen with clearer guidance.',
+        'Improved accessibility labels for beta updates and default mode controls.'
+      ]
+    },
+    {
+      version: '3.0.6',
+      date: 'May 25, 2026',
       items: [
         'Added a dedicated What’s New view in Settings.',
         'Exports now include app version, update channel, and export time.',
@@ -98,3 +108,4 @@ globalThis.NOTEKAR_META = {
 
 globalThis.NOTEKAR_VERSION = globalThis.NOTEKAR_META.version;
 globalThis.NOTEKAR_CHANGELOG = globalThis.NOTEKAR_META.changelog;
+globalThis.NOTEKAR_NOTIFICATION_FEED = 'https://raw.githubusercontent.com/dheeraz101/NotekarN/refs/heads/main/notification.json';

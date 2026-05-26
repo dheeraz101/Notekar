@@ -1375,7 +1375,7 @@ input[type="range"]::-moz-range-thumb{
             <div class="srow-ico" style="background:var(--accent-bg)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
             </div>
-            <div><div class="srow-t">Notifications</div><div class="srow-s" id="notification-sub">Get important NoteKar notices</div></div>
+            <div><div class="srow-t">Notifications</div><div class="srow-s" id="notification-sub">Receive important NoteKar notices</div></div>
           </div>
           <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
         </button>
@@ -1393,16 +1393,16 @@ input[type="range"]::-moz-range-thumb{
                 <path d="M5.55 19.05v-3.1h3.1"/>
               </svg>
             </div>
-            <div><div class="srow-t" id="update-action-title">Check for Update</div><div class="srow-s" id="update-action-sub">Check for available updates</div></div>
+            <div><div class="srow-t" id="update-action-title">Check for Update</div><div class="srow-s" id="update-action-sub">Review for the latest release</div></div>
           </div>
           <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
         </button>
-        <button class="srow" id="btn-beta-channel" type="button" aria-pressed="false" aria-label="Beta updates off">
+        <button class="srow" id="btn-beta-channel" type="button" aria-pressed="false" aria-label="Beta program off">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--orange-bg)">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.3L4.2 19A2 2 0 0 0 5.9 22h12.2a2 2 0 0 0 1.7-3L14 9.3V2"/><path d="M8 2h8"/><path d="M7 16h10"/></svg>
             </div>
-            <div><div class="srow-t">Beta Updates</div><div class="srow-s" id="beta-channel-sub">Get early access to upcoming improvements</div></div>
+            <div><div class="srow-t">Beta Program</div><div class="srow-s" id="beta-channel-sub">Enroll in Beta updates</div></div>
           </div>
           <span class="ios-switch" id="beta-switch" aria-hidden="true"></span>
         </button>
@@ -1569,12 +1569,12 @@ input[type="range"]::-moz-range-thumb{
 </div>
 
 <!-- ══════ BETA CHANNEL POPUP ══════ -->
-<div class="popup" id="popup-beta" role="dialog" aria-modal="true" aria-label="Beta updates">
+<div class="popup" id="popup-beta" role="dialog" aria-modal="true" aria-label="Beta program">
   <div class="pop-bg" data-close="popup-beta"></div>
   <div class="pop-sheet glass">
     <div class="dh"></div>
     <div class="ph">
-      <span class="ph-title" id="beta-popup-title">Beta Updates</span>
+      <span class="ph-title" id="beta-popup-title">Beta Program</span>
       <button class="ph-close" data-close="popup-beta" type="button" aria-label="Close beta dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -2803,23 +2803,11 @@ function syncBetaChannelUI() {
   const btn = document.getElementById('btn-beta-channel');
   if (btn) {
     btn.setAttribute('aria-pressed', String(isBeta));
-    btn.setAttribute('aria-label', isBeta ? 'Beta updates on' : 'Beta updates off');
+    btn.setAttribute('aria-label', isBeta ? 'Beta program on' : 'Beta program off');
   }
   sub.textContent = isBeta
-    ? `Beta ${APP_VERSION} · early updates enabled`
-    : `Stable ${APP_VERSION} · regular updates`;
-}
-
-function syncNotificationUI() {
-  const sub = document.getElementById('notification-sub');
-  if (!sub) return;
-  if (!('Notification' in window)) {
-    sub.textContent = 'Not supported on this device';
-    return;
-  }
-  if (Notification.permission === 'granted') sub.textContent = 'Enabled · controlled by remote notices';
-  else if (Notification.permission === 'denied') sub.textContent = 'Blocked in browser settings';
-  else sub.textContent = 'Tap to allow important NoteKar notices';
+    ? 'Early access enabled'
+    : 'Enroll in Beta updates';
 }
 
 function handlePendingUpdate(worker, prompt=false) {
@@ -3195,11 +3183,11 @@ let pendingBetaChannel = null;
 function openBetaChannelPopup(targetChannel) {
   pendingBetaChannel = targetChannel;
   const enrolling = targetChannel === 'beta';
-  document.getElementById('beta-popup-title').textContent = enrolling ? 'Join Beta Updates' : 'Leave Beta Updates';
+  document.getElementById('beta-popup-title').textContent = enrolling ? 'Join Beta Program' : 'Leave Beta Program';
   document.getElementById('beta-popup-msg').innerHTML = enrolling
-    ? '<strong>Get early access to new NoteKar updates.</strong>Beta updates may include newer fixes, interface improvements, and experimental features before they reach everyone. Some beta builds may be less stable than regular updates. NoteKar will reload once to switch update channels.'
-    : '<strong>Thanks for trying the beta program.</strong>NoteKar will switch back to regular updates. You will receive stable releases only, and the app will reload once to complete the change.';
-  document.getElementById('btn-beta-confirm').textContent = enrolling ? 'Join Beta & Reload' : 'Leave Beta & Reload';
+    ? '<strong>Enroll in the Beta Program.</strong> Get early access to new features, refinements, and faster fixes. Beta builds may change more often, but you can leave any time.'
+    : '<strong>Leave the Beta Program.</strong> Return to stable updates and keep your current settings. NoteKar will reload once to complete the change.';
+  document.getElementById('btn-beta-confirm').textContent = enrolling ? 'Join Beta' : 'Leave Beta';
   openPopup('popup-beta');
 }
 

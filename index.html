@@ -1478,6 +1478,32 @@ input[type="range"]::-moz-range-thumb{
         </div>
       </div>
 
+      <div class="slabel">Display</div>
+      <div class="scard">
+        <button class="srow" id="btn-minimal-mode" type="button" aria-pressed="false" aria-label="Minimal time off">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--accent-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><path d="M12 2v4"/><path d="M12 16v4"/><path d="M4.22 4.22l2.83 2.83"/><path d="M16.95 16.95l2.83 2.83"/><path d="M2 12h4"/><path d="M16 12h4"/><path d="M4.22 19.78l2.83-2.83"/><path d="M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <div><div class="srow-t">Minimal Time</div><div class="srow-s" id="minimal-mode-sub">Show hours and minutes</div></div>
+          </div>
+          <span class="ios-switch" id="minimal-switch" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="slabel">Safety</div>
+      <div class="scard">
+        <button class="srow" id="btn-confirmation-warning" type="button" aria-pressed="false" aria-label="Confirmation off">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--orange-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 1-10 10 4 4 0 0 0 4-4 4 4 0 0 0-4-4 10 10 0 0 1 10-2z"/></svg>
+            </div>
+            <div><div class="srow-t">Confirm Actions</div><div class="srow-s" id="confirmation-sub">Verify before deleting</div></div>
+          </div>
+          <span class="ios-switch" id="confirmation-switch" aria-hidden="true"></span>
+        </button>
+      </div>
+
       <div class="slabel">Stats</div>
       <div class="scard">
         <div class="srow" style="cursor:default;">
@@ -1765,6 +1791,8 @@ let modeTimer   = null;
 let lpTimer     = null;
 let lpFired     = false;
 let tapDelay    = parseInt(localStorage.getItem('m-delay') || '0', 10) || 0;
+let minimalMode = localStorage.getItem('m-minimal-mode') === '1';
+let confirmationWarning = localStorage.getItem('m-confirmation-warning') !== '0';
 let lastTapTime = 0;
 let anyPopupOpen = false;
 let durationSelection = [];
@@ -1800,7 +1828,7 @@ function startClock() {
   function tick() {
     const n = new Date();
     hm.textContent  = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
-    sec.textContent = '.' + String(n.getSeconds()).padStart(2,'0');
+    sec.textContent = minimalMode ? '' : ('.' + String(n.getSeconds()).padStart(2,'0'));
   }
   tick();
   const delay = 1000 - (Date.now() % 1000);
@@ -2143,7 +2171,7 @@ document.addEventListener('click', e => {
 // Toolbar buttons
 document.getElementById('btn-mode').addEventListener('click', toggleMode);
 document.getElementById('btn-history').addEventListener('click', () => { openPopup('popup-history'); refreshHistory(); });
-document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); updateOfflineStatus(); syncPwaActionUI(); syncAndroidApkActionUI(); syncUpdateActionUI(); });
+document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); updateOfflineStatus(); syncPwaActionUI(); syncAndroidApkActionUI(); syncUpdateActionUI(); syncMinimalModeUI(); syncConfirmationWarningUI(); });
 initSheetSwipeToClose('popup-history');
 initSheetSwipeToClose('popup-settings');
 initSheetSwipeToClose('popup-note');
@@ -2278,7 +2306,11 @@ async function refreshHistory() {
     btn.addEventListener('click', ev => {
       ev.stopPropagation();
       pendingDeleteId = parseInt(btn.dataset.del, 10);
-      openPopup('popup-delete-entry');
+      if (confirmationWarning) {
+        openPopup('popup-delete-entry');
+      } else {
+        deleteEntryDirectly();
+      }
     });
   });
 
@@ -2810,6 +2842,28 @@ function syncBetaChannelUI() {
     : 'Enroll in Beta updates';
 }
 
+function syncMinimalModeUI() {
+  const btn = document.getElementById('btn-minimal-mode');
+  const sub = document.getElementById('minimal-mode-sub');
+  const sw = document.getElementById('minimal-switch');
+  if (!btn || !sub || !sw) return;
+  btn.setAttribute('aria-pressed', String(minimalMode));
+  btn.setAttribute('aria-label', minimalMode ? 'Minimal time on' : 'Minimal time off');
+  sub.textContent = minimalMode ? 'Hours and minutes only' : 'Show hours and minutes';
+  sw.classList.toggle('on', minimalMode);
+}
+
+function syncConfirmationWarningUI() {
+  const btn = document.getElementById('btn-confirmation-warning');
+  const sub = document.getElementById('confirmation-sub');
+  const sw = document.getElementById('confirmation-switch');
+  if (!btn || !sub || !sw) return;
+  btn.setAttribute('aria-pressed', String(confirmationWarning));
+  btn.setAttribute('aria-label', confirmationWarning ? 'Confirmation on' : 'Confirmation off');
+  sub.textContent = confirmationWarning ? 'Ask before deleting' : 'Delete immediately';
+  sw.classList.toggle('on', confirmationWarning);
+}
+
 function handlePendingUpdate(worker, prompt=false) {
   inspectPendingWorker(worker).then(info => {
     if (info.version && info.version === APP_VERSION && info.channel === updateChannel && !pendingChannelSwitch) {
@@ -3283,8 +3337,30 @@ function dl(name, content, type) {
   setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(a.href); },100);
 }
 
+async function deleteEntryDirectly() {
+  if (!pendingDeleteId) return;
+  const id = pendingDeleteId;
+  await db.entries.delete(id);
+  if (lastId===id) lastId=null;
+  durationSelection = durationSelection.filter(item => item.id !== id);
+  pendingDeleteId = null;
+  haptic(4); refreshHistory(); updateStats();
+}
+
+async function resetDataDirectly() {
+  await db.entries.clear();
+  lastId=null; inout='in'; sesStart=null;
+  localStorage.removeItem('m-inout'); localStorage.removeItem('m-ses');
+  hapticHeavy(); refreshIfOpen(); updateStats();
+  closePopup('popup-settings');
+}
+
 document.getElementById('btn-reset').addEventListener('click', () => {
-  openPopup('popup-reset');
+  if (confirmationWarning) {
+    openPopup('popup-reset');
+  } else {
+    resetDataDirectly();
+  }
 });
 
 document.getElementById('btn-reset-cancel').addEventListener('click', () => {
@@ -3349,6 +3425,19 @@ document.getElementById('btn-update-install').addEventListener('click', () => {
 document.getElementById('btn-beta-channel').addEventListener('click', () => {
   haptic(5);
   openBetaChannelPopup(updateChannel === 'beta' ? 'stable' : 'beta');
+});
+document.getElementById('btn-minimal-mode').addEventListener('click', () => {
+  haptic(5);
+  minimalMode = !minimalMode;
+  localStorage.setItem('m-minimal-mode', minimalMode ? '1' : '0');
+  syncMinimalModeUI();
+  startClock();
+});
+document.getElementById('btn-confirmation-warning').addEventListener('click', () => {
+  haptic(5);
+  confirmationWarning = !confirmationWarning;
+  localStorage.setItem('m-confirmation-warning', confirmationWarning ? '1' : '0');
+  syncConfirmationWarningUI();
 });
 document.getElementById('btn-beta-cancel').addEventListener('click', () => {
   pendingBetaChannel = null;
@@ -3456,6 +3545,8 @@ window.addEventListener('popstate', handleUrlAction);
 syncPwaActionUI();
 syncUpdateActionUI();
 syncNotificationUI();
+syncMinimalModeUI();
+syncConfirmationWarningUI();
 syncWhatsNewPill();
 detectInstalledPwaState();
 initNoteCharLimit();

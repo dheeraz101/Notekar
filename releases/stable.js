@@ -1,5 +1,5 @@
 globalThis.NOTEKAR_META = {
-  version: '3.1.2a',
+  version: '3.1.2b',
   buildDate: '2026-05-26',
   channel: 'stable',
   changelog: [

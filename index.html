@@ -511,6 +511,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   #popup-update-ready .pop-sheet,
   #popup-debug .pop-sheet,
   #popup-beta .pop-sheet,
+  #popup-android-apk .pop-sheet,
   #popup-duration .pop-sheet,
   #popup-changelog .pop-sheet,
   #popup-welcome .pop-sheet{
@@ -613,17 +614,20 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-beta-channel,
 #btn-notifications,
 #btn-whats-new,
-#btn-changelog{width:100%;text-align:left;}
+#btn-changelog,
+#btn-android-apk{width:100%;text-align:left;}
 #btn-update-action .srow-l,
 #btn-beta-channel .srow-l,
 #btn-notifications .srow-l,
 #btn-whats-new .srow-l,
-#btn-changelog .srow-l{justify-content:flex-start;min-width:0;}
+#btn-changelog .srow-l,
+#btn-android-apk .srow-l{justify-content:flex-start;min-width:0;}
 #btn-update-action .srow-l > div:last-child,
 #btn-beta-channel .srow-l > div:last-child,
 #btn-notifications .srow-l > div:last-child,
 #btn-whats-new .srow-l > div:last-child,
-#btn-changelog .srow-l > div:last-child{
+#btn-changelog .srow-l > div:last-child,
+#btn-android-apk .srow-l > div:last-child{
   display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;
 }
 #btn-update-action .srow-t,
@@ -635,7 +639,9 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-whats-new .srow-t,
 #btn-whats-new .srow-s,
 #btn-changelog .srow-t,
-#btn-changelog .srow-s{
+#btn-changelog .srow-s,
+#btn-android-apk .srow-t,
+#btn-android-apk .srow-s{
   width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 
@@ -928,6 +934,36 @@ input[type="range"]::-moz-range-thumb{
 .beta-btn:active{opacity:.78;transform:scale(.97);}
 .beta-cancel{background:var(--surf3);border:1px solid var(--border);color:var(--text2);}
 .beta-confirm{background:var(--accent);color:#fff;}
+
+/* Android APK install popup */
+#popup-android-apk{z-index:545;}
+#popup-android-apk .pop-sheet{width:min(100%,410px);min-height:auto;}
+.apk-body{padding:4px 18px 18px;text-align:left;}
+.apk-msg{font-size:14px;line-height:1.55;color:var(--text2);margin:2px 0 14px;max-width:340px;}
+.apk-msg strong{display:block;color:var(--text);font-weight:650;margin-bottom:3px;}
+.apk-list{display:flex;flex-direction:column;gap:9px;}
+.apk-download{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  min-height:48px;padding:10px 12px;border-radius:13px;
+  background:var(--surf3);border:1px solid var(--border);
+  color:var(--text);text-decoration:none;transition:background .15s,transform .15s var(--ease),border-color .15s;
+}
+.apk-download:active{transform:scale(.98);background:var(--accent-bg);border-color:color-mix(in srgb,var(--accent) 35%,transparent);}
+.apk-file{min-width:0;}
+.apk-name{font-size:14px;font-weight:650;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.apk-meta{font-size:11px;color:var(--text3);margin-top:3px;}
+.apk-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent-bg);color:var(--accent);flex-shrink:0;}
+.apk-icon svg{width:15px;height:15px;}
+.apk-state{
+  min-height:72px;display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:16px;border-radius:14px;background:var(--surf3);border:1px solid var(--border);
+  color:var(--text2);font-size:13px;line-height:1.45;
+}
+.apk-release-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:40px;width:100%;margin-top:12px;border-radius:12px;
+  background:var(--accent);color:#fff;text-decoration:none;font-size:14px;font-weight:650;
+}
 
 /* duration popup */
 #popup-duration .pop-sheet{width:min(100%,380px);min-height:auto;}
@@ -1306,6 +1342,18 @@ input[type="range"]::-moz-range-thumb{
           </div>
           <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
         </button>
+        <button class="srow" id="btn-android-apk" type="button" style="display:none;">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--green-bg)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            </div>
+            <div>
+              <div class="srow-t">Install Android APK</div>
+              <div class="srow-s" id="android-apk-sub">Download latest beta release files</div>
+            </div>
+          </div>
+          <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
       </div>
 
       <div class="slabel">Notifications</div>
@@ -1480,6 +1528,30 @@ input[type="range"]::-moz-range-thumb{
         <button class="nbtn nbtn-skip" id="btn-skip" type="button">Skip</button>
         <button class="nbtn nbtn-save" id="btn-save-note" type="button">Save Moment</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ ANDROID APK POPUP ══════ -->
+<div class="popup" id="popup-android-apk" role="dialog" aria-modal="true" aria-label="Install Android APK">
+  <div class="pop-bg" data-close="popup-android-apk"></div>
+  <div class="pop-sheet glass">
+    <div class="dh"></div>
+    <div class="ph">
+      <span class="ph-title">Install Android APK</span>
+      <button class="ph-close" data-close="popup-android-apk" type="button" aria-label="Close Android APK downloads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="apk-body">
+      <div class="apk-msg" id="apk-msg">
+        <strong>Android beta app.</strong>
+        Choose the APK that matches your Android device from the latest GitHub release.
+      </div>
+      <div class="apk-list" id="apk-list">
+        <div class="apk-state">Loading latest release files...</div>
+      </div>
+      <a class="apk-release-link" href="https://github.com/dheeraz101/Notekar/releases" target="_blank" rel="noopener noreferrer">Open GitHub Releases</a>
     </div>
   </div>
 </div>
@@ -1662,6 +1734,8 @@ const APP_VERSION = APP_META.version || globalThis.NOTEKAR_VERSION || '3.0.6';
 const APP_BUILD_DATE = APP_META.buildDate || '';
 const APP_CHANNEL_LABEL = updateChannel === 'beta' ? 'Beta' : 'Stable';
 const NOTIFICATION_FEED_URL = globalThis.NOTEKAR_NOTIFICATION_FEED || '';
+const GITHUB_RELEASES_URL = 'https://github.com/dheeraz101/Notekar/releases';
+const GITHUB_RELEASES_API = 'https://api.github.com/repos/dheeraz101/Notekar/releases?per_page=10';
 const CHANGELOG = Array.isArray(APP_META.changelog)
   ? APP_META.changelog
   : (Array.isArray(globalThis.NOTEKAR_CHANGELOG) ? globalThis.NOTEKAR_CHANGELOG : []);
@@ -1705,6 +1779,7 @@ initDefaultModeSetting();
 updateStats();
 updateOfflineStatus();
 document.getElementById('about-version').textContent = `v${APP_VERSION} · ${APP_CHANNEL_LABEL}`;
+syncAndroidApkActionUI();
 
 // ═══════ CLOCK ═══════
 function startClock() {
@@ -2005,7 +2080,7 @@ document.addEventListener('click', e => {
 // Toolbar buttons
 document.getElementById('btn-mode').addEventListener('click', toggleMode);
 document.getElementById('btn-history').addEventListener('click', () => { openPopup('popup-history'); refreshHistory(); });
-document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); updateOfflineStatus(); syncPwaActionUI(); syncUpdateActionUI(); });
+document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); updateOfflineStatus(); syncPwaActionUI(); syncAndroidApkActionUI(); syncUpdateActionUI(); });
 initSheetSwipeToClose('popup-history');
 initSheetSwipeToClose('popup-settings');
 initSheetSwipeToClose('popup-note');
@@ -2014,6 +2089,7 @@ initSheetSwipeToClose('popup-delete-entry');
 initSheetSwipeToClose('popup-update-ready');
 initSheetSwipeToClose('popup-debug');
 initSheetSwipeToClose('popup-beta');
+initSheetSwipeToClose('popup-android-apk');
 initSheetSwipeToClose('popup-duration');
 initSheetSwipeToClose('popup-changelog');
 initSheetSwipeToClose('popup-welcome');
@@ -2480,6 +2556,115 @@ function syncPwaActionUI() {
       : 'Use browser menu: Add to Home Screen';
     actionBtn.disabled = false;
   }
+}
+
+function isAndroidMobileDevice() {
+  const ua = navigator.userAgent || navigator.vendor || '';
+  const isAndroid = /Android/i.test(ua);
+  const isMobileLike = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+  return isAndroid && isMobileLike;
+}
+
+function syncAndroidApkActionUI() {
+  const btn = document.getElementById('btn-android-apk');
+  const sub = document.getElementById('android-apk-sub');
+  if (!btn || !sub) return;
+  const show = isAndroidMobileDevice();
+  btn.style.display = show ? '' : 'none';
+  if (show) sub.textContent = 'Download latest beta release files';
+}
+
+function renderApkState(message) {
+  const list = document.getElementById('apk-list');
+  if (!list) return;
+  list.innerHTML = `<div class="apk-state">${esc(message)}</div>`;
+}
+
+function formatAssetSize(bytes) {
+  const size = Number(bytes) || 0;
+  if (!size) return '';
+  const mb = size / (1024 * 1024);
+  if (mb >= 1) return `${mb.toFixed(mb >= 10 ? 0 : 1)} MB`;
+  const kb = size / 1024;
+  return `${Math.max(1, Math.round(kb))} KB`;
+}
+
+function describeApkAsset(name) {
+  const lower = String(name || '').toLowerCase();
+  const bits = [];
+  if (lower.includes('universal')) bits.push('Universal');
+  if (lower.includes('arm64') || lower.includes('aarch64')) bits.push('ARM64');
+  else if (lower.includes('armeabi') || lower.includes('armv7')) bits.push('ARMv7');
+  else if (lower.includes('x86_64')) bits.push('x86_64');
+  else if (lower.includes('x86')) bits.push('x86');
+  if (lower.includes('android')) bits.push('Android');
+  return bits.join(' · ') || 'Android APK';
+}
+
+function renderApkDownloads(release, assets) {
+  const list = document.getElementById('apk-list');
+  const msg = document.getElementById('apk-msg');
+  if (!list || !msg) return;
+  const releaseName = release.name || release.tag_name || 'latest release';
+  msg.innerHTML = `<strong>${esc(releaseName)}</strong>Beta APK files from the latest GitHub release. Choose the file that matches your Android version or device type.`;
+  list.innerHTML = assets.map(asset => {
+    const size = formatAssetSize(asset.size);
+    const meta = [describeApkAsset(asset.name), size].filter(Boolean).join(' · ');
+    return `
+      <a class="apk-download" href="${esc(asset.browser_download_url)}" target="_blank" rel="noopener noreferrer" download>
+        <span class="apk-file">
+          <span class="apk-name">${esc(asset.name)}</span>
+          <span class="apk-meta">${esc(meta)}</span>
+        </span>
+        <span class="apk-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        </span>
+      </a>
+    `;
+  }).join('');
+}
+
+async function loadAndroidApkDownloads() {
+  const msg = document.getElementById('apk-msg');
+  if (msg) {
+    msg.innerHTML = '<strong>Android beta app.</strong>Checking the latest GitHub release for APK files.';
+  }
+  renderApkState('Loading latest release files...');
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 9000);
+    const res = await fetch(`${GITHUB_RELEASES_API}&t=${Date.now()}`, {
+      cache: 'no-store',
+      signal: controller.signal,
+      headers: {'Accept': 'application/vnd.github+json'}
+    });
+    clearTimeout(timeout);
+    if (!res.ok) throw new Error(`GitHub returned ${res.status}`);
+    const releases = await res.json();
+    const release = Array.isArray(releases) ? releases[0] : null;
+    const assets = release && Array.isArray(release.assets)
+      ? release.assets.filter(asset => /\.apk$/i.test(asset.name || '') && asset.browser_download_url)
+      : [];
+    if (!release || !assets.length) {
+      if (msg) {
+        msg.innerHTML = '<strong>No APK files found yet.</strong>The Android beta is linked to GitHub Releases, but the latest release does not include APK assets right now.';
+      }
+      renderApkState('No APK download files are attached to the latest release yet.');
+      return;
+    }
+    renderApkDownloads(release, assets);
+  } catch (e) {
+    if (msg) {
+      msg.innerHTML = '<strong>Could not load release files.</strong>Open GitHub Releases to download APK files directly.';
+    }
+    renderApkState('Release files could not be loaded. Check your connection or open GitHub Releases.');
+  }
+}
+
+function openAndroidApkPopup() {
+  haptic(5);
+  openPopup('popup-android-apk');
+  loadAndroidApkDownloads();
 }
 
 function setUpdateActionUI(titleText, subText, disabled=false) {
@@ -3083,6 +3268,7 @@ document.getElementById('btn-pwa-action').addEventListener('click', async () => 
   deferredInstallPrompt = null;
   syncPwaActionUI();
 });
+document.getElementById('btn-android-apk').addEventListener('click', openAndroidApkPopup);
 
 document.getElementById('btn-update-action').addEventListener('click', () => {
   haptic(5);

@@ -1,12 +1,21 @@
 globalThis.NOTEKAR_BETA_META = {
-  version: '3.2.0-beta.4',
+  version: '3.2.0-beta.5',
   buildDate: '2026-05-26',
   channel: 'beta',
   changelog: [
     {
-      version: '3.2.0 Beta 4',
+      version: '3.2.0 Beta 5',
       date: 'May 26, 2026',
       isNew: true,
+      items: [
+        'Added an Android-only Install Android APK option in Settings.',
+        'The Android install popup loads APK files from the latest GitHub release.',
+        'Added beta messaging for downloading device-specific Android release files.'
+      ]
+    },
+    {
+      version: '3.2.0 Beta 4',
+      date: 'May 26, 2026',
       items: [
         'New NoteKar Icons added and Branded!'
       ]

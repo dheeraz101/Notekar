@@ -1,14 +1,16 @@
 globalThis.NOTEKAR_META = {
-  version: '3.1.2b',
+  version: '3.1.2c',
   buildDate: '2026-05-26',
   channel: 'stable',
   changelog: [
     {
-      version: '3.1.2',
+      version: '3.1.2c',
       date: 'May 26, 2026',
       isNew: true,
       items: [
-        'Improved offline history and Dexie fallback so saved moments remain available when offline.'
+        'Added Minimal Time so the home screen can show only hours and minutes.',
+        'Added Confirm Actions so dangerous deletes can run immediately when you want, or ask first when safety is on.',
+        'Improved settings alignment and updates layout for a cleaner, more consistent experience.'
       ]
     },
     {

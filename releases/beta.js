@@ -1,12 +1,19 @@
 globalThis.NOTEKAR_BETA_META = {
-  version: '3.2.0-beta.3',
-  buildDate: '2026-05-25',
+  version: '3.2.0-beta.4',
+  buildDate: '2026-05-26',
   channel: 'beta',
   changelog: [
     {
+      version: '3.2.0 Beta 4',
+      date: 'May 26, 2026',
+      isNew: true,
+      items: [
+        'New NoteKar Icons added and Branded!'
+      ]
+    },
+    {
       version: '3.2.0 Beta 3',
       date: 'May 25, 2026',
-      isNew: true,
       items: [
         'Added the latest release-audit polish to the beta channel.',
         'Improved first-run guidance, offline status, empty history help, and accessibility labels.',

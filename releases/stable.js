@@ -1,12 +1,19 @@
 globalThis.NOTEKAR_META = {
-  version: '3.1.0',
-  buildDate: '2026-05-25',
+  version: '3.1.1',
+  buildDate: '2026-05-26',
   channel: 'stable',
   changelog: [
     {
+      version: '3.1.1',
+      date: 'May 26, 2026',
+      isNew: true,
+      items: [
+        'New NoteKar Icons added and Branded!'
+      ]
+    },
+    {
       version: '3.1.0',
       date: 'May 25, 2026',
-      isNew: true,
       items: [
         'Added a first-run quick tip for tap, long press, Single mode, and Two-Way mode.',
         'Added an Offline ready status in Settings.',

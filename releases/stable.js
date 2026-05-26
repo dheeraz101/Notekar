@@ -1,12 +1,19 @@
 globalThis.NOTEKAR_META = {
-  version: '3.1.1',
+  version: '3.1.2',
   buildDate: '2026-05-26',
   channel: 'stable',
   changelog: [
     {
-      version: '3.1.1',
+      version: '3.1.2',
       date: 'May 26, 2026',
       isNew: true,
+      items: [
+        'Improved offline history and Dexie fallback so saved moments remain available when offline.'
+      ]
+    },
+    {
+      version: '3.1.1',
+      date: 'May 26, 2026',
       items: [
         'New NoteKar Icons added and Branded!'
       ]

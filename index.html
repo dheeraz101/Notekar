@@ -36,18 +36,30 @@ if (!window.Dexie) {
     }
     _db() {
       return new Promise((resolve, reject) => {
-        const req = indexedDB.open(this.dbName, 1);
-        req.onupgradeneeded = () => {
-          const db = req.result;
-          if (!db.objectStoreNames.contains(this.storeName)) {
-            const store = db.createObjectStore(this.storeName, {keyPath:'id', autoIncrement:true});
-            store.createIndex('timestamp', 'timestamp');
-            store.createIndex('type', 'type');
-            store.createIndex('date', 'date');
-          }
+        const openDb = (version) => {
+          const req = version ? indexedDB.open(this.dbName, version) : indexedDB.open(this.dbName);
+          req.onupgradeneeded = () => {
+            const db = req.result;
+            if (!db.objectStoreNames.contains(this.storeName)) {
+              const store = db.createObjectStore(this.storeName, {keyPath:'id', autoIncrement:true});
+              store.createIndex('timestamp', 'timestamp');
+              store.createIndex('type', 'type');
+              store.createIndex('date', 'date');
+            }
+          };
+          req.onsuccess = () => {
+            const db = req.result;
+            if (db.objectStoreNames.contains(this.storeName)) {
+              resolve(db);
+            } else {
+              const nextVersion = db.version + 1;
+              db.close();
+              openDb(nextVersion);
+            }
+          };
+          req.onerror = () => reject(req.error);
         };
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
+        openDb();
       });
     }
     async _tx(mode, fn) {
@@ -1349,7 +1361,7 @@ input[type="range"]::-moz-range-thumb{
             </div>
             <div>
               <div class="srow-t">Install Android APK</div>
-              <div class="srow-s" id="android-apk-sub">Download latest beta release files</div>
+              <div class="srow-s" id="android-apk-sub">Download latest stable release files</div>
             </div>
           </div>
           <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
@@ -1545,7 +1557,7 @@ input[type="range"]::-moz-range-thumb{
     </div>
     <div class="apk-body">
       <div class="apk-msg" id="apk-msg">
-        <strong>Android beta app.</strong>
+        <strong>Android stable APK.</strong>
         Choose the APK that matches your Android device from the latest GitHub release.
       </div>
       <div class="apk-list" id="apk-list">
@@ -2005,6 +2017,57 @@ function closePopup(id) {
   anyPopupOpen = document.querySelectorAll('.popup.open').length > 0;
 }
 
+function openNotePopup() {
+  openPopup('popup-note');
+  setTimeout(() => {
+    const noteInput = document.getElementById('note-input');
+    if (noteInput) noteInput.focus();
+  }, 340);
+}
+
+function openHistoryAction() {
+  openPopup('popup-history');
+  refreshHistory();
+}
+
+function openSettingsAction() {
+  openPopup('popup-settings');
+  updateStats();
+  updateOfflineStatus();
+  syncPwaActionUI();
+  syncAndroidApkActionUI();
+  syncUpdateActionUI();
+}
+
+function openWhatsNewAction() {
+  localStorage.setItem('m-whats-new-seen', APP_VERSION);
+  localStorage.setItem('m-last-seen-version', APP_VERSION);
+  syncWhatsNewPill();
+  renderChangelog(true);
+  openPopup('popup-changelog');
+}
+
+function openChangelogAction() {
+  renderChangelog(false);
+  openPopup('popup-changelog');
+}
+
+function handleUrlAction() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const action = urlParams.get('action');
+  if (!action) return;
+  urlParams.delete('action');
+  const clean = window.location.pathname + (urlParams.toString() ? `?${urlParams}` : '') + window.location.hash;
+  window.history.replaceState({}, document.title, clean);
+  switch (action) {
+    case 'note': openNotePopup(); break;
+    case 'history': openHistoryAction(); break;
+    case 'settings': openSettingsAction(); break;
+    case 'whats-new': openWhatsNewAction(); break;
+    case 'changelog': openChangelogAction(); break;
+  }
+}
+
 function initSheetSwipeToClose(id) {
   const popup = document.getElementById(id);
   if (!popup) return;
@@ -2443,12 +2506,16 @@ async function updateOfflineStatus() {
   const el = document.getElementById('offline-status');
   if (!el) return;
   if (!('serviceWorker' in navigator)) {
-    el.textContent = 'Not available in this browser';
+    el.textContent = 'Offline support unavailable in this browser';
     return;
   }
   try {
     const reg = await navigator.serviceWorker.getRegistration();
-    el.textContent = reg ? 'Offline ready' : 'Preparing offline support';
+    if (!navigator.onLine) {
+      el.textContent = reg ? 'Offline ready' : 'Offline — cache unavailable';
+    } else {
+      el.textContent = reg ? 'Offline ready' : 'Preparing offline support';
+    }
   } catch (e) {
     el.textContent = 'Preparing offline support';
   }
@@ -2571,7 +2638,7 @@ function syncAndroidApkActionUI() {
   if (!btn || !sub) return;
   const show = isAndroidMobileDevice();
   btn.style.display = show ? '' : 'none';
-  if (show) sub.textContent = 'Download latest beta release files';
+  if (show) sub.textContent = 'Download latest stable release files';
 }
 
 function renderApkState(message) {
@@ -2606,7 +2673,7 @@ function renderApkDownloads(release, assets) {
   const msg = document.getElementById('apk-msg');
   if (!list || !msg) return;
   const releaseName = release.name || release.tag_name || 'latest release';
-  msg.innerHTML = `<strong>${esc(releaseName)}</strong>Beta APK files from the latest GitHub release. Choose the file that matches your Android version or device type.`;
+  msg.innerHTML = `<strong>${esc(releaseName)}</strong>Stable APK files from the latest GitHub release. Choose the file that matches your Android version or device type.`;
   list.innerHTML = assets.map(asset => {
     const size = formatAssetSize(asset.size);
     const meta = [describeApkAsset(asset.name), size].filter(Boolean).join(' · ');
@@ -2626,8 +2693,15 @@ function renderApkDownloads(release, assets) {
 
 async function loadAndroidApkDownloads() {
   const msg = document.getElementById('apk-msg');
+  if (!navigator.onLine) {
+    if (msg) {
+      msg.innerHTML = '<strong>Offline.</strong> Currently offline. When online, try again to load APK files.';
+    }
+    renderApkState('Offline. Connect to the internet to fetch APK downloads.');
+    return;
+  }
   if (msg) {
-    msg.innerHTML = '<strong>Android beta app.</strong>Checking the latest GitHub release for APK files.';
+    msg.innerHTML = '<strong>Android stable APK.</strong>Checking the latest GitHub release for APK files.';
   }
   renderApkState('Loading latest release files...');
   try {
@@ -2647,7 +2721,7 @@ async function loadAndroidApkDownloads() {
       : [];
     if (!release || !assets.length) {
       if (msg) {
-        msg.innerHTML = '<strong>No APK files found yet.</strong>The Android beta is linked to GitHub Releases, but the latest release does not include APK assets right now.';
+        msg.innerHTML = '<strong>No APK files found yet.</strong>The Android stable APK is linked to GitHub Releases, but the latest release does not include APK assets right now.';
       }
       renderApkState('No APK download files are attached to the latest release yet.');
       return;
@@ -3308,8 +3382,14 @@ document.getElementById('btn-debug-reset-cache').addEventListener('click', async
   } catch (e) {}
   window.location.reload();
 });
-window.addEventListener('offline', () => showSystemToast('Offline · moments still save', 'var(--orange)'));
-window.addEventListener('online', () => showSystemToast('Back online', 'var(--green)'));
+window.addEventListener('offline', () => {
+  updateOfflineStatus();
+  showSystemToast('Offline · moments still save', 'var(--orange)');
+});
+window.addEventListener('online', () => {
+  updateOfflineStatus();
+  showSystemToast('Back online', 'var(--green)');
+});
 
 let debugPressTimer = null;
 const aboutVersionEl = document.getElementById('about-version');
@@ -3380,23 +3460,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const clean = window.location.pathname + (urlParams.toString() ? `?${urlParams}` : '') + window.location.hash;
     window.history.replaceState({}, document.title, clean);
   }
-  
-  if (urlParams.get('action') === 'note') {
-    // Let the framework render before popping open the wrapper
-    setTimeout(() => {
-      // Clear url trace parameter so user reloads do not auto-trigger
-      window.history.replaceState({}, document.title, window.location.pathname);
-      
-      // Open your text entry window interface modal
-      if (typeof openNotePopup === 'function') {
-        openNotePopup();
-      } else if (document.getElementById('popup-note')) {
-        document.getElementById('popup-note').classList.add('open');
-      }
-      haptic('tick');
-    }, 250);
-  }
+  handleUrlAction();
 });
+
+window.addEventListener('popstate', handleUrlAction);
 
 syncPwaActionUI();
 syncUpdateActionUI();

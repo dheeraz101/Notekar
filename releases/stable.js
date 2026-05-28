@@ -1,8 +1,28 @@
 globalThis.NOTEKAR_META = {
-  version: '3.2.0',
+  version: '3.2.3',
   buildDate: '2026-05-28',
   channel: 'stable',
   changelog: [
+    {
+      version: '3.2.3',
+      date: 'May 28, 2026',
+      isNew: true,
+      items: [
+        'Fixed a bug where the app would crash on startup on some devices.',
+        'Improved the performance of the search functionality.',
+        'Added a new theme option for users who prefer a darker interface.'
+      ]
+    },
+    {
+      version: '3.2.2',
+      date: 'May 28, 2026',
+      isNew: true,
+      items: [
+        'Fixed a bug where the app would crash on startup on some devices.',
+        'Improved the performance of the search functionality.',
+        'Added a new theme option for users who prefer a darker interface.'
+      ]
+    },
     {
       version: '3.2.0',
       date: 'May 28, 2026',

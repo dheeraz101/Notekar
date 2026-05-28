@@ -395,10 +395,10 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 /* ─────────────────────────────────────────
    HISTORY POPUP
 ───────────────────────────────────────── */
-#popup-history .pop-sheet{min-height:55dvh;will-change:transform,opacity;contain:layout style;}
-#popup-history .hist-body{contain:layout style;}
-#popup-history .dg{contain:layout style;}
-#popup-history .ei{contain:layout style;}
+#popup-history .pop-sheet{min-height:55dvh;will-change:transform,opacity;contain:layout style paint;}
+#popup-history .hist-body{contain:layout style;will-change:scroll-position;}
+#popup-history .dg{contain:layout style content;}
+#popup-history .ei{contain:layout style paint;}
 
 /* filter chips */
 .chips{display:flex;gap:6px;padding:4px 16px 12px;overflow-x:auto;flex-shrink:0;scrollbar-width:none;}
@@ -425,6 +425,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   overscroll-behavior:contain;
   -webkit-overflow-scrolling:touch;
   -webkit-touch-callout:none;
+  will-change:scroll-position;
   contain:layout;
 }
 #hist-list::-webkit-scrollbar{display:none;}
@@ -435,7 +436,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   padding:10px 12px;border-radius:var(--r-s);margin-bottom:2px;
   transition:background .12s ease;
   position:relative;
-  contain:layout style;
+  contain:layout style paint;
   will-change:auto;
 }
 .ei:active{background:var(--surf3);}
@@ -475,69 +476,16 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   font-size:16px;opacity:0;flex-shrink:0;
   transition:opacity .15s,transform .15s;
 }
-.ei .edel{opacity:1;}
-.ei:hover .edel,.ei:focus-within .edel{opacity:1;}
+.ei:hover .edel,.ei:focus-within .edel{opacity:.75;}
 .edel:active{opacity:1!important;transform:scale(.88);}
 .hempty{text-align:center;padding:56px 28px;color:var(--text3);font-size:14px;line-height:1.65;}
 .hempty-ico{font-size:38px;margin-bottom:10px;opacity:.35;}
 
-.hload-wrap{padding:8px 4px 18px;}
-.hload{
-  width:100%;min-height:44px;border-radius:var(--r-m);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  color:var(--accent);background:var(--accent-bg);
-  border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);
-  font-size:14px;font-weight:650;letter-spacing:-.01em;
-  transition:opacity .15s,transform .15s var(--ease),background .15s;
-}
-.hload:active{opacity:.75;transform:scale(.98);}
-.hload-count{color:var(--text2);font-size:12px;font-weight:500;}
-
-
-/* ─────────────────────────────────────────
-   SHEET SCROLL PERFORMANCE PATCH
-   Reduces fast-scroll blank/black paint gaps on mobile WebView/browser.
-───────────────────────────────────────── */
-#popup-history .pop-sheet,
-#popup-settings .pop-sheet{
-  contain:layout style;
-  overflow:hidden;
-  transform:translate3d(0,0,0);
-  -webkit-transform:translate3d(0,0,0);
-}
-
-#hist-list,
-.sbody,
-.chips{
-  transform:translate3d(0,0,0);
-  -webkit-transform:translate3d(0,0,0);
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  contain:strict;
-}
-
-#popup-history .dg,
-#popup-history .ei,
-#popup-settings .scard,
-#popup-settings .srow{
-  contain:layout style;
-  transform:translateZ(0);
-  -webkit-transform:translateZ(0);
-}
-
-@supports (content-visibility:auto){
-  #popup-history .dg,
-  #popup-settings .scard{
-    content-visibility:auto;
-    contain-intrinsic-size:1px 220px;
-  }
-}
-
 /* ─────────────────────────────────────────
    SETTINGS POPUP
 ───────────────────────────────────────── */
-#popup-settings .pop-sheet{min-height:50dvh;will-change:transform,opacity;contain:layout style;}
-#popup-settings .scard{will-change:auto;contain:layout style;}
+#popup-settings .pop-sheet{min-height:50dvh;will-change:transform,opacity;contain:layout style paint;}
+#popup-settings .scard{will-change:auto;contain:content;}
 #popup-settings .srow{will-change:auto;}
 
 @media(max-width:539px){
@@ -666,7 +614,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   .about-ver{font-size:13px;}
   .about-desc{font-size:14px;line-height:1.65;max-width:310px;}
 }
-.sbody{flex:1;overflow-y:auto;padding:0 16px 4px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;-webkit-touch-callout:none;contain:strict;}
+.sbody{flex:1;overflow-y:auto;padding:0 16px 4px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;-webkit-touch-callout:none;will-change:scroll-position;}
 .sbody::-webkit-scrollbar{display:none;}
 .slabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin:14px 0 6px;}
 .slabel:first-child{margin-top:4px;}
@@ -1863,8 +1811,6 @@ let theme       = localStorage.getItem('m-theme') || 'dark';
 let sesStart    = parseInt(localStorage.getItem('m-ses') || '0') || null;
 let lastId      = null;
 let filter      = 'all';
-let historyVisibleLimit = 20;
-const HISTORY_PAGE_SIZE = 20;
 let undoTimer   = null;
 let modeTimer   = null;
 let lpTimer     = null;
@@ -2133,7 +2079,6 @@ function openNotePopup() {
 }
 
 function openHistoryAction() {
-  historyVisibleLimit = HISTORY_PAGE_SIZE;
   openPopup('popup-history');
   refreshHistory();
 }
@@ -2259,7 +2204,6 @@ document.addEventListener('click', e => {
 // Toolbar buttons
 document.getElementById('btn-mode').addEventListener('click', toggleMode);
 document.getElementById('btn-history').addEventListener('click', () => { 
-  historyVisibleLimit = HISTORY_PAGE_SIZE;
   openPopup('popup-history');
   if ('requestIdleCallback' in window) {
     requestIdleCallback(() => { refreshHistory(); }, {timeout: 1000});
@@ -2371,10 +2315,8 @@ async function refreshHistory() {
     return;
   }
 
-  const totalRows = rows.length;
-  const visibleRows = rows.slice(0, historyVisibleLimit);
   const groups = {};
-  visibleRows.forEach(e => { if (!groups[e.date]) groups[e.date]=[]; groups[e.date].push(e); });
+  rows.forEach(e => { if (!groups[e.date]) groups[e.date]=[]; groups[e.date].push(e); });
 
   let html = '';
   Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(date => {
@@ -2410,28 +2352,7 @@ async function refreshHistory() {
     });
     html += '</div>';
   });
-
-  if (historyVisibleLimit < totalRows) {
-    const nextCount = Math.min(HISTORY_PAGE_SIZE, totalRows - historyVisibleLimit);
-    html += `
-      <div class="hload-wrap">
-        <button class="hload" id="hist-load-more" type="button">
-          Load ${nextCount} more
-          <span class="hload-count">${Math.min(historyVisibleLimit, totalRows)} / ${totalRows}</span>
-        </button>
-      </div>`;
-  }
-
   list.innerHTML = html;
-
-  const loadMore = list.querySelector('#hist-load-more');
-  if (loadMore) {
-    loadMore.addEventListener('click', () => {
-      haptic(6);
-      historyVisibleLimit += HISTORY_PAGE_SIZE;
-      refreshHistory();
-    });
-  }
 
   list.querySelectorAll('[data-del]').forEach(btn => {
     btn.addEventListener('click', ev => {
@@ -2458,7 +2379,6 @@ document.getElementById('filter-row').addEventListener('click', e => {
   if (!chip) return;
   haptic(5);
   filter = chip.dataset.filter;
-  historyVisibleLimit = HISTORY_PAGE_SIZE;
   document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c===chip));
   refreshHistory();
 });

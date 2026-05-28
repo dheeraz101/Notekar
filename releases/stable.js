@@ -1,12 +1,24 @@
 globalThis.NOTEKAR_META = {
-  version: '3.1.2c',
-  buildDate: '2026-05-26',
+  version: '3.2.0',
+  buildDate: '2026-05-28',
   channel: 'stable',
   changelog: [
     {
+      version: '3.2.0',
+      date: 'May 28, 2026',
+      isNew: true,
+      items: [
+        'Optimized Settings sheet to load instantly with smooth scrolling on low-end devices.',
+        'Optimized History sheet with deferred rendering and paint containment for 60fps scrolling.',
+        'Deferred heavy background operations to reduce initial page load jank.',
+        'Reduced backdrop blur rendering cost for faster popup animations.',
+        'Added GPU acceleration and CSS containment throughout the app for better performance.',
+        'Low-end Android devices now experience smooth, responsive interactions without lag.'
+      ]
+    },
+    {
       version: '3.1.2c',
       date: 'May 26, 2026',
-      isNew: true,
       items: [
         'Added Minimal Time so the home screen can show only hours and minutes.',
         'Added Confirm Actions so dangerous deletes can run immediately when you want, or ask first when safety is on.',

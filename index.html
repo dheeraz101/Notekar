@@ -353,14 +353,17 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   background:rgba(0,0,0,0);
   backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);
   transition:background .28s ease,backdrop-filter .28s ease,-webkit-backdrop-filter .28s ease;
+  will-change:backdrop-filter;
+  backface-visibility:hidden;
+  -webkit-transform:translateZ(0);
 }
-.popup.open .pop-bg{background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.popup.open .pop-bg{background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
 
 .pop-sheet{
   position:relative;z-index:1;
   border-radius:var(--r-l);
   overflow:hidden;
-  transform:translateY(15px);
+  transform:translateY(15px) translateZ(0);
   opacity:0;
   transition:transform .28s var(--ease2),opacity .28s var(--ease2);
   padding-bottom:12px;
@@ -369,8 +372,9 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   display:flex;flex-direction:column;
   box-shadow:0 16px 64px rgba(0,0,0,.35);
   touch-action:pan-y;
+  backface-visibility:hidden;
 }
-.popup.open .pop-sheet{transform:translateY(0);opacity:1;}
+.popup.open .pop-sheet{transform:translateY(0) translateZ(0);opacity:1;}
 
 /* drag handle */
 .dh{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:12px auto 0;flex-shrink:0;touch-action:pan-y;}
@@ -391,7 +395,10 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 /* ─────────────────────────────────────────
    HISTORY POPUP
 ───────────────────────────────────────── */
-#popup-history .pop-sheet{min-height:55dvh;}
+#popup-history .pop-sheet{min-height:55dvh;will-change:transform,opacity;contain:layout style paint;}
+#popup-history .hist-body{contain:layout style;will-change:scroll-position;}
+#popup-history .dg{contain:layout style content;}
+#popup-history .ei{contain:layout style paint;}
 
 /* filter chips */
 .chips{display:flex;gap:6px;padding:4px 16px 12px;overflow-x:auto;flex-shrink:0;scrollbar-width:none;}
@@ -417,20 +424,25 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   padding:0 14px 8px;
   overscroll-behavior:contain;
   -webkit-overflow-scrolling:touch;
+  -webkit-touch-callout:none;
+  will-change:scroll-position;
+  contain:layout;
 }
 #hist-list::-webkit-scrollbar{display:none;}
-.dg{margin-bottom:18px;}
+.dg{margin-bottom:18px;contain:layout style content;}
 .dg-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin-bottom:6px;}
 .ei{
   display:flex;align-items:center;gap:11px;
   padding:10px 12px;border-radius:var(--r-s);margin-bottom:2px;
-  transition:background .12s;
+  transition:background .12s ease;
   position:relative;
+  contain:layout style paint;
+  will-change:auto;
 }
 .ei:active{background:var(--surf3);}
-.edot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.edot.in{background:var(--green);box-shadow:0 0 6px rgba(48,209,88,.4);}
-.edot.out{background:var(--orange);box-shadow:0 0 6px rgba(255,159,10,.4);}
+.edot{width:8px;height:8px;border-radius:50%;flex-shrink:0;backface-visibility:hidden;}
+.edot.in{background:var(--green);box-shadow:0 0 6px rgba(48,209,88,.3);}
+.edot.out{background:var(--orange);box-shadow:0 0 6px rgba(255,159,10,.3);}
 .edot.single{background:var(--accent);box-shadow:0 0 5px rgba(10,132,255,.35);}
 .etime{font-size:15px;font-weight:400;font-variant-numeric:tabular-nums;color:var(--text);letter-spacing:-.01em;flex:1;}
 .ebadge{font-size:10px;font-weight:600;letter-spacing:.04em;padding:2px 7px;border-radius:var(--r-pill);}
@@ -472,7 +484,9 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 /* ─────────────────────────────────────────
    SETTINGS POPUP
 ───────────────────────────────────────── */
-#popup-settings .pop-sheet{min-height:50dvh;}
+#popup-settings .pop-sheet{min-height:50dvh;will-change:transform,opacity;contain:layout style paint;}
+#popup-settings .scard{will-change:auto;contain:content;}
+#popup-settings .srow{will-change:auto;}
 
 @media(max-width:539px){
   :root{
@@ -600,12 +614,12 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   .about-ver{font-size:13px;}
   .about-desc{font-size:14px;line-height:1.65;max-width:310px;}
 }
-.sbody{flex:1;overflow-y:auto;padding:0 16px 4px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
+.sbody{flex:1;overflow-y:auto;padding:0 16px 4px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;-webkit-touch-callout:none;will-change:scroll-position;}
 .sbody::-webkit-scrollbar{display:none;}
 .slabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin:14px 0 6px;}
 .slabel:first-child{margin-top:4px;}
-.scard{border-radius:var(--r-m);overflow:hidden;background:var(--surf2);border:1px solid var(--border);margin-bottom:4px;}
-.srow{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;min-height:50px;transition:background .12s;cursor:pointer;}
+.scard{border-radius:var(--r-m);overflow:hidden;background:var(--surf2);border:1px solid var(--border);margin-bottom:4px;contain:layout style;}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;min-height:50px;transition:background .12s ease;cursor:pointer;position:relative;will-change:auto;}
 .srow+.srow{border-top:1px solid var(--border);}
 .srow:active{background:var(--surf3);}
 .srow-l{display:flex;align-items:center;gap:11px;flex:1;pointer-events:none;}
@@ -627,7 +641,9 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-notifications,
 #btn-whats-new,
 #btn-changelog,
-#btn-android-apk{width:100%;text-align:left;}
+#btn-android-apk,
+#btn-minimal-mode,
+#btn-confirmation-warning{width:100%;text-align:left;}
 #btn-update-action .srow-l,
 #btn-beta-channel .srow-l,
 #btn-notifications .srow-l,
@@ -635,7 +651,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-changelog .srow-l,
 #btn-android-apk .srow-l,
 #btn-minimal-mode .srow-l,
-#btn-confirmation-warning .srow-l{justify-content:flex-start;min-width:0;}
+#btn-confirmation-warning .srow-l{justify-content:flex-start;min-width:0;padding-right:72px;}
 #btn-update-action .srow-l > div:last-child,
 #btn-beta-channel .srow-l > div:last-child,
 #btn-notifications .srow-l > div:last-child,
@@ -928,6 +944,7 @@ input[type="range"]::-moz-range-thumb{
 .ios-switch{
   width:48px;height:28px;border-radius:999px;background:var(--surf3);border:1px solid var(--border2);
   padding:2px;display:flex;align-items:center;transition:background .18s,border-color .18s;
+  flex-shrink:0;align-self:center;position:absolute;right:15px;top:50%;transform:translateY(-50%);
 }
 .ios-switch::before{
   content:"";width:22px;height:22px;border-radius:50%;background:#fff;
@@ -2079,13 +2096,21 @@ function openWhatsNewAction() {
   localStorage.setItem('m-whats-new-seen', APP_VERSION);
   localStorage.setItem('m-last-seen-version', APP_VERSION);
   syncWhatsNewPill();
-  renderChangelog(true);
   openPopup('popup-changelog');
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => { renderChangelog(true); }, {timeout: 1200});
+  } else {
+    setTimeout(() => { renderChangelog(true); }, 320);
+  }
 }
 
 function openChangelogAction() {
-  renderChangelog(false);
   openPopup('popup-changelog');
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => { renderChangelog(false); }, {timeout: 1200});
+  } else {
+    setTimeout(() => { renderChangelog(false); }, 320);
+  }
 }
 
 function handleUrlAction() {
@@ -2178,8 +2203,27 @@ document.addEventListener('click', e => {
 
 // Toolbar buttons
 document.getElementById('btn-mode').addEventListener('click', toggleMode);
-document.getElementById('btn-history').addEventListener('click', () => { openPopup('popup-history'); refreshHistory(); });
-document.getElementById('btn-settings').addEventListener('click', () => { openPopup('popup-settings'); updateStats(); updateOfflineStatus(); syncPwaActionUI(); syncAndroidApkActionUI(); syncUpdateActionUI(); syncMinimalModeUI(); syncConfirmationWarningUI(); });
+document.getElementById('btn-history').addEventListener('click', () => { 
+  openPopup('popup-history');
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => { refreshHistory(); }, {timeout: 1000});
+  } else {
+    setTimeout(() => { refreshHistory(); }, 280);
+  }
+});
+document.getElementById('btn-settings').addEventListener('click', () => { 
+  openPopup('popup-settings');
+  syncPwaActionUI();
+  syncAndroidApkActionUI();
+  syncUpdateActionUI();
+  syncMinimalModeUI();
+  syncConfirmationWarningUI();
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => { updateStats(); updateOfflineStatus(); }, {timeout: 2000});
+  } else {
+    setTimeout(() => { updateStats(); updateOfflineStatus(); }, 100);
+  }
+});
 initSheetSwipeToClose('popup-history');
 initSheetSwipeToClose('popup-settings');
 initSheetSwipeToClose('popup-note');
@@ -2778,7 +2822,11 @@ async function loadAndroidApkDownloads() {
 function openAndroidApkPopup() {
   haptic(5);
   openPopup('popup-android-apk');
-  loadAndroidApkDownloads();
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => { loadAndroidApkDownloads(); }, {timeout: 1500});
+  } else {
+    setTimeout(() => { loadAndroidApkDownloads(); }, 350);
+  }
 }
 
 function setUpdateActionUI(titleText, subText, disabled=false) {
@@ -3550,13 +3598,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('popstate', handleUrlAction);
 
-syncPwaActionUI();
-syncUpdateActionUI();
-syncNotificationUI();
-syncMinimalModeUI();
-syncConfirmationWarningUI();
-syncWhatsNewPill();
-detectInstalledPwaState();
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => {
+    syncPwaActionUI();
+    syncUpdateActionUI();
+    syncNotificationUI();
+    syncMinimalModeUI();
+    syncConfirmationWarningUI();
+    syncWhatsNewPill();
+    detectInstalledPwaState();
+  });
+} else {
+  setTimeout(() => {
+    syncPwaActionUI();
+    syncUpdateActionUI();
+    syncNotificationUI();
+    syncMinimalModeUI();
+    syncConfirmationWarningUI();
+    syncWhatsNewPill();
+    detectInstalledPwaState();
+  }, 200);
+}
 initNoteCharLimit();
 setTimeout(checkRemoteNotice, 1800);
 const isMobileTouchDevice = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0 || 'ontouchstart' in window;

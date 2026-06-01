@@ -1,12 +1,21 @@
 globalThis.NOTEKAR_META = {
-  version: '3.2.5',
+  version: '3.2.6',
   buildDate: '2026-06-01',
   channel: 'stable',
   changelog: [
     {
-      version: '3.2.5',
+      version: '3.2.6',
       date: 'June 1, 2026',
       isNew: true,
+      items: [
+        'Fixed a settings sheet rendering issue that could show broken lines or crashed-looking areas on some Android phones.',
+        'Added an Android render-safe settings sheet path that avoids fragile blur and paint-layer combinations.',
+        'Updated stable release metadata so the fixed build installs cleanly through the app updater.'
+      ]
+    },
+    {
+      version: '3.2.5',
+      date: 'June 1, 2026',
       items: [
         'Added an automatic low-end device mode to reduce heavy visual rendering while keeping the same interface.',
         'Optimized popup state tracking and history list event handling to cut extra DOM work.',

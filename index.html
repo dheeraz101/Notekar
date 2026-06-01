@@ -162,6 +162,28 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);height:100dv
 button{cursor:pointer;background:none;border:none;font-family:inherit;color:inherit;-webkit-tap-highlight-color:transparent;}
 input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+html.low-end .glass,
+html.low-end .glass2,
+html.low-end .pop-bg{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+html.low-end .rpl-el{display:none;}
+html.low-end .popup .pop-sheet,
+html.low-end .tb-icon,
+html.low-end .tb-pill{
+  transition-duration:.16s!important;
+}
+html.performance-mode .glass,
+html.performance-mode .glass2,
+html.performance-mode .pop-bg{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+html.performance-mode .rpl-el{display:none!important;}
+html.performance-mode *{
+  animation-duration:.12s!important;
+}
 
 /* ─────────────────────────────────────────
    GLASS UTILITY
@@ -395,8 +417,8 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 /* ─────────────────────────────────────────
    HISTORY POPUP
 ───────────────────────────────────────── */
-#popup-history .pop-sheet{min-height:55dvh;will-change:transform,opacity;contain:layout style paint;}
-#popup-history .hist-body{contain:layout style;will-change:scroll-position;}
+#popup-history .pop-sheet{min-height:55dvh;contain:layout style paint;}
+#popup-history .hist-body{contain:layout style;}
 #popup-history .dg{contain:layout style content;}
 #popup-history .ei{contain:layout style paint;}
 
@@ -425,7 +447,6 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   overscroll-behavior:contain;
   -webkit-overflow-scrolling:touch;
   -webkit-touch-callout:none;
-  will-change:scroll-position;
   contain:layout;
 }
 #hist-list::-webkit-scrollbar{display:none;}
@@ -437,9 +458,26 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   transition:background .12s ease;
   position:relative;
   contain:layout style paint;
-  will-change:auto;
 }
 .ei:active{background:var(--surf3);}
+.hist-more-wrap{padding:4px 0 8px;}
+.hist-more-btn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:12px 14px;
+  border-radius:var(--r-s);
+  border:1px solid var(--border);
+  background:var(--surf2);
+  color:var(--text2);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.01em;
+  transition:background .12s ease,color .12s ease,transform .12s var(--ease);
+}
+.hist-more-btn:active{background:var(--surf3);transform:scale(.995);}
 .edot{width:8px;height:8px;border-radius:50%;flex-shrink:0;backface-visibility:hidden;}
 .edot.in{background:var(--green);box-shadow:0 0 6px rgba(48,209,88,.3);}
 .edot.out{background:var(--orange);box-shadow:0 0 6px rgba(255,159,10,.3);}
@@ -484,9 +522,8 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 /* ─────────────────────────────────────────
    SETTINGS POPUP
 ───────────────────────────────────────── */
-#popup-settings .pop-sheet{min-height:50dvh;will-change:transform,opacity;contain:layout style paint;}
-#popup-settings .scard{will-change:auto;contain:content;}
-#popup-settings .srow{will-change:auto;}
+#popup-settings .pop-sheet{min-height:50dvh;contain:layout style paint;}
+#popup-settings .scard{contain:content;}
 
 @media(max-width:539px){
   :root{
@@ -614,12 +651,12 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
   .about-ver{font-size:13px;}
   .about-desc{font-size:14px;line-height:1.65;max-width:310px;}
 }
-.sbody{flex:1;overflow-y:auto;padding:0 16px 4px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;-webkit-touch-callout:none;will-change:scroll-position;}
+.sbody{flex:1;overflow-y:auto;padding:0 16px 4px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;-webkit-touch-callout:none;}
 .sbody::-webkit-scrollbar{display:none;}
 .slabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin:14px 0 6px;}
 .slabel:first-child{margin-top:4px;}
 .scard{border-radius:var(--r-m);overflow:hidden;background:var(--surf2);border:1px solid var(--border);margin-bottom:4px;contain:layout style;}
-.srow{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;min-height:50px;transition:background .12s ease;cursor:pointer;position:relative;will-change:auto;}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;min-height:50px;transition:background .12s ease;cursor:pointer;position:relative;}
 .srow+.srow{border-top:1px solid var(--border);}
 .srow:active{background:var(--surf3);}
 .srow-l{display:flex;align-items:center;gap:11px;flex:1;pointer-events:none;}
@@ -643,6 +680,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-changelog,
 #btn-android-apk,
 #btn-minimal-mode,
+#btn-performance-mode,
 #btn-confirmation-warning{width:100%;text-align:left;}
 #btn-update-action .srow-l,
 #btn-beta-channel .srow-l,
@@ -651,6 +689,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-changelog .srow-l,
 #btn-android-apk .srow-l,
 #btn-minimal-mode .srow-l,
+#btn-performance-mode .srow-l,
 #btn-confirmation-warning .srow-l{justify-content:flex-start;min-width:0;padding-right:72px;}
 #btn-update-action .srow-l > div:last-child,
 #btn-beta-channel .srow-l > div:last-child,
@@ -659,6 +698,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-changelog .srow-l > div:last-child,
 #btn-android-apk .srow-l > div:last-child,
 #btn-minimal-mode .srow-l > div:last-child,
+#btn-performance-mode .srow-l > div:last-child,
 #btn-confirmation-warning .srow-l > div:last-child{
   display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;
 }
@@ -676,6 +716,8 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text;}
 #btn-android-apk .srow-s,
 #btn-minimal-mode .srow-t,
 #btn-minimal-mode .srow-s,
+#btn-performance-mode .srow-t,
+#btn-performance-mode .srow-s,
 #btn-confirmation-warning .srow-t,
 #btn-confirmation-warning .srow-s{
   width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
@@ -1514,6 +1556,15 @@ input[type="range"]::-moz-range-thumb{
           </div>
           <span class="ios-switch" id="minimal-switch" aria-hidden="true"></span>
         </button>
+        <button class="srow" id="btn-performance-mode" type="button" aria-pressed="false" aria-label="Performance mode off">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--green-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6"/><path d="M7 8h10"/><path d="M5 12h14"/><path d="M7 16h10"/><path d="M9 20h6"/></svg>
+            </div>
+            <div><div class="srow-t">Performance Mode</div><div class="srow-s" id="performance-mode-sub">Reduce effects for smoother use</div></div>
+          </div>
+          <span class="ios-switch" id="performance-switch" aria-hidden="true"></span>
+        </button>
       </div>
 
       <div class="slabel">Safety</div>
@@ -1817,9 +1868,11 @@ let lpTimer     = null;
 let lpFired     = false;
 let tapDelay    = parseInt(localStorage.getItem('m-delay') || '0', 10) || 0;
 let minimalMode = localStorage.getItem('m-minimal-mode') === '1';
+let performanceMode = localStorage.getItem('m-performance-mode') === '1';
 let confirmationWarning = localStorage.getItem('m-confirmation-warning') !== '0';
 let lastTapTime = 0;
 let anyPopupOpen = false;
+let openPopupCount = 0;
 let durationSelection = [];
 let deferredInstallPrompt = null;
 let swRegistration = null;
@@ -1829,11 +1882,29 @@ let updateStatusTimer = null;
 let lastUpdateCheckAt = parseInt(localStorage.getItem('m-last-update-check') || '0', 10) || 0;
 let pendingChannelSwitch = localStorage.getItem('m-channel-switch-pending') || '';
 let pendingDeleteId = null;
+const HISTORY_PAGE_SIZE = 30;
+let historyVisibleCount = HISTORY_PAGE_SIZE;
+let clockTimer = null;
+let clockInterval = null;
+let historyRenderState = { rows: [], totalRows: 0, today: '' };
+const uiRefreshFlags = { history: false, stats: false, offline: false };
+let uiRefreshScheduled = false;
 let isInstalledPwa = (
   localStorage.getItem('m-pwa-installed') === '1' ||
   window.matchMedia('(display-mode: standalone)').matches ||
   window.navigator.standalone === true
 );
+const lowEndMode = (() => {
+  const cores = navigator.hardwareConcurrency || 4;
+  const mem = navigator.deviceMemory || 4;
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  return saveData || cores <= 4 || mem <= 4;
+})();
+if (lowEndMode) {
+  document.documentElement.classList.add('low-end');
+  document.documentElement.style.setProperty('--blur', 'blur(0px)');
+}
+if (performanceMode) document.documentElement.classList.add('performance-mode');
 
 // ═══════ INIT ═══════
 applyTheme(theme, false);
@@ -1843,6 +1914,7 @@ initDelaySetting();
 initDefaultModeSetting();
 updateStats();
 updateOfflineStatus();
+syncPerformanceModeUI();
 document.getElementById('about-version').textContent = `v${APP_VERSION} · ${APP_CHANNEL_LABEL}`;
 syncAndroidApkActionUI();
 
@@ -1850,14 +1922,20 @@ syncAndroidApkActionUI();
 function startClock() {
   const hm  = document.getElementById('clock-hm');
   const sec = document.getElementById('clock-sec');
+  if (clockTimer) clearTimeout(clockTimer);
+  if (clockInterval) clearInterval(clockInterval);
   function tick() {
     const n = new Date();
     hm.textContent  = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
     sec.textContent = minimalMode ? '' : ('.' + String(n.getSeconds()).padStart(2,'0'));
   }
   tick();
-  const delay = 1000 - (Date.now() % 1000);
-  setTimeout(() => { tick(); setInterval(tick, 1000); }, delay);
+  const intervalMs = minimalMode ? 60000 : 1000;
+  const delay = intervalMs - (Date.now() % intervalMs);
+  clockTimer = setTimeout(() => {
+    tick();
+    clockInterval = setInterval(tick, intervalMs);
+  }, delay);
 }
 
 // ═══════ THEME ═══════
@@ -1955,11 +2033,29 @@ function hapticHeavy() {
 
 // ═══════ RIPPLE ═══════
 function ripple(x,y) {
+  if (lowEndMode || performanceMode) return;
   const el = document.createElement('div');
   el.className = 'rpl-el';
   el.style.left = (x-25)+'px'; el.style.top = (y-25)+'px';
   document.body.appendChild(el);
   el.addEventListener('animationend', () => el.remove(), {once:true});
+}
+
+function scheduleUIRefresh(next = {}) {
+  if (next.history) uiRefreshFlags.history = true;
+  if (next.stats) uiRefreshFlags.stats = true;
+  if (next.offline) uiRefreshFlags.offline = true;
+  if (uiRefreshScheduled) return;
+  uiRefreshScheduled = true;
+  requestAnimationFrame(() => {
+    uiRefreshScheduled = false;
+    if (uiRefreshFlags.history) refreshIfOpen();
+    if (uiRefreshFlags.stats) updateStats();
+    if (uiRefreshFlags.offline) updateOfflineStatus();
+    uiRefreshFlags.history = false;
+    uiRefreshFlags.stats = false;
+    uiRefreshFlags.offline = false;
+  });
 }
 
 // ═══════ LOG ENTRY ═══════
@@ -1986,7 +2082,7 @@ async function logEntry(note=null) {
       date: now.toISOString().split('T')[0]
     });
     lastId = id;
-    haptic(15); showUndo(); refreshIfOpen(); updateStats();
+    haptic(15); showUndo(); scheduleUIRefresh({history:true, stats:true});
   } catch(e) { console.error(e); }
 }
 
@@ -2018,7 +2114,7 @@ async function undoLast() {
     lastId = null;
     document.getElementById('undo-toast').classList.remove('on');
     if (undoTimer) clearTimeout(undoTimer);
-    haptic(4); refreshIfOpen(); updateStats();
+    haptic(4); scheduleUIRefresh({history:true, stats:true});
   } catch(e) { console.error(e); }
 }
 document.getElementById('btn-undo').addEventListener('click', e => { e.stopPropagation(); undoLast(); });
@@ -2026,9 +2122,13 @@ document.getElementById('touch-toast-close').addEventListener('click', e => { e.
 
 // ═══════ TAP ZONE ═══════
 const tapZone = document.getElementById('tap-zone');
+let tapStartX = 0;
+let tapStartY = 0;
 
 tapZone.addEventListener('pointerdown', e => {
   if (anyPopupOpen) return;
+  tapStartX = e.clientX;
+  tapStartY = e.clientY;
   lpFired = false;
   lpTimer = setTimeout(() => {
     lpFired = true;
@@ -2039,7 +2139,7 @@ tapZone.addEventListener('pointerdown', e => {
 });
 
 tapZone.addEventListener('pointermove', e => {
-  if (lpTimer && !lpFired && (Math.abs(e.movementX)>8 || Math.abs(e.movementY)>8)) {
+  if (lpTimer && !lpFired && (Math.abs(e.clientX - tapStartX)>8 || Math.abs(e.clientY - tapStartY)>8)) {
     clearTimeout(lpTimer); lpTimer = null;
   }
 });
@@ -2060,14 +2160,20 @@ tapZone.addEventListener('pointercancel', () => {
 
 // ═══════ POPUP ENGINE ═══════
 function openPopup(id) {
-  document.getElementById(id).classList.add('open');
+  const el = document.getElementById(id);
+  if (!el || el.classList.contains('open')) return;
+  el.classList.add('open');
+  openPopupCount++;
   anyPopupOpen = true;
 }
 
 function closePopup(id) {
-  document.getElementById(id).classList.remove('open');
+  const el = document.getElementById(id);
+  if (!el || !el.classList.contains('open')) return;
+  el.classList.remove('open');
+  openPopupCount = Math.max(0, openPopupCount - 1);
   if (id === 'popup-welcome') localStorage.setItem('m-welcome-seen', '1');
-  anyPopupOpen = document.querySelectorAll('.popup.open').length > 0;
+  anyPopupOpen = openPopupCount > 0;
 }
 
 function openNotePopup() {
@@ -2080,13 +2186,12 @@ function openNotePopup() {
 
 function openHistoryAction() {
   openPopup('popup-history');
-  refreshHistory();
+  refreshHistory(true);
 }
 
 function openSettingsAction() {
   openPopup('popup-settings');
-  updateStats();
-  updateOfflineStatus();
+  scheduleUIRefresh({stats:true, offline:true});
   syncPwaActionUI();
   syncAndroidApkActionUI();
   syncUpdateActionUI();
@@ -2206,9 +2311,9 @@ document.getElementById('btn-mode').addEventListener('click', toggleMode);
 document.getElementById('btn-history').addEventListener('click', () => { 
   openPopup('popup-history');
   if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => { refreshHistory(); }, {timeout: 1000});
+    requestIdleCallback(() => { refreshHistory(true); }, {timeout: 1000});
   } else {
-    setTimeout(() => { refreshHistory(); }, 280);
+    setTimeout(() => { refreshHistory(true); }, 280);
   }
 });
 document.getElementById('btn-settings').addEventListener('click', () => { 
@@ -2219,9 +2324,9 @@ document.getElementById('btn-settings').addEventListener('click', () => {
   syncMinimalModeUI();
   syncConfirmationWarningUI();
   if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => { updateStats(); updateOfflineStatus(); }, {timeout: 2000});
+    requestIdleCallback(() => { scheduleUIRefresh({stats:true, offline:true}); }, {timeout: 2000});
   } else {
-    setTimeout(() => { updateStats(); updateOfflineStatus(); }, 100);
+    setTimeout(() => { scheduleUIRefresh({stats:true, offline:true}); }, 100);
   }
 });
 initSheetSwipeToClose('popup-history');
@@ -2297,23 +2402,49 @@ function refreshIfOpen() {
   if (document.getElementById('popup-history').classList.contains('open')) refreshHistory();
 }
 
-async function refreshHistory() {
-  const list = document.getElementById('hist-list');
-  let rows = await db.entries.orderBy('timestamp').reverse().toArray();
+async function getFilteredHistoryRows(limitCount) {
   const today = new Date().toISOString().split('T')[0];
   const weekAgo = Date.now() - 7*24*60*60*1000;
+  const limit = Math.max(HISTORY_PAGE_SIZE, limitCount || HISTORY_PAGE_SIZE);
 
-  if (filter==='today')  rows = rows.filter(e => e.date===today);
-  else if (filter==='week')   rows = rows.filter(e => e.timestamp>=weekAgo);
-  else if (filter==='in')     rows = rows.filter(e => e.type==='in');
-  else if (filter==='out')    rows = rows.filter(e => e.type==='out');
-  else if (filter==='single') rows = rows.filter(e => e.type==='single');
-  else if (filter==='notes')  rows = rows.filter(e => e.note && e.note.length>0);
+  if (filter === 'today') {
+    const coll = db.entries.where('date').equals(today).reverse();
+    return { rows: await coll.limit(limit).toArray(), totalRows: await coll.count(), today };
+  }
+  if (filter === 'week') {
+    const coll = db.entries.where('timestamp').aboveOrEqual(weekAgo).reverse();
+    return { rows: await coll.limit(limit).toArray(), totalRows: await coll.count(), today };
+  }
+  if (filter === 'in' || filter === 'out' || filter === 'single') {
+    const coll = db.entries.where('type').equals(filter).reverse();
+    return { rows: await coll.limit(limit).toArray(), totalRows: await coll.count(), today };
+  }
+  if (filter === 'notes') {
+    const allRows = await db.entries.orderBy('timestamp').reverse().toArray();
+    const notesRows = allRows.filter(e => e.note && e.note.length > 0);
+    return { rows: notesRows.slice(0, limit), totalRows: notesRows.length, today };
+  }
+  const all = db.entries.orderBy('timestamp').reverse();
+  return { rows: await all.limit(limit).toArray(), totalRows: await db.entries.count(), today };
+}
+
+async function refreshHistory(resetVisible=false) {
+  const list = document.getElementById('hist-list');
+  if (!list) return;
+  if (resetVisible) historyVisibleCount = HISTORY_PAGE_SIZE;
+  const payload = await getFilteredHistoryRows(historyVisibleCount);
+  const rows = payload.rows;
+  const totalRows = payload.totalRows;
+  const today = payload.today;
 
   if (!rows.length) {
     list.innerHTML = '<div class="hempty"><div class="hempty-ico">◷</div>No moments yet.<br>Tap to save a moment. Long press to add a note.<br><span style="color:var(--text3)">Single saves one time. Two-Way alternates IN and OUT.</span></div>';
+    historyRenderState = { rows: [], totalRows: 0, today };
     return;
   }
+
+  historyRenderState = { rows, totalRows, today };
+  const hasMore = rows.length < totalRows;
 
   const groups = {};
   rows.forEach(e => { if (!groups[e.date]) groups[e.date]=[]; groups[e.date].push(e); });
@@ -2352,25 +2483,41 @@ async function refreshHistory() {
     });
     html += '</div>';
   });
+  if (hasMore) {
+    const left = totalRows - rows.length;
+    html += `
+      <div class="hist-more-wrap">
+        <button class="hist-more-btn" data-hist-more="1" type="button" aria-label="Show more history entries">
+          Show more (${left} left)
+        </button>
+      </div>
+    `;
+  }
   list.innerHTML = html;
+}
 
-  list.querySelectorAll('[data-del]').forEach(btn => {
-    btn.addEventListener('click', ev => {
+const histListEl = document.getElementById('hist-list');
+if (histListEl) {
+  histListEl.addEventListener('click', ev => {
+    const moreBtn = ev.target.closest('[data-hist-more]');
+    if (moreBtn) {
+      historyVisibleCount += HISTORY_PAGE_SIZE;
+      refreshHistory(false);
+      return;
+    }
+    const delBtn = ev.target.closest('[data-del]');
+    if (delBtn) {
       ev.stopPropagation();
-      pendingDeleteId = parseInt(btn.dataset.del, 10);
+      pendingDeleteId = parseInt(delBtn.dataset.del, 10);
       if (confirmationWarning) {
         openPopup('popup-delete-entry');
       } else {
         deleteEntryDirectly();
       }
-    });
-  });
-
-  list.querySelectorAll('[data-duration-id]').forEach(row => {
-    row.addEventListener('click', ev => {
-      if (ev.target.closest('[data-del]')) return;
-      pickDurationEntry(row);
-    });
+      return;
+    }
+    const row = ev.target.closest('[data-duration-id]');
+    if (row) pickDurationEntry(row);
   });
 }
 
@@ -2380,7 +2527,7 @@ document.getElementById('filter-row').addEventListener('click', e => {
   haptic(5);
   filter = chip.dataset.filter;
   document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c===chip));
-  refreshHistory();
+  refreshHistory(true);
 });
 
 function esc(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
@@ -2606,9 +2753,24 @@ async function updateOfflineStatus() {
 }
 
 // ═══════ SETTINGS ACTIONS ═══════
-document.querySelectorAll('[data-theme-set]').forEach(btn => {
-  btn.addEventListener('click', () => { applyTheme(btn.dataset.themeSet); haptic(5); });
-});
+const settingsSheetEl = document.getElementById('popup-settings');
+if (settingsSheetEl) {
+  settingsSheetEl.addEventListener('click', e => {
+    const themeBtn = e.target.closest('[data-theme-set]');
+    if (themeBtn) {
+      applyTheme(themeBtn.dataset.themeSet);
+      haptic(5);
+      return;
+    }
+    const modeBtn = e.target.closest('[data-default-mode]');
+    if (modeBtn) {
+      defaultMode = modeBtn.dataset.defaultMode;
+      localStorage.setItem('m-default-mode', defaultMode);
+      syncDefaultModeButtons();
+      haptic(8);
+    }
+  });
+}
 
 function initDelaySetting() {
   const delayValues = [0, 5, 10, 15, 20, 30, 60];
@@ -2653,23 +2815,16 @@ function initDelaySetting() {
 }
 
 function initDefaultModeSetting() {
+  syncDefaultModeButtons();
+}
+
+function syncDefaultModeButtons() {
   const buttons = document.querySelectorAll('[data-default-mode]');
-  const sync = () => {
-    buttons.forEach(btn => {
-      const active = btn.dataset.defaultMode === defaultMode;
-      btn.classList.toggle('on', active);
-      btn.setAttribute('aria-pressed', String(active));
-    });
-  };
   buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      defaultMode = btn.dataset.defaultMode;
-      localStorage.setItem('m-default-mode', defaultMode);
-      sync();
-      haptic(8);
-    });
+    const active = btn.dataset.defaultMode === defaultMode;
+    btn.classList.toggle('on', active);
+    btn.setAttribute('aria-pressed', String(active));
   });
-  sync();
 }
 
 function initNoteCharLimit() {
@@ -2907,6 +3062,18 @@ function syncMinimalModeUI() {
   btn.setAttribute('aria-label', minimalMode ? 'Minimal time on' : 'Minimal time off');
   sub.textContent = minimalMode ? 'Hours and minutes only' : 'Show hours and minutes';
   sw.classList.toggle('on', minimalMode);
+}
+
+function syncPerformanceModeUI() {
+  const btn = document.getElementById('btn-performance-mode');
+  const sub = document.getElementById('performance-mode-sub');
+  const sw = document.getElementById('performance-switch');
+  if (!btn || !sub || !sw) return;
+  btn.setAttribute('aria-pressed', String(performanceMode));
+  btn.setAttribute('aria-label', performanceMode ? 'Performance mode on' : 'Performance mode off');
+  sub.textContent = performanceMode ? 'Effects reduced for speed' : 'Reduce effects for smoother use';
+  sw.classList.toggle('on', performanceMode);
+  document.documentElement.classList.toggle('performance-mode', performanceMode);
 }
 
 function syncConfirmationWarningUI() {
@@ -3400,14 +3567,14 @@ async function deleteEntryDirectly() {
   if (lastId===id) lastId=null;
   durationSelection = durationSelection.filter(item => item.id !== id);
   pendingDeleteId = null;
-  haptic(4); refreshHistory(); updateStats();
+  haptic(4); scheduleUIRefresh({history:true, stats:true});
 }
 
 async function resetDataDirectly() {
   await db.entries.clear();
   lastId=null; inout='in'; sesStart=null;
   localStorage.removeItem('m-inout'); localStorage.removeItem('m-ses');
-  hapticHeavy(); refreshIfOpen(); updateStats();
+  hapticHeavy(); scheduleUIRefresh({history:true, stats:true});
   closePopup('popup-settings');
 }
 
@@ -3436,14 +3603,14 @@ document.getElementById('btn-delete-confirm').addEventListener('click', async ()
   durationSelection = durationSelection.filter(item => item.id !== id);
   pendingDeleteId = null;
   closePopup('popup-delete-entry');
-  haptic(4); refreshHistory(); updateStats();
+  haptic(4); scheduleUIRefresh({history:true, stats:true});
 });
 
 document.getElementById('btn-reset-confirm').addEventListener('click', async () => {
   await db.entries.clear();
   lastId=null; inout='in'; sesStart=null;
   localStorage.removeItem('m-inout'); localStorage.removeItem('m-ses');
-  hapticHeavy(); refreshIfOpen(); updateStats();
+  hapticHeavy(); scheduleUIRefresh({history:true, stats:true});
   closePopup('popup-reset');
   closePopup('popup-settings');
 });
@@ -3488,6 +3655,12 @@ document.getElementById('btn-minimal-mode').addEventListener('click', () => {
   localStorage.setItem('m-minimal-mode', minimalMode ? '1' : '0');
   syncMinimalModeUI();
   startClock();
+});
+document.getElementById('btn-performance-mode').addEventListener('click', () => {
+  haptic(5);
+  performanceMode = !performanceMode;
+  localStorage.setItem('m-performance-mode', performanceMode ? '1' : '0');
+  syncPerformanceModeUI();
 });
 document.getElementById('btn-confirmation-warning').addEventListener('click', () => {
   haptic(5);
@@ -3604,6 +3777,7 @@ if ('requestIdleCallback' in window) {
     syncUpdateActionUI();
     syncNotificationUI();
     syncMinimalModeUI();
+    syncPerformanceModeUI();
     syncConfirmationWarningUI();
     syncWhatsNewPill();
     detectInstalledPwaState();
@@ -3614,13 +3788,18 @@ if ('requestIdleCallback' in window) {
     syncUpdateActionUI();
     syncNotificationUI();
     syncMinimalModeUI();
+    syncPerformanceModeUI();
     syncConfirmationWarningUI();
     syncWhatsNewPill();
     detectInstalledPwaState();
   }, 200);
 }
 initNoteCharLimit();
-setTimeout(checkRemoteNotice, 1800);
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => checkRemoteNotice(), {timeout: 2600});
+} else {
+  setTimeout(checkRemoteNotice, 1800);
+}
 const isMobileTouchDevice = window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
 if (isMobileTouchDevice && !localStorage.getItem('m-touch-tip-dismissed')) {
   setTimeout(() => {
@@ -3632,7 +3811,11 @@ if (isMobileTouchDevice && !localStorage.getItem('m-touch-tip-dismissed')) {
 if (localStorage.getItem('m-welcome-seen') !== '1') {
   setTimeout(() => openPopup('popup-welcome'), 300);
 }
-maybeShowWhatsNew();
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => maybeShowWhatsNew(), {timeout: 2000});
+} else {
+  setTimeout(() => maybeShowWhatsNew(), 400);
+}
 </script>
 </body>
 </html>

@@ -9,15 +9,12 @@ const APP_SHELL = [
   './releases/stable.js',
   './releases/beta.js',
   './manifest.json',
-  './health.json',
   './favicon.ico',
   './apple-touch-icon.png',
   './icon-192.png',
   './icon-maskable-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
-  './screenshot.png',
-  './screenshot-2.png',
   './sw.js'
 ];
 
@@ -68,11 +65,14 @@ self.addEventListener('notificationclick', event => {
   );
 });
 
-// Cache-first app shell. New builds wait until the user installs them.
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  const path = url.pathname || '/';
+  const isDocument = event.request.mode === 'navigate' || path.endsWith('/') || path.endsWith('.html');
+  const isDynamicData = path.endsWith('/health.json') || path.endsWith('/notification.json');
+  const isStaticAsset = /\.(?:js|css|png|jpg|jpeg|svg|webp|ico|json|woff2?)$/i.test(path);
 
   if (url.searchParams.has('nk-refresh')) {
     const cleanUrl = new URL(event.request.url);
@@ -90,15 +90,34 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) return cachedResponse;
-      return fetch(event.request).then(networkResponse => {
+  if (isDocument || isDynamicData) {
+    event.respondWith(
+      fetch(event.request, {cache:'no-store'}).then(networkResponse => {
         return caches.open(CACHE_NAME).then(cache => {
           cache.put(event.request, networkResponse.clone());
           return networkResponse;
         });
-      });
-    })
+      }).catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  if (isStaticAsset) {
+    event.respondWith(
+      caches.match(event.request).then(cachedResponse => {
+        const fetchPromise = fetch(event.request).then(networkResponse => {
+          if (networkResponse && networkResponse.ok) {
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, networkResponse.clone()));
+          }
+          return networkResponse;
+        }).catch(() => cachedResponse);
+        return cachedResponse || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });

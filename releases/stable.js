@@ -1,8 +1,18 @@
 globalThis.NOTEKAR_META = {
-  version: '3.2.4',
-  buildDate: '2026-05-28',
+  version: '3.2.5',
+  buildDate: '2026-06-01',
   channel: 'stable',
   changelog: [
+    {
+      version: '3.2.5',
+      date: 'June 1, 2026',
+      isNew: true,
+      items: [
+        'Added an automatic low-end device mode to reduce heavy visual rendering while keeping the same interface.',
+        'Optimized popup state tracking and history list event handling to cut extra DOM work.',
+        'Reduced tap interaction overhead for smoother logging on budget Android phones.'
+      ]
+    },
     {
       version: '3.2.4',
       date: 'May 28, 2026',

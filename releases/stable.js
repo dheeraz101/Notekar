@@ -1,12 +1,21 @@
 globalThis.NOTEKAR_META = {
-  version: '3.2.6',
-  buildDate: '2026-06-01',
+  version: '3.2.7',
+  buildDate: '2026-06-03',
   channel: 'stable',
   changelog: [
     {
+      version: '3.2.7',
+      date: 'June 3, 2026',
+      isNew: true,
+      items: [
+        'Android APK downloads now start directly from the app without opening the GitHub release page.',
+        'Removed the GitHub Releases button from the Android install popup for a cleaner download-only flow.',
+        'Updated the APK popup messages so retry guidance stays inside NoteKar.'
+      ]
+    },
+    {
       version: '3.2.6',
       date: 'June 1, 2026',
-      isNew: true,
       items: [
         'Fixed a settings sheet rendering issue that could show broken lines or crashed-looking areas on some Android phones.',
         'Added an Android render-safe settings sheet path that avoids fragile blur and paint-layer combinations.',

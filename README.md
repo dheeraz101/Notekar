@@ -6,6 +6,16 @@
 
 ---
 
+## ☕ Support
+
+If NoteKar helps you, you can support the project here:
+
+[![Buy Me a Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/dheeraz)
+
+Your support helps keep NoteKar free, offline-first, and actively maintained.
+
+---
+
 ## 🎯 Overview
 
 **NoteKar** is a Progressive Web App (PWA) designed for instant moment capture. Whether you're tracking work sessions, logging study time, or simply recording when things happen, NoteKar provides a frictionless experience: tap to log, long-press to add context, and access rich history views.

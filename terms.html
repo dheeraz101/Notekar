@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000" id="theme-meta">
+<meta name="description" content="NoteKar Terms of Use — Terms and conditions for using NoteKar Web PWA and Android application.">
+<title>Terms of Use — NoteKar</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000000;
+  --bg2: #0a0a0a;
+  --surf: rgba(28,28,30,0.95);
+  --surf2: rgba(44,44,46,0.96);
+  --surf3: rgba(60,60,62,0.98);
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.13);
+  --text: rgba(255,255,255,0.90);
+  --text2: rgba(255,255,255,0.55);
+  --text3: rgba(255,255,255,0.30);
+  --accent: #0A84FF;
+  --accent-bg: rgba(10,132,255,0.15);
+  --green: #30D158;
+  --green-bg: rgba(48,209,88,0.14);
+  --orange: #FF9F0A;
+  --orange-bg: rgba(255,159,10,0.14);
+  --blur: blur(28px) saturate(180%);
+  --r-s: 10px; --r-m: 16px; --r-l: 22px; --r-pill: 9999px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+[data-theme="light"] {
+  --bg: #F2F2F7; --bg2: #E5E5EA;
+  --surf: rgba(255,255,255,0.93); --surf2: rgba(242,242,247,0.96); --surf3: rgba(229,229,234,0.98);
+  --border: rgba(0,0,0,0.06); --border2: rgba(0,0,0,0.11);
+  --text: rgba(0,0,0,0.88); --text2: rgba(0,0,0,0.55); --text3: rgba(0,0,0,0.30);
+  --accent: #007AFF; --accent-bg: rgba(0,122,255,0.12);
+  --green: #34C759; --green-bg: rgba(52,199,89,0.12);
+  --orange: #FF9500; --orange-bg: rgba(255,149,0,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; font-family: var(--font); background: var(--bg); color: var(--text); }
+body { min-height: 100vh; padding-bottom: 60px; transition: background 0.3s ease; line-height: 1.6; }
+
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--surf); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--r-pill);
+  background: var(--surf2); border: 1px solid var(--border);
+  color: var(--text); font-size: 13px; font-weight: 500;
+  text-decoration: none; transition: background 0.15s ease;
+}
+.back-btn:hover { background: var(--surf3); }
+.brand { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
+.brand span { color: var(--accent); }
+
+.nav-links { display: flex; align-items: center; gap: 10px; }
+.nav-link {
+  font-size: 13px; color: var(--text2); text-decoration: none;
+  padding: 6px 12px; border-radius: var(--r-pill); transition: color 0.15s ease, background 0.15s ease;
+}
+.nav-link:hover, .nav-link.active { color: var(--text); background: var(--surf2); }
+
+.theme-toggle {
+  background: var(--surf2); border: 1px solid var(--border);
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2); cursor: pointer; transition: color 0.15s ease, background 0.15s ease;
+}
+.theme-toggle:hover { color: var(--text); background: var(--surf3); }
+
+.container { max-width: 780px; margin: 0 auto; padding: 36px 20px 0; }
+
+.hero { margin-bottom: 32px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: var(--r-pill);
+  background: var(--accent-bg); color: var(--accent);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.02em; margin-bottom: 12px;
+}
+.hero-title { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; color: var(--text); }
+.hero-meta { font-size: 14px; color: var(--text2); }
+
+.card {
+  background: var(--surf2); border: 1px solid var(--border);
+  border-radius: var(--r-m); padding: 24px; margin-bottom: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.card-title {
+  font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px; color: var(--text);
+}
+.card-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.card p { font-size: 14px; color: var(--text2); margin-bottom: 12px; line-height: 1.65; }
+.card p:last-child { margin-bottom: 0; }
+.card ul { margin-left: 20px; margin-bottom: 12px; color: var(--text2); font-size: 14px; }
+.card li { margin-bottom: 8px; line-height: 1.6; }
+.card strong { color: var(--text); font-weight: 600; }
+
+.highlight-box {
+  background: var(--surf3); border: 1px solid var(--border2);
+  border-radius: var(--r-s); padding: 14px 16px; margin: 14px 0;
+  font-size: 13px; color: var(--text);
+}
+
+.footer {
+  text-align: center; margin-top: 40px; padding-top: 24px;
+  border-top: 1px solid var(--border); color: var(--text3); font-size: 13px;
+}
+.footer a { color: var(--accent); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .hero-title { font-size: 26px; }
+  .card { padding: 18px; }
+  .container { padding-top: 24px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <a href="index.html" class="back-btn" aria-label="Back to NoteKar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      App
+    </a>
+    <a href="index.html" class="brand">Note<span>Kar</span></a>
+  </div>
+  <div class="nav-links">
+    <a href="privacy.html" class="nav-link">Privacy</a>
+    <a href="terms.html" class="nav-link active">Terms</a>
+    <button class="theme-toggle" id="theme-btn" aria-label="Toggle theme">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      MIT Licensed Open Source
+    </div>
+    <h1 class="hero-title">Terms of Use</h1>
+    <p class="hero-meta">Effective Date: June 2026 · Applies to NoteKar Web PWA & NoteKar Android App</p>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </span>
+      1. Acceptance of Terms
+    </h2>
+    <p>By accessing or using the NoteKar Web Progressive Web App (PWA) or installing the NoteKar Android application, you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, you should discontinue using the app.</p>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--green-bg); color:var(--green)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+      </span>
+      2. License & Open Source Philosophy
+    </h2>
+    <p>NoteKar is built under the <a href="https://github.com/dheeraz101/Notekar/blob/main/LICENSE" target="_blank" style="color:var(--accent)">MIT License</a> as part of the <strong>YABP (Yet Another Boring Project)</strong> initiative.</p>
+    <p>You are free to use, inspect, modify, and distribute the software in accordance with the terms of the MIT License, provided that the original copyright notice and license permission notice remain included in all copies or substantial portions of the software.</p>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--orange-bg); color:var(--orange)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </span>
+      3. Offline Storage & User Responsibility for Data Backups
+    </h2>
+    <p>Because NoteKar is an <strong>offline-first application</strong> storing data directly on your local device (via IndexedDB on Web and Hive/SharedPreferences on Android):</p>
+    <ul>
+      <li><strong>Data Ownership:</strong> You have full ownership and control over your recorded timestamps and notes.</li>
+      <li><strong>Data Retention:</strong> If you clear browser cache, un-install the app without Android OS auto-backup enabled, or lose access to your device, your locally saved logs will be permanently erased.</li>
+      <li><strong>Exporting Data:</strong> We strongly advise using the built-in CSV/JSON export tools in Settings to keep periodic personal backups of important entries. NoteKar developers cannot retrieve or restore lost local data.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </span>
+      4. Permitted Use & Conduct
+    </h2>
+    <p>NoteKar is intended for personal productivity, time logging, and notes. You agree not to use the app for any illegal purposes or to attempt distributing tampered or malicious release binaries posing as official NoteKar releases.</p>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--green-bg); color:var(--green)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+      </span>
+      5. App Updates & Notifications
+    </h2>
+    <p>We continuously improve NoteKar by publishing updates, bug fixes, and performance enhancements. The app checks for software releases over public GitHub / web channels. You can control notification preferences directly in your system settings.</p>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--orange-bg); color:var(--orange)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </span>
+      6. Disclaimer of Warranties & Limitation of Liability
+    </h2>
+    <div class="highlight-box">
+      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </span>
+      7. Changes to Terms
+    </h2>
+    <p>We reserve the right to update or modify these Terms of Use at any time. Any updates will be posted to this page with an updated effective date.</p>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </span>
+      8. Contact
+    </h2>
+    <p>For questions or inquiries regarding these Terms of Use:</p>
+    <ul>
+      <li><strong>Email:</strong> <a href="mailto:yabp.support@gmail.com" style="color:var(--accent)">yabp.support@gmail.com</a></li>
+      <li><strong>GitHub Repository:</strong> <a href="https://github.com/dheeraz101/Notekar" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">github.com/dheeraz101/Notekar</a></li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 NoteKar · Made with ❤ in India · <a href="privacy.html">Privacy Policy</a> · <a href="index.html">Back to App</a></p>
+  </footer>
+</main>
+
+<script>
+// Simple Theme Manager matching NoteKar
+const savedTheme = localStorage.getItem('m-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+const themeBtn = document.getElementById('theme-btn');
+themeBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('m-theme', next);
+});
+</script>
+</body>
+</html>

@@ -1,8 +1,25 @@
 # NoteKar
 
-> **A minimal, elegant timestamp logger for capturing moments in time.** Zero friction. One tap. Offline-first.
+> **A minimal, elegant timestamp logger for capturing moments in time.** Zero friction. One tap. 100% Offline-first.
 
-![version](https://img.shields.io/badge/version-3.2.7-blue) ![license](https://img.shields.io/badge/license-MIT-green) ![pwa](https://img.shields.io/badge/PWA-ready-brightgreen)
+![version](https://img.shields.io/badge/version-3.2.7%20PWA-blue) ![android](https://img.shields.io/badge/Android%20Releases-v4.0.4%2B-green) ![license](https://img.shields.io/badge/license-MIT-green) ![privacy](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen)
+
+---
+
+> [!IMPORTANT]
+> 📢 **New Version Release Announcement**  
+> NoteKar has officially upgraded to a **Native Android Application**!  
+> **All new version releases, APK downloads, and active feature updates are now hosted on the [NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android).**  
+> 👉 Please visit the **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)** for the latest release downloads, release notes, and mobile application source code.
+
+---
+
+## 🔒 Privacy & Legal Policy
+
+NoteKar is built with a **strict privacy-by-default and offline-first philosophy**. Your data never leaves your device unless you explicitly export it.
+
+- 🛡️ **[Privacy Policy](privacy.html)**: Read our in-depth privacy policy (Web PWA & Android App).
+- 📜 **[Terms of Use](terms.html)**: Review the terms of service and MIT license terms.
 
 ---
 
@@ -18,286 +35,105 @@ Your support helps keep NoteKar free, offline-first, and actively maintained.
 
 ## 🎯 Overview
 
-**NoteKar** is a Progressive Web App (PWA) designed for instant moment capture. Whether you're tracking work sessions, logging study time, or simply recording when things happen, NoteKar provides a frictionless experience: tap to log, long-press to add context, and access rich history views.
+**NoteKar** is an instant timestamp logging application available as both a **Web Progressive Web App (PWA)** and a **Native Android Application**. Whether you're tracking work sessions, logging study time, or simply recording when things happen, NoteKar provides a frictionless experience: tap to log, long-press to add context, and access rich history views.
 
-Built as part of the [YABP](https://yabp.netlify.app/) initiative, this app demonstrates modern web standards while maintaining a lightweight footprint—everything runs locally in your browser with IndexedDB persistence.
+Built as part of the [YABP (Yet Another Boring Project)](https://yabp.netlify.app/) initiative, NoteKar operates entirely offline with zero cloud backend or user tracking.
 
-**Current version:** 3.2.7 (stable)
+- 🌐 **Hosted Web PWA & Site:** [https://dheeraz101.github.io/Notekar/](https://dheeraz101.github.io/Notekar/)
+- 📱 **Native Android Releases & Source Code:** [https://github.com/dheeraz101/Notekar-Android](https://github.com/dheeraz101/Notekar-Android)
 
 ---
 
 ## ✨ Key Features
 
-- **Instant Tap Logging** — One tap = one timestamp recorded instantly
-- **Dual Operating Modes** — Two-way (IN/OUT sessions) or Single (one-shot) logging
-- **Rich History View** — Filter by timeframe (Today, This Week) or entry type (IN, OUT, Single, Notes)
-- **Optional Notes** — Long-press any entry to add contextual notes
-- **Configurable Delays** — Set minimum tap intervals (0s–1 minute) to prevent accidental double-taps
-- **Offline-First** — All data stored locally via IndexedDB; works completely offline
-- **PWA Support** — Install as a native-like app on mobile or desktop; service worker for offline functionality
-- **Responsive Design** — Beautiful, minimalist UI inspired by macOS/iOS design philosophy
-- **Zero Backend** — No server, no sync, no privacy concerns—just your device
+- **Instant Tap Logging**: One tap = one timestamp recorded instantly.
+- **Dual Operating Modes**: Two-way (IN/OUT session pairs) or Single (one-shot) logging.
+- **Rich History View**: Filter by timeframe (Today, This Week) or entry type (IN, OUT, Single, Notes).
+- **Optional Notes**: Long-press any entry to add contextual notes.
+- **Configurable Tap Delay**: Set minimum tap intervals (0s-1 minute) to prevent accidental double-taps.
+- **Offline-First Storage**: All data stored locally via IndexedDB (Web) and Hive (Android Native).
+- **Android System Backup Support**: Compatible with standard Android OS Auto Backup (Google Drive system backup).
+- **Minimal Permissions**: Internet access strictly used for software update checks & bug notices; Notification permission for release alerts & reminders.
+- **Data Export & Control**: Export entries anytime in CSV or JSON formats; clear or reset data with one tap.
+- **Zero Backend & Zero Ads**: No cloud databases, no analytics trackers, no account registration.
 
 ---
 
-## 📦 Project Structure
+## 📦 Project Structure (Website & Web PWA)
 
 ```
 .
-├── index.html              # Single-file app (HTML, CSS, JS integrated)
-├── sw.js                   # Service Worker (offline support)
-├── manifest.json           # PWA manifest (app metadata & icons)
+├── index.html              # Main Single-Page Web App (HTML, CSS, JS integrated)
+├── privacy.html            # Dedicated Privacy Policy page (Web & Android)
+├── terms.html              # Dedicated Terms of Use page (Web & Android)
+├── sw.js                   # Service Worker (offline PWA caching)
+├── manifest.json           # PWA Web App Manifest
 ├── health.json             # Version and release channel tracking
 ├── releases/
 │   ├── stable.js           # Production release module
 │   └── beta.js             # Beta release module
-├── README.md               # This file
-└── [icons & assets]        # App icons (192px, 512px, maskable variants)
+├── CONTRIBUTING.md         # Contribution guidelines
+├── CODE_OF_CONDUCT.md      # Community Code of Conduct
+├── SECURITY.md            # Security policy & vulnerability reporting
+├── PRIVACY.md              # Privacy reference
+├── TERMS.md                # Terms reference
+├── README.md               # Website documentation
+├── LICENSE                 # MIT License
+└── .github/                # Funding & GitHub Issue/PR templates
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Web PWA)
 
-### Option 1: Use the Hosted App
-Visit the deployed version on GitHub Pages (if configured).
+### Option 1: Use the Deployed App
+Visit the live Web PWA: [https://dheeraz101.github.io/Notekar/](https://dheeraz101.github.io/Notekar/)
 
 ### Option 2: Run Locally
-
-1. **Clone or download this repository**
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/notekar.git
-   cd notekar
+   git clone https://github.com/dheeraz101/Notekar.git
+   cd Notekar
    ```
 
-2. **Start a local web server**
+2. **Start a local web server:**
    ```bash
    # Python 3
    python -m http.server 8000
    
-   # OR Node.js (with `http-server`)
+   # OR Node.js
    npx http-server
-   
-   # OR using PHP
-   php -S localhost:8000
    ```
 
-3. **Open in your browser**
-   ```
-   http://localhost:8000
-   ```
-
-### Option 3: Install as PWA
-1. Visit the app URL (local or hosted)
-2. Open browser menu → **Install app** (or **Add to Home Screen** on iOS)
-3. Launch from your home screen like any native app
+3. **Open in browser:** `http://localhost:8000`
 
 ---
 
-## 💡 Usage Guide
+## 📱 Android Releases
 
-### Basic Workflow
-1. **Tap the main area** to log a timestamp
-   - The timestamp is immediately saved to your local database
-   - Haptic feedback confirms the action
+All native Android application builds, APK releases, and active feature development are published on the **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)**.
 
-2. **Long-press to add a note**
-   - A note input dialog appears
-   - Add context (e.g., "Meeting started", "Break time") and confirm
-   - Note is linked to the nearest timestamp
-
-3. **Access History** (tap history icon in toolbar)
-   - View all logged entries
-   - Apply filters: All, Today, This Week, IN, OUT, Single, Notes
-   - Tap any entry to view or edit details
-   - Swipe to delete entries (with confirmation)
-
-4. **Configure Settings** (tap gear icon in toolbar)
-   - **Mode Toggle** — Switch between Two-way and Single mode
-   - **Tap Delay** — Set minimum interval between taps (prevents accidental rapid logging)
-   - **Clear Data** — Reset all entries (with warning)
-
-### Two-Way Mode vs. Single Mode
-- **Two-Way**: Track session pairs (IN/OUT). Useful for work shifts, study sessions, or time tracking.
-- **Single**: Log individual moments without pairing. Useful for episodic events or annotations.
-
----
-
-## 🛠️ Development
-
-### Technology Stack
-- **Frontend**: Vanilla JavaScript (ES6+), HTML5, CSS3
-- **Storage**: IndexedDB via [Dexie](https://dexie.org/) (lightweight wrapper)
-- **PWA**: Service Worker (sw.js), Web App Manifest
-- **Icons**: PNG (192px, 512px variants, maskable support)
-
-### Data Architecture
-
-#### IndexedDB Schema
-```javascript
-// Table: entries
-{
-  id: number (auto-increment),
-  timestamp: ISO 8601 string,
-  type: "IN" | "OUT" | "SINGLE",
-  date: YYYY-MM-DD string,
-  note: string (optional),
-  createdAt: ISO 8601 string
-}
-```
-
-#### LocalStorage Keys
-- `m-delay` — User-selected tap delay in milliseconds
-
-### Key Code Sections
-
-**Data Persistence** (in `index.html`):
-- Dexie initialization and schema definition
-- Add/update/delete entry operations
-- Query methods for filtering (date range, type, etc.)
-
-**UI State Management**:
-- Mode toggle (Two-way ↔ Single)
-- Filter application in history view
-- Settings persistence
-
-**Service Worker** (`sw.js`):
-- Cache-first strategy for assets
-- Network fallback to cached app shell
-- Offline functionality
-
-### Development Tips
-
-1. **Inspect IndexedDB**: Chrome DevTools → Storage → IndexedDB → NoteKar
-2. **Test Service Worker**: Chrome DevTools → Application → Service Workers
-3. **Simulate Offline**: Chrome DevTools → Network → Offline checkbox
-4. **Debug Logs**: Check browser console for Dexie and app lifecycle messages
-
----
-
-## 📢 Deployment to GitHub Pages
-
-### Step-by-Step Setup
-
-1. **Create a GitHub repository**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: NoteKar v3.2.7"
-   git remote add origin https://github.com/yourusername/notekar.git
-   git branch -M main
-   git push -u origin main
-   ```
-
-2. **Enable GitHub Pages**
-   - Go to repository **Settings** → **Pages**
-   - Under "Build and deployment", select:
-     - **Source**: Deploy from a branch
-     - **Branch**: main (root directory)
-   - Click Save
-
-3. **Access your app**
-   ```
-   https://yourusername.github.io/notekar/
-   ```
-
-4. **(Optional) Configure a custom domain**
-   - Add a `CNAME` file with your domain name
-   - Update DNS records at your domain registrar
+- **Offline-First:** Hive local database.
+- **Android Auto-Backup:** Supports standard Android system backup.
+- **Permissions:** Internet permission (update checks & bug announcements), Notification permission.
+- **Releases Page:** [https://github.com/dheeraz101/Notekar-Android/releases](https://github.com/dheeraz101/Notekar-Android/releases)
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how to get involved:
-
-### Reporting Issues
-- Use GitHub Issues to report bugs or request features
-- Include screenshots, browser/OS info, and steps to reproduce
-
-### Submitting Changes
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. **Make your changes**
-   - Keep the single-file nature of the app where possible
-   - Test thoroughly (desktop & mobile)
-   - Include screenshots for UI changes
-4. **Commit with clear messages**
-   ```bash
-   git commit -m "Add [feature]: brief description"
-   ```
-5. **Push and create a Pull Request**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-### Code Style
-- Use modern ES6+ syntax
-- Keep functions small and focused
-- Comment complex logic
-- Test in multiple browsers (Chrome, Firefox, Safari)
-- Verify PWA functionality offline
+Contributions are welcome! Please review our **[CONTRIBUTING.md](CONTRIBUTING.md)** and **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** before submitting pull requests.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
-You are free to use, modify, and distribute this software for any purpose, provided you include the original license and copyright notice.
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Attribution & Credits
+## 🙏 Credits
 
 - **Made with ❤ in India**
 - Part of the [YABP (Yet Another Boring Project)](https://yabp.netlify.app/) initiative
-- Built with [Dexie.js](https://dexie.org/) for IndexedDB management
-- Typography: [Inter](https://rsms.me/inter/) font family
-- Inspired by macOS and iOS design principles
-
----
-
-## 📝 Changelog
-
-### v3.2.7 (Latest)
-- Stable release
-
-### v3.2.0-beta.5
-- Beta release channel
-
-See `health.json` for version tracking across release channels.
-
----
-
-## 🔗 Resources
-
-- [Dexie.js Documentation](https://dexie.org/)
-- [Web App Manifest Spec](https://www.w3.org/TR/appmanifest/)
-- [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
-- [Progressive Web Apps](https://web.dev/progressive-web-apps/)
-
----
-
-## ❓ FAQ
-
-**Q: Will my data sync across devices?**  
-A: No. NoteKar stores data locally on each device. For multi-device sync, consider exporting your data and importing on another device (feature planned for future versions).
-
-**Q: Can I export my data?**  
-A: Yes, through the browser's IndexedDB export features or by using the browser DevTools to export entries.
-
-**Q: Does NoteKar collect any personal data?**  
-A: No. All data stays on your device. No analytics, no tracking, no servers.
-
-**Q: What browsers are supported?**  
-A: Chrome/Edge (90+), Firefox (88+), Safari (14+). PWA support varies by browser.
-
----
-
-**Last updated:** June 2026  
-**Maintained by:** YABP Initiative
-
+- Maintained by [Dheeraz](https://github.com/dheeraz101)

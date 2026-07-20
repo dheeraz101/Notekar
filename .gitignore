@@ -1,0 +1,45 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+*~
+.project
+.settings/
+.buildpath
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+secrets.json
+*.pem
+*.key
+*.cert
+
+# Node / Build Outputs (if any)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.build/
+dist/
+
+# Temporary and Log files
+*.log
+*.tmp
+*.temp
+*.bak

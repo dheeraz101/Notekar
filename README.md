@@ -7,9 +7,11 @@
 ---
 
 > [!IMPORTANT]
-> 📢 **New Version Release Announcement**  
+> # 📢 **New Version Release Announcement**  
 > NoteKar has officially upgraded to a **Native Android Application**!  
+>
 > **All new version releases, APK downloads, and active feature updates are now hosted on the [NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android).**  
+>
 > 👉 Please visit the **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)** for the latest release downloads, release notes, and mobile application source code.
 
 ---
@@ -28,6 +30,7 @@ NoteKar is built with a **strict privacy-by-default and offline-first philosophy
 If NoteKar helps you, you can support the project here:
 
 [![Buy Me a Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/dheeraz)
+[![Buy Me A Chai](https://buymeachai.ezee.li/assets/images/buymeachai-button.png)](https://buymeachai.ezee.li/dheeraz)
 
 Your support helps keep NoteKar free, offline-first, and actively maintained.
 

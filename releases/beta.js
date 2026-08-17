@@ -1,12 +1,21 @@
 globalThis.NOTEKAR_BETA_META = {
-  version: '3.2.0-beta.5',
-  buildDate: '2026-05-26',
+  version: '7.0.0-beta.1',
+  buildDate: '2026-08-16',
   channel: 'beta',
   changelog: [
     {
+      version: '7.0.0 Beta 1',
+      date: 'August 16, 2026',
+      isNew: true,
+      items: [
+        'Preview release of Apple HIG UI elements and Dynamic Island pill toasts.',
+        'Early test of 2-digit single numbering sequence with daily reset mechanics.',
+        'Urge surfing breathing guide integration preview.'
+      ]
+    },
+    {
       version: '3.2.0 Beta 5',
       date: 'May 26, 2026',
-      isNew: true,
       items: [
         'Added an Android-only Install Android APK option in Settings.',
         'The Android install popup loads APK files from the latest GitHub release.',

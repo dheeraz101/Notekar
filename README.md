@@ -40,7 +40,7 @@ Your support helps keep NoteKar free, offline-first, and actively maintained.
 
 **NoteKar** is an instant timestamp logging application available as both a **Web Progressive Web App (PWA)** and a **Native Android Application**. Whether you're tracking work sessions, logging study time, or simply recording when things happen, NoteKar provides a frictionless experience: tap to log, long-press to add context, and access rich history views.
 
-Built as part of the [YABP (Yet Another Boring Project)](https://yabp.netlify.app/) initiative, NoteKar operates entirely offline with zero cloud backend or user tracking.
+Built as part of the [YABP (Yet Another Boring Project)](https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/) initiative, NoteKar operates entirely offline with zero cloud backend or user tracking.
 
 - 🌐 **Hosted Web PWA & Site:** [https://dheeraz101.github.io/Notekar/](https://dheeraz101.github.io/Notekar/)
 - 📱 **Native Android Releases & Source Code:** [https://github.com/dheeraz101/Notekar-Android](https://github.com/dheeraz101/Notekar-Android)
@@ -138,5 +138,5 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ## 🙏 Credits
 
 - **Made with ❤ in India**
-- Part of the [YABP (Yet Another Boring Project)](https://yabp.netlify.app/) initiative
+- Part of the [YABP (Yet Another Boring Project)](https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/) initiative
 - Maintained by [Dheeraz](https://github.com/dheeraz101)

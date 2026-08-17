@@ -224,7 +224,16 @@ html.performance-mode *{
   z-index:1;
   pointer-events:none;
 }
-#clock-wrap{text-align:center;pointer-events:none;line-height:1;}
+#clock-wrap{
+  text-align:center;
+  pointer-events:none;
+  line-height:1;
+  transition:transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change:transform;
+}
+#clock-wrap.tap-active{
+  transform:scale(0.985);
+}
 #clock-hm{
   display:inline;
   font-size:clamp(5rem,23vw,9rem);
@@ -241,13 +250,25 @@ html.performance-mode *{
   letter-spacing:-0.02em;
   color:var(--text3);
   font-variant-numeric:tabular-nums;
+  transition:color 0.3s ease;
+}
+
+/* Minimal subtle color feedback on tap */
+#clock-wrap.flash-single #clock-hm{
+  color:var(--accent)!important;
+}
+#clock-wrap.flash-in #clock-hm{
+  color:var(--green)!important;
+}
+#clock-wrap.flash-out #clock-hm{
+  color:var(--red)!important;
 }
 
 /* ─────────────────────────────────────────
    RIPPLE
 ───────────────────────────────────────── */
-@keyframes rpl{from{transform:scale(0);opacity:.45;}to{transform:scale(7);opacity:0;}}
-.rpl-el{position:fixed;width:50px;height:50px;border-radius:50%;background:var(--accent-bg);pointer-events:none;animation:rpl 600ms var(--ease) forwards;z-index:2;}
+@keyframes rpl{from{transform:scale(0);opacity:.2;}to{transform:scale(5);opacity:0;}}
+.rpl-el{position:fixed;width:50px;height:50px;border-radius:50%;background:var(--accent-bg);pointer-events:none;animation:rpl 400ms var(--ease) forwards;z-index:2;}
 
 /* ─────────────────────────────────────────
    TAP ZONE — lowest interactive layer
@@ -678,19 +699,67 @@ html.performance-mode *{
 .slabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin:14px 0 6px;}
 .slabel:first-child{margin-top:4px;}
 .scard{border-radius:var(--r-m);overflow:hidden;background:var(--surf2);border:1px solid var(--border);margin-bottom:4px;contain:layout style;}
-.srow{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;min-height:50px;transition:background .12s ease;cursor:pointer;position:relative;}
+button.srow,
+.srow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:13px 15px;
+  min-height:50px;
+  transition:background .12s ease;
+  cursor:pointer;
+  position:relative;
+  background:none;
+  border:none;
+  text-align:left;
+  font:inherit;
+  color:inherit;
+  box-sizing:border-box;
+}
 .srow+.srow{border-top:1px solid var(--border);}
 .srow:active{background:var(--surf3);}
-.srow-l{display:flex;align-items:center;gap:11px;flex:1;pointer-events:none;}
+.srow-l{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  flex:1;
+  min-width:0;
+  pointer-events:none;
+  justify-content:flex-start;
+  padding-right:72px;
+}
 .srow-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .srow-ico svg{pointer-events:none;}
 .update-ico svg{width:18px;height:18px;}
 #btn-update-action.checking .update-ico svg{animation:update-spin 1.05s linear infinite;}
 @keyframes update-spin{to{transform:rotate(360deg);}}
 @media(prefers-reduced-motion:reduce){#btn-update-action.checking .update-ico svg{animation:none;}}
-.srow-t{font-size:15px;color:var(--text);}
-.srow-s{font-size:12px;color:var(--text2);margin-top:1px;}
-.srow-chev{color:var(--text3);flex-shrink:0;pointer-events:none;}
+.srow-t{
+  font-size:15px;
+  color:var(--text);
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.srow-s{
+  font-size:12px;
+  color:var(--text2);
+  margin-top:1px;
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.srow-chev{
+  color:var(--text3);
+  flex-shrink:0;
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+  margin-left:auto;
+}
 .srow-chev svg{width:14px;height:14px;}
 #btn-pwa-action{width:100%;text-align:left;}
 #btn-pwa-action .srow-l{justify-content:flex-start;}
@@ -701,6 +770,9 @@ html.performance-mode *{
 #btn-whats-new,
 #btn-changelog,
 #btn-android-apk,
+#btn-two-digit,
+#btn-daily-reset,
+#btn-open-breathing,
 #btn-minimal-mode,
 #btn-performance-mode,
 #btn-confirmation-warning{width:100%;text-align:left;}
@@ -710,19 +782,25 @@ html.performance-mode *{
 #btn-whats-new .srow-l,
 #btn-changelog .srow-l,
 #btn-android-apk .srow-l,
+#btn-two-digit .srow-l,
+#btn-daily-reset .srow-l,
 #btn-minimal-mode .srow-l,
 #btn-performance-mode .srow-l,
 #btn-confirmation-warning .srow-l{justify-content:flex-start;min-width:0;padding-right:72px;}
+#btn-open-breathing .srow-l{justify-content:flex-start;min-width:0;padding-right:24px;}
 #btn-update-action .srow-l > div:last-child,
 #btn-beta-channel .srow-l > div:last-child,
 #btn-notifications .srow-l > div:last-child,
 #btn-whats-new .srow-l > div:last-child,
 #btn-changelog .srow-l > div:last-child,
 #btn-android-apk .srow-l > div:last-child,
+#btn-two-digit .srow-l > div:last-child,
+#btn-daily-reset .srow-l > div:last-child,
+#btn-open-breathing .srow-l > div:last-child,
 #btn-minimal-mode .srow-l > div:last-child,
 #btn-performance-mode .srow-l > div:last-child,
 #btn-confirmation-warning .srow-l > div:last-child{
-  display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;
+  display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;flex:1;
 }
 #btn-update-action .srow-t,
 #btn-update-action .srow-s,
@@ -736,6 +814,12 @@ html.performance-mode *{
 #btn-changelog .srow-s,
 #btn-android-apk .srow-t,
 #btn-android-apk .srow-s,
+#btn-two-digit .srow-t,
+#btn-two-digit .srow-s,
+#btn-daily-reset .srow-t,
+#btn-daily-reset .srow-s,
+#btn-open-breathing .srow-t,
+#btn-open-breathing .srow-s,
 #btn-minimal-mode .srow-t,
 #btn-minimal-mode .srow-s,
 #btn-performance-mode .srow-t,
@@ -1225,6 +1309,117 @@ input[type="range"]::-moz-range-thumb{
 }
 
 /* ─────────────────────────────────────────
+   BRAND LOGO & ABOUT STYLES
+───────────────────────────────────────── */
+.about-logo-wrap{display:flex;justify-content:center;margin-bottom:12px;}
+.about-logo{width:68px;height:68px;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,0.35);transition:transform .2s var(--ease);}
+.about-logo:active{transform:scale(.94);}
+.about-tag{font-size:12px;color:var(--text2);font-weight:550;margin-top:2px;margin-bottom:8px;letter-spacing:-.01em;}
+
+/* ─────────────────────────────────────────
+   ANDROID V7.0 SHOWCASE CARD
+───────────────────────────────────────── */
+.android-showcase-card{
+  background:linear-gradient(135deg,rgba(10,132,255,0.09),rgba(48,209,88,0.06));
+  border:1px solid rgba(10,132,255,0.22);
+  padding:16px;
+  border-radius:var(--r-m);
+}
+.android-hero-banner{
+  display:flex;align-items:center;gap:13px;margin-bottom:12px;
+}
+.android-hero-icon{
+  width:46px;height:46px;border-radius:12px;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,0.25);
+}
+.android-hero-title{
+  font-size:15px;font-weight:650;color:var(--text);display:flex;align-items:center;gap:7px;
+}
+.android-v-badge{
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r-pill);
+  background:var(--accent);color:#fff;letter-spacing:.03em;
+}
+.android-hero-sub{
+  font-size:12px;color:var(--text2);line-height:1.45;margin-top:3px;
+}
+.android-hero-chips{
+  display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;
+}
+.android-hero-chip{
+  font-size:11px;font-weight:550;padding:3px 9px;border-radius:var(--r-pill);
+  background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text2);
+}
+[data-theme="light"] .android-hero-chip{background:rgba(0,0,0,0.05);}
+.android-dl-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:11px 16px;border-radius:var(--r-pill);
+  background:var(--accent);color:#fff;font-size:13.5px;font-weight:600;
+  text-decoration:none;transition:transform .15s,opacity .15s;
+}
+.android-dl-btn:active{transform:scale(.98);opacity:.9;}
+.android-dl-btn svg{width:16px;height:16px;}
+
+/* ─────────────────────────────────────────
+   ACCENT THEMES GRID
+───────────────────────────────────────── */
+.accent-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 14px;
+}
+.accent-btn{
+  display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 4px;
+  border-radius:var(--r-s);background:var(--surf3);border:1.5px solid transparent;
+  transition:border-color .15s,transform .15s;
+}
+.accent-btn.on{border-color:var(--accent);background:var(--accent-bg);}
+.accent-btn:active{transform:scale(.94);}
+.accent-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,0.3);}
+.accent-lbl{font-size:10px;font-weight:600;color:var(--text2);text-align:center;}
+.accent-btn.on .accent-lbl{color:var(--text);font-weight:700;}
+
+/* ─────────────────────────────────────────
+   4-7-8 URGE SURFING BREATHING GUIDE
+───────────────────────────────────────── */
+#popup-breathing .pop-sheet{width:min(100%,390px);min-height:auto;}
+.breathing-body{padding:6px 20px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.breathing-circle-wrap{
+  position:relative;width:170px;height:170px;margin:18px auto 14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.breathing-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:2.5px solid var(--accent);opacity:.2;
+}
+.breathing-glow{
+  position:absolute;width:90px;height:90px;border-radius:50%;
+  background:radial-gradient(circle,var(--accent) 0%,rgba(10,132,255,0.06) 75%,transparent 100%);
+  transform:scale(1);opacity:.45;
+  transition:transform 4s cubic-bezier(0.4, 0, 0.2, 1), opacity 4s ease;
+}
+.breathing-glow.inhale{transform:scale(1.75);opacity:.9;}
+.breathing-glow.hold{transform:scale(1.75);opacity:.7;}
+.breathing-glow.exhale{transform:scale(1);opacity:.35;}
+.breathing-text{position:relative;z-index:2;font-size:18px;font-weight:700;color:var(--text);}
+.breathing-timer{position:relative;z-index:2;font-size:13px;font-weight:600;color:var(--accent);margin-top:2px;font-variant-numeric:tabular-nums;}
+.breathing-instr{font-size:12.5px;color:var(--text2);line-height:1.5;margin:6px auto 18px;max-width:280px;}
+.breathing-acts{display:flex;gap:10px;width:100%;}
+.breathing-btn{
+  flex:1;height:42px;border-radius:var(--r-pill);font-size:14px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .15s,opacity .15s;
+}
+.breathing-btn:active{transform:scale(.97);opacity:.85;}
+.breathing-toggle{background:var(--accent);color:#fff;}
+.breathing-close-btn{background:var(--surf3);border:1px solid var(--border);color:var(--text2);}
+
+/* 2-Digit Single Numbering Badge */
+.ebadge.single.num{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:24px;height:20px;padding:0 6px;border-radius:var(--r-pill);
+  font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;
+  background:var(--accent-bg);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+}
+
+/* ─────────────────────────────────────────
    RESPONSIVE — bigger on wide screens
 ───────────────────────────────────────── */
 @media(min-width:540px){
@@ -1403,6 +1598,63 @@ input[type="range"]::-moz-range-thumb{
             <div class="tswatch sw-amoled"></div><span class="tlbl">AMOLED</span>
           </button>
         </div>
+        <div style="height:1px;background:var(--border);margin:4px 14px 0;"></div>
+        <div style="padding:10px 14px 2px;font-size:12px;font-weight:600;color:var(--text2);">Branded Accent Edition</div>
+        <div class="accent-grid" id="accent-grid">
+          <button class="accent-btn on" data-accent="aurora" type="button">
+            <div class="accent-dot" style="background:#0A84FF;"></div>
+            <span class="accent-lbl">Aurora</span>
+          </button>
+          <button class="accent-btn" data-accent="midnight" type="button">
+            <div class="accent-dot" style="background:#A1A1AA;"></div>
+            <span class="accent-lbl">Midnight</span>
+          </button>
+          <button class="accent-btn" data-accent="sapphire" type="button">
+            <div class="accent-dot" style="background:#007AFF;"></div>
+            <span class="accent-lbl">Sapphire</span>
+          </button>
+          <button class="accent-btn" data-accent="imperial" type="button">
+            <div class="accent-dot" style="background:#FFD60A;"></div>
+            <span class="accent-lbl">Imperial</span>
+          </button>
+          <button class="accent-btn" data-accent="emerald" type="button">
+            <div class="accent-dot" style="background:#30D158;"></div>
+            <span class="accent-lbl">Emerald</span>
+          </button>
+          <button class="accent-btn" data-accent="sunset" type="button">
+            <div class="accent-dot" style="background:#FF9F0A;"></div>
+            <span class="accent-lbl">Sunset</span>
+          </button>
+          <button class="accent-btn" data-accent="amethyst" type="button">
+            <div class="accent-dot" style="background:#BF5AF2;"></div>
+            <span class="accent-lbl">Amethyst</span>
+          </button>
+          <button class="accent-btn" data-accent="crimson" type="button">
+            <div class="accent-dot" style="background:#FF453A;"></div>
+            <span class="accent-lbl">Crimson</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="slabel">Native Android App</div>
+      <div class="scard android-showcase-card">
+        <div class="android-hero-banner">
+          <img class="android-hero-icon" src="icon-maskable-512.png" alt="NoteKar Android" width="46" height="46" />
+          <div class="android-hero-text">
+            <div class="android-hero-title">NoteKar for Android <span class="android-v-badge">v7.0</span></div>
+            <div class="android-hero-sub">The full-featured offline native powerhouse with Sobriety companion & hardware security.</div>
+          </div>
+        </div>
+        <div class="android-hero-chips">
+          <span class="android-hero-chip">Sobriety Milestones</span>
+          <span class="android-hero-chip">AES-256 Keystore</span>
+          <span class="android-hero-chip">2x2 Widgets</span>
+          <span class="android-hero-chip">Apple HIG UI</span>
+        </div>
+        <button class="android-dl-btn" id="btn-showcase-apk" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span>Get NoteKar Android (v7.0 APK)</span>
+        </button>
       </div>
 
       <div class="slabel">Export</div>
@@ -1410,7 +1662,7 @@ input[type="range"]::-moz-range-thumb{
         <div class="srow" id="btn-csv" role="button" tabindex="0">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--green-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg>
             </div>
             <div><div class="srow-t">Export CSV</div><div class="srow-s">Spreadsheet format</div></div>
           </div>
@@ -1419,7 +1671,7 @@ input[type="range"]::-moz-range-thumb{
         <div class="srow" id="btn-json" role="button" tabindex="0">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--accent-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
             </div>
             <div><div class="srow-t">Export JSON</div><div class="srow-s">Developer format</div></div>
           </div>
@@ -1460,7 +1712,7 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-notifications" type="button">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--accent-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             </div>
             <div><div class="srow-t">Notifications</div><div class="srow-s" id="notification-sub">Receive important NoteKar notices</div></div>
           </div>
@@ -1473,11 +1725,11 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-update-action" type="button">
           <div class="srow-l">
             <div class="srow-ico update-ico" style="background:var(--accent-bg)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M18.35 8.05A7.25 7.25 0 0 0 5.2 10.4"/>
-                <path d="M18.45 4.95v3.1h-3.1"/>
-                <path d="M5.65 15.95A7.25 7.25 0 0 0 18.8 13.6"/>
-                <path d="M5.55 19.05v-3.1h3.1"/>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                <path d="M21 3v5h-5"/>
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                <path d="M8 16H3v5"/>
               </svg>
             </div>
             <div><div class="srow-t" id="update-action-title">Check for Update</div><div class="srow-s" id="update-action-sub">Review for the latest release</div></div>
@@ -1487,7 +1739,7 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-beta-channel" type="button" aria-pressed="false" aria-label="Beta program off">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--orange-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.3L4.2 19A2 2 0 0 0 5.9 22h12.2a2 2 0 0 0 1.7-3L14 9.3V2"/><path d="M8 2h8"/><path d="M7 16h10"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>
             </div>
             <div><div class="srow-t">Beta Program</div><div class="srow-s" id="beta-channel-sub">Enroll in Beta updates</div></div>
           </div>
@@ -1496,7 +1748,7 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-whats-new" type="button">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--accent-bg)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)" aria-hidden="true"><path d="M12 2.9l2.35 5.35 5.82.55-4.38 3.86 1.27 5.7L12 15.28l-5.06 2.98 1.27-5.7L3.83 8.8l5.82-.55L12 2.9z"/><path d="M19.25 3.25l.55 1.2 1.2.55-1.2.55-.55 1.2-.55-1.2-1.2-.55 1.2-.55.55-1.2z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
             </div>
             <div><div class="srow-t">What’s New</div><div class="srow-s">See the latest improvements</div></div>
           </div>
@@ -1505,10 +1757,12 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-changelog" type="button">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--green-bg)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6.5 3.75h11A2.25 2.25 0 0 1 19.75 6v12A2.25 2.25 0 0 1 17.5 20.25h-11A2.25 2.25 0 0 1 4.25 18V6A2.25 2.25 0 0 1 6.5 3.75z" fill="var(--green)" opacity=".2"/>
-                <path d="M7.5 7.4h9M7.5 11.7h9M7.5 16h5.8" stroke="var(--green)" stroke-width="1.9" stroke-linecap="round"/>
-                <path d="M6.5 3.75h11A2.25 2.25 0 0 1 19.75 6v12A2.25 2.25 0 0 1 17.5 20.25h-11A2.25 2.25 0 0 1 4.25 18V6A2.25 2.25 0 0 1 6.5 3.75z" stroke="var(--green)" stroke-width="1.5"/>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+                <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                <path d="M10 9H8"/>
+                <path d="M16 13H8"/>
+                <path d="M16 17H8"/>
               </svg>
             </div>
             <div><div class="srow-t">Changelog</div><div class="srow-s">See updates and new features</div></div>
@@ -1565,12 +1819,47 @@ input[type="range"]::-moz-range-thumb{
         </div>
       </div>
 
+      <div class="slabel">Counting & Badges</div>
+      <div class="scard">
+        <button class="srow" id="btn-two-digit" type="button" aria-pressed="false" aria-label="2-digit counter off">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--accent-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+            </div>
+            <div><div class="srow-t">2-Digit Counter</div><div class="srow-s" id="two-digit-sub">Count moments 00 to 99</div></div>
+          </div>
+          <span class="ios-switch" id="two-digit-switch" aria-hidden="true"></span>
+        </button>
+        <button class="srow" id="btn-daily-reset" type="button" aria-pressed="false" aria-label="Daily reset off">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--green-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><polyline points="12 7 12 12 15 15"/></svg>
+            </div>
+            <div><div class="srow-t">Daily Counter Reset</div><div class="srow-s" id="daily-reset-sub">Reset count to 00 each day</div></div>
+          </div>
+          <span class="ios-switch" id="daily-reset-switch" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="slabel">Mindfulness & Focus</div>
+      <div class="scard">
+        <button class="srow" id="btn-open-breathing" type="button">
+          <div class="srow-l">
+            <div class="srow-ico" style="background:var(--accent-bg)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>
+            </div>
+            <div><div class="srow-t">Urge Surfing Guide</div><div class="srow-s">4-7-8 mindful breathing circle</div></div>
+          </div>
+          <span class="srow-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+        </button>
+      </div>
+
       <div class="slabel">Display</div>
       <div class="scard">
         <button class="srow" id="btn-minimal-mode" type="button" aria-pressed="false" aria-label="Minimal time off">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--accent-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><path d="M12 2v4"/><path d="M12 16v4"/><path d="M4.22 4.22l2.83 2.83"/><path d="M16.95 16.95l2.83 2.83"/><path d="M2 12h4"/><path d="M16 12h4"/><path d="M4.22 19.78l2.83-2.83"/><path d="M16.95 7.05l2.83-2.83"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <div><div class="srow-t">Minimal Time</div><div class="srow-s" id="minimal-mode-sub">Show hours and minutes</div></div>
           </div>
@@ -1579,7 +1868,7 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-performance-mode" type="button" aria-pressed="false" aria-label="Performance mode off">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--green-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6"/><path d="M7 8h10"/><path d="M5 12h14"/><path d="M7 16h10"/><path d="M9 20h6"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
             <div><div class="srow-t">Performance Mode</div><div class="srow-s" id="performance-mode-sub">Reduce effects for smoother use</div></div>
           </div>
@@ -1592,7 +1881,7 @@ input[type="range"]::-moz-range-thumb{
         <button class="srow" id="btn-confirmation-warning" type="button" aria-pressed="false" aria-label="Confirmation off">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--orange-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 1-10 10 4 4 0 0 0 4-4 4 4 0 0 0-4-4 10 10 0 0 1 10-2z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
             </div>
             <div><div class="srow-t">Confirm Actions</div><div class="srow-s" id="confirmation-sub">Verify before deleting</div></div>
           </div>
@@ -1605,7 +1894,7 @@ input[type="range"]::-moz-range-thumb{
         <div class="srow" style="cursor:default;">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--orange-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
             </div>
             <div><div class="srow-t">All Moments</div><div class="srow-s" id="stats-line">Loading…</div></div>
           </div>
@@ -1613,7 +1902,7 @@ input[type="range"]::-moz-range-thumb{
         <div class="srow" style="cursor:default;">
           <div class="srow-l">
             <div class="srow-ico" style="background:var(--green-bg)">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-5"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
             </div>
             <div><div class="srow-t">Offline</div><div class="srow-s" id="offline-status">Checking…</div></div>
           </div>
@@ -1622,13 +1911,17 @@ input[type="range"]::-moz-range-thumb{
 
       <div style="height:8px"></div>
       <button class="danger-btn" id="btn-reset" type="button">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></svg>
         Reset All Data
       </button>
 
       <div class="about">
+        <div class="about-logo-wrap">
+          <img class="about-logo" src="icon-maskable-512.png" width="68" height="68" alt="NoteKar Logo" />
+        </div>
         <div class="about-name">NoteKar</div>
-        <div class="about-desc">Made with ❤ in India.<br>An initiative of <a class="about-link" href="https://yabp.netlify.app/" target="_blank" rel="noopener noreferrer">YABP (Yet Another Boring Project)</a>.</div>
+        <div class="about-tag">Instant Timestamp Logger · v7.0.0</div>
+        <div class="about-desc">Made with ❤ in India.<br>An initiative of <a class="about-link" href="https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/" target="_blank" rel="noopener noreferrer">YABP (Yet Another Boring Project)</a>.</div>
         <div class="about-legal">
           <a class="legal-link" href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
           <span class="legal-dot">•</span>
@@ -1666,6 +1959,35 @@ input[type="range"]::-moz-range-thumb{
       <div class="note-acts">
         <button class="nbtn nbtn-skip" id="btn-skip" type="button">Skip</button>
         <button class="nbtn nbtn-save" id="btn-save-note" type="button">Save Moment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ URGE SURFING BREATHING POPUP ══════ -->
+<div class="popup" id="popup-breathing" role="dialog" aria-modal="true" aria-label="Urge Surfing Breathing Guide">
+  <div class="pop-bg" data-close="popup-breathing"></div>
+  <div class="pop-sheet glass">
+    <div class="dh"></div>
+    <div class="ph">
+      <span class="ph-title">Urge Surfing</span>
+      <button class="ph-close" data-close="popup-breathing" type="button" aria-label="Close breathing guide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="breathing-body">
+      <div class="breathing-circle-wrap">
+        <div class="breathing-ring"></div>
+        <div class="breathing-glow" id="breathing-glow"></div>
+        <div>
+          <div class="breathing-text" id="breathing-phase">Ready</div>
+          <div class="breathing-timer" id="breathing-timer">4-7-8</div>
+        </div>
+      </div>
+      <div class="breathing-instr" id="breathing-instr">Take a mindful pause. Inhale 4s, hold 7s, exhale 8s to calm impulses.</div>
+      <div class="breathing-acts">
+        <button class="breathing-btn breathing-close-btn" data-close="popup-breathing" type="button">Done</button>
+        <button class="breathing-btn breathing-toggle" id="btn-breathing-toggle" type="button">Begin</button>
       </div>
     </div>
   </div>
@@ -1885,6 +2207,9 @@ let defaultMode = localStorage.getItem('m-default-mode') || 'two-way';
 let mode        = defaultMode;
 let inout       = localStorage.getItem('m-inout') || 'in';
 let theme       = localStorage.getItem('m-theme') || 'dark';
+let accentTheme = localStorage.getItem('m-accent') || 'aurora';
+let twoDigitMode = localStorage.getItem('m-two-digit') === '1';
+let dailyReset  = localStorage.getItem('m-daily-reset') === '1';
 let sesStart    = parseInt(localStorage.getItem('m-ses') || '0') || null;
 let lastId      = null;
 let filter      = 'all';
@@ -1932,8 +2257,32 @@ if (lowEndMode) {
 }
 if (performanceMode) document.documentElement.classList.add('performance-mode');
 
+const ACCENT_THEMES = {
+  aurora:   { name: 'Aurora',   color: '#0A84FF', bg: 'rgba(10,132,255,0.15)' },
+  midnight: { name: 'Midnight', color: '#A1A1AA', bg: 'rgba(161,161,170,0.15)' },
+  sapphire: { name: 'Sapphire', color: '#007AFF', bg: 'rgba(0,122,255,0.15)' },
+  imperial: { name: 'Imperial', color: '#FFD60A', bg: 'rgba(255,214,10,0.15)' },
+  emerald:  { name: 'Emerald',  color: '#30D158', bg: 'rgba(48,209,88,0.15)' },
+  sunset:   { name: 'Sunset',   color: '#FF9F0A', bg: 'rgba(255,159,10,0.15)' },
+  amethyst: { name: 'Amethyst', color: '#BF5AF2', bg: 'rgba(191,90,242,0.15)' },
+  crimson:  { name: 'Crimson',  color: '#FF453A', bg: 'rgba(255,69,58,0.15)' }
+};
+
+function applyAccent(acc, save=true) {
+  const t = ACCENT_THEMES[acc] || ACCENT_THEMES.aurora;
+  accentTheme = acc;
+  if (save) localStorage.setItem('m-accent', acc);
+  const root = document.documentElement;
+  root.style.setProperty('--accent', t.color);
+  root.style.setProperty('--accent-bg', t.bg);
+  document.querySelectorAll('[data-accent]').forEach(b => {
+    b.classList.toggle('on', b.dataset.accent === acc);
+  });
+}
+
 // ═══════ INIT ═══════
 applyTheme(theme, false);
+applyAccent(accentTheme, false);
 updateModeIcon();
 startClock();
 initDelaySetting();
@@ -1941,6 +2290,8 @@ initDefaultModeSetting();
 updateStats();
 updateOfflineStatus();
 syncPerformanceModeUI();
+syncTwoDigitSwitch();
+syncDailyResetSwitch();
 document.getElementById('about-version').textContent = `v${APP_VERSION} · ${APP_CHANNEL_LABEL}`;
 syncAndroidApkActionUI();
 
@@ -2057,11 +2408,38 @@ function hapticHeavy() {
   try { navigator.vibrate([10, 30, 20]); } catch (e) {}
 }
 
+// ═══════ CLOCK TAP FEEDBACK ═══════
+let clockFlashTimer = null;
+function flashClock(type='single') {
+  const wrap = document.getElementById('clock-wrap');
+  if (!wrap) return;
+  wrap.classList.remove('flash-single', 'flash-in', 'flash-out', 'tap-active');
+  void wrap.offsetWidth;
+  const cls = type === 'in' ? 'flash-in' : type === 'out' ? 'flash-out' : 'flash-single';
+  wrap.classList.add(cls, 'tap-active');
+
+  setTimeout(() => {
+    wrap.classList.remove('tap-active');
+  }, 120);
+
+  if (clockFlashTimer) clearTimeout(clockFlashTimer);
+  clockFlashTimer = setTimeout(() => {
+    wrap.classList.remove('flash-single', 'flash-in', 'flash-out');
+  }, 320);
+}
+
 // ═══════ RIPPLE ═══════
-function ripple(x,y) {
+function ripple(x,y,type='single') {
   if (lowEndMode || performanceMode) return;
   const el = document.createElement('div');
   el.className = 'rpl-el';
+  if (type === 'in') {
+    el.style.background = 'rgba(48,209,88,0.16)';
+  } else if (type === 'out') {
+    el.style.background = 'rgba(255,69,58,0.16)';
+  } else {
+    el.style.background = 'var(--accent-bg)';
+  }
   el.style.left = (x-25)+'px'; el.style.top = (y-25)+'px';
   document.body.appendChild(el);
   el.addEventListener('animationend', () => el.remove(), {once:true});
@@ -2088,7 +2466,10 @@ function scheduleUIRefresh(next = {}) {
 async function logEntry(note=null) {
   const now = new Date();
   lastTapTime = now.getTime();
+  const dateStr = now.toISOString().split('T')[0];
   let type = 'single';
+  let seq = null;
+
   if (mode === 'two-way') {
     type = inout;
     if (inout === 'in') {
@@ -2101,20 +2482,43 @@ async function logEntry(note=null) {
       inout = 'in';
     }
     localStorage.setItem('m-inout', inout);
+  } else {
+    if (twoDigitMode) {
+      let count = 0;
+      if (dailyReset) {
+        count = await db.entries.where('date').equals(dateStr).count();
+      } else {
+        count = await db.entries.where('type').equals('single').count();
+      }
+      const num = (count % 100) + 1;
+      seq = String(num).padStart(2, '0');
+    }
   }
   try {
-    const id = await db.entries.add({
+    const entryData = {
       timestamp: now.getTime(), type, note: note||'',
-      date: now.toISOString().split('T')[0]
-    });
+      date: dateStr
+    };
+    if (seq) entryData.seq = seq;
+    const id = await db.entries.add(entryData);
     lastId = id;
-    haptic(15); showUndo(); scheduleUIRefresh({history:true, stats:true});
+    flashClock(type);
+    haptic(15);
+    showUndo(type, seq);
+    scheduleUIRefresh({history:true, stats:true});
   } catch(e) { console.error(e); }
 }
 
 // ═══════ UNDO ═══════
-function showUndo() {
+function showUndo(type='single', seq=null) {
   const t = document.getElementById('undo-toast');
+  const msgEl = t.querySelector('span');
+  if (msgEl) {
+    if (type === 'in') msgEl.textContent = 'IN moment saved';
+    else if (type === 'out') msgEl.textContent = 'OUT moment saved';
+    else if (seq) msgEl.textContent = `Moment #${seq} saved`;
+    else msgEl.textContent = 'Moment saved';
+  }
   if (undoTimer) clearTimeout(undoTimer);
   t.classList.add('on');
   undoTimer = setTimeout(() => t.classList.remove('on'), 4500);
@@ -2176,7 +2580,8 @@ tapZone.addEventListener('pointerup', e => {
   const now = Date.now();
   if (now - lastTapTime < tapDelay * 1000) return;
   lastTapTime = now;
-  ripple(e.clientX, e.clientY);
+  const tapType = mode === 'two-way' ? inout : 'single';
+  ripple(e.clientX, e.clientY, tapType);
   logEntry();
 });
 
@@ -2404,7 +2809,8 @@ document.addEventListener('keydown', e => {
     const now = Date.now();
     if (now - lastTapTime < tapDelay * 1000) return;
     lastTapTime = now;
-    ripple(window.innerWidth / 2, window.innerHeight / 2);
+    const tapType = mode === 'two-way' ? inout : 'single';
+    ripple(window.innerWidth / 2, window.innerHeight / 2, tapType);
     logEntry();
   }
 });
@@ -2490,7 +2896,12 @@ async function refreshHistory(resetVisible=false) {
       if (isTwoWay) {
         badge = `<span class="ebadge ${e.type}">${e.type.toUpperCase()}</span>`;
       } else if (e.type==='single') {
-        badge = `<span class="ebadge single"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0L8 9m4-4l4 4"/></svg></span>`;
+        const displaySeq = e.seq || null;
+        if (displaySeq) {
+          badge = `<span class="ebadge single num">${esc(displaySeq)}</span>`;
+        } else {
+          badge = `<span class="ebadge single"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5m0 0L8 9m4-4l4 4"/></svg></span>`;
+        }
       }
       const durationHint = isSelected
         ? `<span class="e-duration-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>Picked</span>`
@@ -2788,6 +3199,12 @@ if (settingsSheetEl) {
       haptic(5);
       return;
     }
+    const accentBtn = e.target.closest('[data-accent]');
+    if (accentBtn) {
+      applyAccent(accentBtn.dataset.accent);
+      haptic(5);
+      return;
+    }
     const modeBtn = e.target.closest('[data-default-mode]');
     if (modeBtn) {
       defaultMode = modeBtn.dataset.defaultMode;
@@ -2796,6 +3213,123 @@ if (settingsSheetEl) {
       haptic(8);
     }
   });
+}
+
+function syncTwoDigitSwitch() {
+  const btn = document.getElementById('btn-two-digit');
+  const sw = document.getElementById('two-digit-switch');
+  if (btn && sw) {
+    btn.setAttribute('aria-pressed', String(twoDigitMode));
+    sw.classList.toggle('on', twoDigitMode);
+  }
+}
+
+function syncDailyResetSwitch() {
+  const btn = document.getElementById('btn-daily-reset');
+  const sw = document.getElementById('daily-reset-switch');
+  if (btn && sw) {
+    btn.setAttribute('aria-pressed', String(dailyReset));
+    sw.classList.toggle('on', dailyReset);
+  }
+}
+
+let breathingInterval = null;
+let isBreathingActive = false;
+
+function initBreathingGuide() {
+  const openBtn = document.getElementById('btn-open-breathing');
+  const toggleBtn = document.getElementById('btn-breathing-toggle');
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
+      openPopup('popup-breathing');
+      haptic(5);
+    });
+  }
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      if (isBreathingActive) {
+        stopBreathing();
+      } else {
+        startBreathing();
+      }
+    });
+  }
+}
+
+function startBreathing() {
+  isBreathingActive = true;
+  const toggleBtn = document.getElementById('btn-breathing-toggle');
+  if (toggleBtn) toggleBtn.textContent = 'Pause';
+  runBreathingCycle();
+}
+
+function stopBreathing() {
+  isBreathingActive = false;
+  if (breathingInterval) clearInterval(breathingInterval);
+  const toggleBtn = document.getElementById('btn-breathing-toggle');
+  const phaseEl = document.getElementById('breathing-phase');
+  const timerEl = document.getElementById('breathing-timer');
+  const glow = document.getElementById('breathing-glow');
+  const instr = document.getElementById('breathing-instr');
+  if (toggleBtn) toggleBtn.textContent = 'Begin';
+  if (phaseEl) phaseEl.textContent = 'Ready';
+  if (timerEl) timerEl.textContent = '4-7-8';
+  if (glow) { glow.className = 'breathing-glow'; }
+  if (instr) instr.textContent = 'Take a mindful pause. Inhale 4s, hold 7s, exhale 8s to calm impulses.';
+}
+
+function runBreathingCycle() {
+  if (!isBreathingActive) return;
+  const phaseEl = document.getElementById('breathing-phase');
+  const timerEl = document.getElementById('breathing-timer');
+  const glow = document.getElementById('breathing-glow');
+  const instr = document.getElementById('breathing-instr');
+
+  let left = 4;
+  if (phaseEl) phaseEl.textContent = 'Inhale';
+  if (timerEl) timerEl.textContent = `${left}s`;
+  if (glow) { glow.className = 'breathing-glow inhale'; }
+  if (instr) instr.textContent = 'Breathe in slowly through your nose...';
+  haptic(10);
+
+  breathingInterval = setInterval(() => {
+    left--;
+    if (timerEl) timerEl.textContent = `${left}s`;
+    if (left <= 0) {
+      clearInterval(breathingInterval);
+      if (!isBreathingActive) return;
+      let holdLeft = 7;
+      if (phaseEl) phaseEl.textContent = 'Hold';
+      if (timerEl) timerEl.textContent = `${holdLeft}s`;
+      if (glow) { glow.className = 'breathing-glow hold'; }
+      if (instr) instr.textContent = 'Hold your breath gently and relax...';
+      haptic(5);
+
+      breathingInterval = setInterval(() => {
+        holdLeft--;
+        if (timerEl) timerEl.textContent = `${holdLeft}s`;
+        if (holdLeft <= 0) {
+          clearInterval(breathingInterval);
+          if (!isBreathingActive) return;
+          let exLeft = 8;
+          if (phaseEl) phaseEl.textContent = 'Exhale';
+          if (timerEl) timerEl.textContent = `${exLeft}s`;
+          if (glow) { glow.className = 'breathing-glow exhale'; }
+          if (instr) instr.textContent = 'Exhale completely through your mouth...';
+          haptic(8);
+
+          breathingInterval = setInterval(() => {
+            exLeft--;
+            if (timerEl) timerEl.textContent = `${exLeft}s`;
+            if (exLeft <= 0) {
+              clearInterval(breathingInterval);
+              if (isBreathingActive) runBreathingCycle();
+            }
+          }, 1000);
+        }
+      }, 1000);
+    }
+  }, 1000);
 }
 
 function initDelaySetting() {
@@ -3656,6 +4190,33 @@ document.getElementById('btn-pwa-action').addEventListener('click', async () => 
   syncPwaActionUI();
 });
 document.getElementById('btn-android-apk').addEventListener('click', openAndroidApkPopup);
+
+const showcaseApkBtn = document.getElementById('btn-showcase-apk');
+if (showcaseApkBtn) showcaseApkBtn.addEventListener('click', openAndroidApkPopup);
+
+const btnTwoDigit = document.getElementById('btn-two-digit');
+if (btnTwoDigit) {
+  btnTwoDigit.addEventListener('click', () => {
+    twoDigitMode = !twoDigitMode;
+    localStorage.setItem('m-two-digit', twoDigitMode ? '1' : '0');
+    syncTwoDigitSwitch();
+    refreshHistory(false);
+    haptic(8);
+  });
+}
+
+const btnDailyReset = document.getElementById('btn-daily-reset');
+if (btnDailyReset) {
+  btnDailyReset.addEventListener('click', () => {
+    dailyReset = !dailyReset;
+    localStorage.setItem('m-daily-reset', dailyReset ? '1' : '0');
+    syncDailyResetSwitch();
+    refreshHistory(false);
+    haptic(8);
+  });
+}
+
+initBreathingGuide();
 
 document.getElementById('btn-update-action').addEventListener('click', () => {
   haptic(5);

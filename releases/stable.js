@@ -1,12 +1,34 @@
 globalThis.NOTEKAR_META = {
-  version: '3.2.7',
-  buildDate: '2026-06-03',
+  version: '7.0.0',
+  buildDate: '2026-08-16',
   channel: 'stable',
   changelog: [
     {
+      version: '7.0.0',
+      date: 'August 16, 2026',
+      isNew: true,
+      items: [
+        'Apple HIG & iOS UI Redesign: iOS Dynamic Island capsule pill toasts, spring physics, and tactile haptics.',
+        'Modernized App Icon Suite: 7 branded logo editions with new Aurora default brand logo.',
+        'Sobriety Milestones & Native Share: Export high-res milestone peak cards with celebration confetti particles.',
+        '2-Digit Single Numbering & Directional Badges: 00-99 sequence numbering mode, count-on-save pulse, and daily reset.',
+        'Local Backups Manager: Full local database JSON/CSV backup and restore dashboard.',
+        '4-7-8 Urge Surfing Tool: Interactive breathing guide circle for impulse control.'
+      ]
+    },
+    {
+      version: '6.0.0',
+      date: 'July 31, 2026',
+      items: [
+        'Duolingo-style milestone path with 21 neuroscience recovery peaks and 34 narrative themes.',
+        'Hardware AES-256 Android Keystore encryption for database security.',
+        'Interactive 2x2 Android home screen widget.',
+        'Streak shields (freeze protection) and insights analytics dashboard.'
+      ]
+    },
+    {
       version: '3.2.7',
       date: 'June 3, 2026',
-      isNew: true,
       items: [
         'Android APK downloads now start directly from the app without opening the GitHub release page.',
         'Removed the GitHub Releases button from the Android install popup for a cleaner download-only flow.',

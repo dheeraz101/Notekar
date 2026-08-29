@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Official release notes and changelog history for NoteKar Android.">
+<title>Release Notes & Changelog — NoteKar</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000000;
+    --surface: #121214;
+    --surface2: #1c1c1e;
+    --surface3: #2c2c2e;
+    --border: rgba(255, 255, 255, 0.12);
+    --border-accent: rgba(10, 132, 255, 0.35);
+    --text: #ffffff;
+    --text2: #a1a1a6;
+    --text3: #636366;
+    --accent: #0A84FF;
+    --accent-glow: rgba(10, 132, 255, 0.18);
+    --green: #30D158;
+    --red: #FF453A;
+    --orange: #FF9F0A;
+    --purple: #BF5AF2;
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: max(48px, env(safe-area-inset-bottom, 24px));
+    padding-left: max(16px, env(safe-area-inset-left, 16px));
+    padding-right: max(16px, env(safe-area-inset-right, 16px));
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* Header Bar */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    margin-left: max(-16px, calc(-1 * env(safe-area-inset-left, 16px)));
+    margin-right: max(-16px, calc(-1 * env(safe-area-inset-right, 16px)));
+    margin-bottom: 24px;
+    padding: 12px 18px;
+  }
+
+  .header-content {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .brand img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .brand-text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    min-height: 34px;
+  }
+
+  .nav-btn:hover {
+    background: var(--surface3);
+  }
+
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 16px 12px 28px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border-accent);
+    color: var(--accent);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: clamp(24px, 6vw, 32px);
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 8px;
+  }
+
+  .hero p {
+    color: var(--text2);
+    font-size: clamp(13.5px, 3.5vw, 15px);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Search & Filter */
+  .search-wrapper {
+    margin-bottom: 24px;
+  }
+
+  .search-bar {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease;
+    min-height: 44px;
+  }
+
+  .search-bar:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  /* Version Card */
+  .version-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(16px, 4vw, 24px);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease;
+  }
+
+  .version-card.latest {
+    border-color: var(--border-accent);
+    box-shadow: 0 8px 32px -8px var(--accent-glow);
+  }
+
+  .version-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .version-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .version-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    width: fit-content;
+  }
+
+  .version-card.latest .version-pill {
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  .edition-name {
+    font-size: clamp(16px, 4.5vw, 19px);
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .release-date {
+    font-size: 12px;
+    color: var(--text3);
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+
+  /* Highlights Matrix */
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  @media (min-width: 580px) {
+    .highlights-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .highlight-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .highlight-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .highlight-desc {
+    font-size: 11.5px;
+    color: var(--text2);
+    line-height: 1.35;
+  }
+
+  /* Items List with Expressive Icons */
+  .changelog-list {
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .changelog-item {
+    font-size: 13px;
+    color: var(--text2);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.45;
+  }
+
+  .item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .icon-add { background: rgba(48, 209, 88, 0.15); color: var(--green); }
+  .icon-remove { background: rgba(255, 69, 58, 0.15); color: var(--red); }
+  .icon-improve { background: rgba(255, 159, 10, 0.15); color: var(--orange); }
+  .icon-fix { background: rgba(10, 132, 255, 0.15); color: var(--accent); }
+  .icon-default { background: rgba(255, 255, 255, 0.08); color: var(--text2); }
+
+  /* Download Buttons */
+  .download-bar {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    min-height: 38px;
+    transition: opacity 0.2s ease;
+  }
+
+  .download-btn:active {
+    opacity: 0.8;
+  }
+
+  .download-btn.secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text3);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <a href="index.html" class="brand">
+      <img src="icon-192.png" alt="NoteKar Logo">
+      <span class="brand-text">NoteKar</span>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="nav-btn">← Home</a>
+      <a href="https://github.com/dheeraz101/Notekar-Android" target="_blank" rel="noopener" class="nav-btn">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <section class="hero">
+    <div class="hero-badge">Release Archive</div>
+    <h1>Changelog & Updates</h1>
+    <p>Complete official release history and architecture evolutions for NoteKar Android.</p>
+  </section>
+
+  <div class="search-wrapper">
+    <input type="text" id="searchInput" class="search-bar" placeholder="Search features, fixes, or versions...">
+  </div>
+
+  <div id="changelogContainer">
+    <!-- Rendered dynamically -->
+  </div>
+
+  <footer>
+    <p>NoteKar is 100% Offline-First & Open Source under MIT License.</p>
+    <p style="margin-top: 4px;">Crafted with precision by the NoteKar Team.</p>
+  </footer>
+</div>
+
+<script>
+  const GITHUB_CHANGELOG_URL = 'https://raw.githubusercontent.com/dheeraz101/Notekar-Android/main/versions/changelog.json';
+
+  const FALLBACK_DATA = [
+    {
+      "version": "7.2.0",
+      "releaseDate": "August 23, 2026",
+      "edition": "Mindfulness & Battery Evolution",
+      "isLatest": true,
+      "highlights": [
+        {
+          "title": "Hourly Time Reflection",
+          "description": "Standalone mindful breathing prompts that wake on lockscreen without exposing private notes."
+        },
+        {
+          "title": "Sleep Protection Schedule",
+          "description": "Custom active hours (09:00 AM – 10:00 PM) with quiet hours rollover protecting your sleep."
+        },
+        {
+          "title": "Zero-Wake Battery Architecture",
+          "description": "Doze-compliant RTC non-waking alarms and isolated repaint boundaries for 120 FPS."
+        }
+      ],
+      "fullChangelog": [
+        "+ Use iOS Cupertino wheel time picker, rename message row, and simplify editor sheet",
+        "+ Add alarm audio chime, active hours schedule, and onboarding flow",
+        "* Eliminate RTC_WAKEUP battery drain for routine logging reminders",
+        "* Wrap animated widgets in RepaintBoundary for smooth 120 FPS rendering",
+        "! Add early lockscreen reflection launch handler in NoteKarHome",
+        "! Add isDeviceLocked and closeLockscreenActivity to dismiss activity on locked device"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.2.0/NoteKar-v7.2.0-universal-release.apk"
+      }
+    },
+    {
+      "version": "7.1.0",
+      "releaseDate": "August 21, 2026",
+      "edition": "Global Localization Edition",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Multilingual Support",
+          "description": "Full native localization for 7 major languages including French, German, Japanese, and Russian."
+        },
+        {
+          "title": "Localized Numerals",
+          "description": "Native numeral systems (Devanagari, etc.) and locale-aware formatting."
+        },
+        {
+          "title": "Dynamic L10n Engine",
+          "description": "On-demand downloadable language pack architecture."
+        }
+      ],
+      "fullChangelog": [
+        "+ Add French, German, Japanese, Russian localization and dynamic pattern translation",
+        "+ Add localized numerals and currency symbols across the app",
+        "* Preserve Apple HIG typography in English and normalize toolbar buttons"
+      ]
+    },
+    {
+      "version": "7.0.0",
+      "releaseDate": "August 16, 2026",
+      "edition": "Apple HIG Luxury Redesign",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Apple HIG Visual Upgrade",
+          "description": "Frosted glass surfaces, Dynamic Island pill notifications, and tactile haptics."
+        },
+        {
+          "title": "App Icon Suite",
+          "description": "8 handcrafted luxury edition logos with adaptive launcher integration."
+        },
+        {
+          "title": "Sobriety Milestones",
+          "description": "21 neuroscience milestones, shareable peak cards, and 85-particle confetti."
+        }
+      ],
+      "fullChangelog": [
+        "+ Complete Apple HIG & iOS UI redesign upgrade with Dynamic Island pill toasts",
+        "+ Modernized App Icon suite featuring 8 custom branded logo editions",
+        "+ Sobriety milestones card exporter with native Android share sheet & confetti",
+        "* 2-digit single numbering mode (01, 02...), daily reset, and directional badges"
+      ]
+    }
+  ];
+
+  let releasesData = FALLBACK_DATA;
+
+  function getItemMeta(text) {
+    const trimmed = text.trim();
+    if (trimmed.startsWith('+') || trimmed.toLowerCase().startsWith('add')) {
+      const clean = trimmed.startsWith('+') ? trimmed.substring(1).trim() : trimmed;
+      return { icon: '+', className: 'icon-add', text: clean };
+    }
+    if (trimmed.startsWith('-') || trimmed.toLowerCase().startsWith('remove')) {
+      const clean = trimmed.startsWith('-') ? trimmed.substring(1).trim() : trimmed;
+      return { icon: '−', className: 'icon-remove', text: clean };
+    }
+    if (trimmed.startsWith('!') || trimmed.toLowerCase().startsWith('fix') || trimmed.toLowerCase().startsWith('resolve')) {
+      const clean = trimmed.startsWith('!') ? trimmed.substring(1).trim() : trimmed;
+      return { icon: '🔧', className: 'icon-fix', text: clean };
+    }
+    if (trimmed.startsWith('*') || trimmed.toLowerCase().startsWith('refine') || trimmed.toLowerCase().startsWith('optimize') || trimmed.toLowerCase().startsWith('update')) {
+      const clean = trimmed.startsWith('*') ? trimmed.substring(1).trim() : trimmed;
+      return { icon: '★', className: 'icon-improve', text: clean };
+    }
+    return { icon: '•', className: 'icon-default', text: trimmed };
+  }
+
+  async function loadChangelog() {
+    try {
+      const res = await fetch(GITHUB_CHANGELOG_URL);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          releasesData = data;
+        }
+      }
+    } catch (_) {}
+    renderChangelogs(releasesData);
+  }
+
+  function renderChangelogs(list) {
+    const container = document.getElementById('changelogContainer');
+    if (!list || list.length === 0) {
+      container.innerHTML = '<p style="text-align: center; color: var(--text3); padding: 32px;">No releases found matching your search.</p>';
+      return;
+    }
+
+    container.innerHTML = list.map(rel => {
+      const isLatest = rel.isLatest;
+      const highlightsHtml = (rel.highlights && rel.highlights.length > 0)
+        ? `<div class="highlights-grid">
+            ${rel.highlights.map(h => `
+              <div class="highlight-card">
+                <div class="highlight-title">${h.title}</div>
+                <div class="highlight-desc">${h.description || h.desc || ''}</div>
+              </div>
+            `).join('')}
+          </div>`
+        : '';
+
+      const items = rel.fullChangelog || rel.items || [];
+      const itemsHtml = items.map(item => {
+        const meta = getItemMeta(item);
+        return `
+          <li class="changelog-item">
+            <span class="item-icon ${meta.className}">${meta.icon}</span>
+            <span>${meta.text}</span>
+          </li>
+        `;
+      }).join('');
+
+      const downloadsHtml = rel.downloads && rel.downloads.universalApk
+        ? `<div class="download-bar">
+            <a href="${rel.downloads.universalApk}" class="download-btn">⬇ Download APK (v${rel.version})</a>
+            ${rel.downloads.arm64Apk ? `<a href="${rel.downloads.arm64Apk}" class="download-btn secondary">ARM64 APK</a>` : ''}
+          </div>`
+        : '';
+
+      return `
+        <article class="version-card ${isLatest ? 'latest' : ''}">
+          <div class="version-header">
+            <div class="version-title-group">
+              <div class="version-pill">${isLatest ? '✨ Latest' : ''} v${rel.version}</div>
+              <h2 class="edition-name">${rel.edition || 'Release Updates'}</h2>
+            </div>
+            <div class="release-date">${rel.releaseDate || rel.date || ''}</div>
+          </div>
+          ${highlightsHtml}
+          <ul class="changelog-list">
+            ${itemsHtml}
+          </ul>
+          ${downloadsHtml}
+        </article>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    if (!query) {
+      renderChangelogs(releasesData);
+      return;
+    }
+    const filtered = releasesData.filter(rel => {
+      const v = (rel.version || '').toLowerCase();
+      const ed = (rel.edition || '').toLowerCase();
+      const items = (rel.fullChangelog || rel.items || []).join(' ').toLowerCase();
+      const highlights = (rel.highlights || []).map(h => (h.title + ' ' + (h.description || '')).toLowerCase()).join(' ');
+      return v.includes(query) || ed.includes(query) || items.includes(query) || highlights.includes(query);
+    });
+    renderChangelogs(filtered);
+  });
+
+  loadChangelog();
+</script>
+</body>
+</html>

@@ -1,15 +1,35 @@
 globalThis.NOTEKAR_META = {
-  version: '7.0.0',
-  buildDate: '2026-08-16',
+  version: '7.2.0',
+  buildDate: '2026-08-23',
   channel: 'stable',
   changelog: [
     {
-      version: '7.0.0',
-      date: 'August 16, 2026',
+      version: '7.2.0',
+      date: 'August 23, 2026',
       isNew: true,
       items: [
+        'Hourly Time Reflection: Full-screen standalone mindful breathing alerts that wake on lockscreen without exposing private notes.',
+        'Active Hours & Sleep Protection: Customizable active schedule (09:00 AM – 10:00 PM) with quiet hours sleep rollover.',
+        'Zero-Wake Battery Conservation: Android Doze-compliant non-waking alarms and RepaintBoundary animation frame isolation.',
+        'On-Demand Dynamic Language Packs: Download, hot-swap, and delete language packs dynamically from GitHub without app restart.',
+        'Dynamic Apple HIG What\'s New: Glowing version hero cards with expressive change category badges.'
+      ]
+    },
+    {
+      version: '7.1.0',
+      date: 'August 21, 2026',
+      items: [
+        'Multilingual Global Support: Full native localization for 7 languages (FR, ES, HI, DE, JA, RU, EN).',
+        'Localized Numerals & Symbols: Native Devanagari numerals and locale-aware formatting.',
+        'Modular L10n Engine: Clean ARB string definitions and dynamic translation pattern interpolation.'
+      ]
+    },
+    {
+      version: '7.0.0',
+      date: 'August 16, 2026',
+      items: [
         'Apple HIG & iOS UI Redesign: iOS Dynamic Island capsule pill toasts, spring physics, and tactile haptics.',
-        'Modernized App Icon Suite: 7 branded logo editions with new Aurora default brand logo.',
+        'Modernized App Icon Suite: 8 branded logo editions with new Aurora default brand logo.',
         'Sobriety Milestones & Native Share: Export high-res milestone peak cards with celebration confetti particles.',
         '2-Digit Single Numbering & Directional Badges: 00-99 sequence numbering mode, count-on-save pulse, and daily reset.',
         'Local Backups Manager: Full local database JSON/CSV backup and restore dashboard.',

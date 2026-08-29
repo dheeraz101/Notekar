@@ -6,6 +6,7 @@ const CACHE_NAME = `notekar-${SW_CHANNEL}-cache-v${SW_META.version}`;
 const APP_SHELL = [
   './',
   './index.html',
+  './changelog.html',
   './releases/stable.js',
   './releases/beta.js',
   './manifest.json',

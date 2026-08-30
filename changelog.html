@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="Official release notes and changelog history for NoteKar Android.">
+<meta name="description" content="Official release notes and changelog history for NoteKar Android (Stable & Beta).">
 <title>Release Notes & Changelog — NoteKar</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="shortcut icon" href="favicon.ico">
@@ -131,7 +131,7 @@
   /* Hero Section */
   .hero {
     text-align: center;
-    padding: 16px 12px 28px;
+    padding: 16px 12px 24px;
   }
 
   .hero-badge {
@@ -151,103 +151,148 @@
   }
 
   .hero h1 {
-    font-size: clamp(24px, 6vw, 32px);
+    font-size: clamp(28px, 6vw, 40px);
     font-weight: 800;
     letter-spacing: -0.8px;
     margin-bottom: 8px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #A1A1A6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .hero p {
     color: var(--text2);
-    font-size: clamp(13.5px, 3.5vw, 15px);
-    max-width: 500px;
+    font-size: 14.5px;
+    max-width: 540px;
     margin: 0 auto;
   }
 
-  /* Search & Filter */
-  .search-wrapper {
+  /* Controls (Search & Channel Filter Tabs) */
+  .controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-bottom: 24px;
   }
 
   .search-bar {
     width: 100%;
+    padding: 12px 18px;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 16px;
+    border-radius: var(--radius-sm);
     color: var(--text);
     font-size: 14px;
     font-family: inherit;
     outline: none;
     transition: border-color 0.2s ease;
-    min-height: 44px;
   }
 
   .search-bar:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
   }
 
-  /* Version Card */
-  .version-card {
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+  }
+
+  .filter-btn.beta.active {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+
+  /* Release Card */
+  .release-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: clamp(16px, 4vw, 24px);
+    padding: 20px;
     margin-bottom: 20px;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease;
   }
 
-  .version-card.latest {
+  .release-card.latest {
     border-color: var(--border-accent);
-    box-shadow: 0 8px 32px -8px var(--accent-glow);
+    box-shadow: 0 8px 32px rgba(10, 132, 255, 0.08);
   }
 
-  .version-header {
+  .release-card.beta-card {
+    border-left: 3px solid var(--orange);
+  }
+
+  .release-header {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
   }
 
-  .version-title-group {
+  .version-meta {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
   }
 
-  .version-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+  .version-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.4px;
+  }
+
+  .tag-pill {
+    font-size: 11px;
+    font-weight: 700;
     padding: 3px 8px;
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.08);
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text);
-    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
 
-  .version-card.latest .version-pill {
-    background: var(--accent);
-    color: #ffffff;
+  .tag-latest { background: rgba(10, 132, 255, 0.15); color: var(--accent); border: 1px solid var(--border-accent); }
+  .tag-beta { background: rgba(255, 159, 10, 0.15); color: var(--orange); border: 1px solid rgba(255, 159, 10, 0.35); }
+  .tag-stable { background: rgba(48, 209, 88, 0.15); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.35); }
+  .tag-priority { background: rgba(10, 132, 255, 0.15); color: var(--accent); border: 1px solid var(--border-accent); }
+
+  .release-date {
+    color: var(--text3);
+    font-size: 12.5px;
+    font-weight: 500;
   }
 
   .edition-name {
-    font-size: clamp(16px, 4.5vw, 19px);
-    font-weight: 700;
-    letter-spacing: -0.3px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 2px;
   }
 
-  .release-date {
-    font-size: 12px;
-    color: var(--text3);
-    white-space: nowrap;
-    align-self: flex-start;
-    margin-top: 4px;
+  .edition-name.beta-edition {
+    color: var(--orange);
   }
 
   /* Highlights Matrix */
@@ -348,6 +393,10 @@
     transition: opacity 0.2s ease;
   }
 
+  .download-btn.beta-dl {
+    background: var(--orange);
+  }
+
   .download-btn:active {
     opacity: 0.8;
   }
@@ -388,11 +437,16 @@
   <section class="hero">
     <div class="hero-badge">Release Archive</div>
     <h1>Changelog & Updates</h1>
-    <p>Complete official release history and architecture evolutions for NoteKar Android.</p>
+    <p>Complete official release history and architecture evolutions for NoteKar Android (Stable & Beta).</p>
   </section>
 
-  <div class="search-wrapper">
+  <div class="controls-wrapper">
     <input type="text" id="searchInput" class="search-bar" placeholder="Search features, fixes, or versions...">
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All Releases</button>
+      <button class="filter-btn" data-filter="stable">Stable Releases</button>
+      <button class="filter-btn beta" data-filter="beta">Beta Releases</button>
+    </div>
   </div>
 
   <div id="changelogContainer">
@@ -408,201 +462,155 @@
 <script>
   const GITHUB_CHANGELOG_URL = 'https://raw.githubusercontent.com/dheeraz101/Notekar-Android/main/versions/changelog.json';
 
-  const FALLBACK_DATA = [
-    {
-      "version": "7.2.0",
-      "releaseDate": "August 23, 2026",
-      "edition": "Mindfulness & Battery Evolution",
-      "isLatest": true,
-      "highlights": [
-        {
-          "title": "Hourly Time Reflection",
-          "description": "Standalone mindful breathing prompts that wake on lockscreen without exposing private notes."
-        },
-        {
-          "title": "Sleep Protection Schedule",
-          "description": "Custom active hours (09:00 AM – 10:00 PM) with quiet hours rollover protecting your sleep."
-        },
-        {
-          "title": "Zero-Wake Battery Architecture",
-          "description": "Doze-compliant RTC non-waking alarms and isolated repaint boundaries for 120 FPS."
-        }
-      ],
-      "fullChangelog": [
-        "+ Use iOS Cupertino wheel time picker, rename message row, and simplify editor sheet",
-        "+ Add alarm audio chime, active hours schedule, and onboarding flow",
-        "* Eliminate RTC_WAKEUP battery drain for routine logging reminders",
-        "* Wrap animated widgets in RepaintBoundary for smooth 120 FPS rendering",
-        "! Add early lockscreen reflection launch handler in NoteKarHome",
-        "! Add isDeviceLocked and closeLockscreenActivity to dismiss activity on locked device"
-      ],
-      "downloads": {
-        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.2.0/NoteKar-v7.2.0-universal-release.apk"
-      }
-    },
-    {
-      "version": "7.1.0",
-      "releaseDate": "August 21, 2026",
-      "edition": "Global Localization Edition",
-      "isLatest": false,
-      "highlights": [
-        {
-          "title": "Multilingual Support",
-          "description": "Full native localization for 7 major languages including French, German, Japanese, and Russian."
-        },
-        {
-          "title": "Localized Numerals",
-          "description": "Native numeral systems (Devanagari, etc.) and locale-aware formatting."
-        },
-        {
-          "title": "Dynamic L10n Engine",
-          "description": "On-demand downloadable language pack architecture."
-        }
-      ],
-      "fullChangelog": [
-        "+ Add French, German, Japanese, Russian localization and dynamic pattern translation",
-        "+ Add localized numerals and currency symbols across the app",
-        "* Preserve Apple HIG typography in English and normalize toolbar buttons"
-      ]
-    },
-    {
-      "version": "7.0.0",
-      "releaseDate": "August 16, 2026",
-      "edition": "Apple HIG Luxury Redesign",
-      "isLatest": false,
-      "highlights": [
-        {
-          "title": "Apple HIG Visual Upgrade",
-          "description": "Frosted glass surfaces, Dynamic Island pill notifications, and tactile haptics."
-        },
-        {
-          "title": "App Icon Suite",
-          "description": "8 handcrafted luxury edition logos with adaptive launcher integration."
-        },
-        {
-          "title": "Sobriety Milestones",
-          "description": "21 neuroscience milestones, shareable peak cards, and 85-particle confetti."
-        }
-      ],
-      "fullChangelog": [
-        "+ Complete Apple HIG & iOS UI redesign upgrade with Dynamic Island pill toasts",
-        "+ Modernized App Icon suite featuring 8 custom branded logo editions",
-        "+ Sobriety milestones card exporter with native Android share sheet & confetti",
-        "* 2-digit single numbering mode (01, 02...), daily reset, and directional badges"
-      ]
-    }
-  ];
+  let allReleases = [];
+  let currentFilter = 'all';
 
-  let releasesData = FALLBACK_DATA;
-
-  function getItemMeta(text) {
-    const trimmed = text.trim();
-    if (trimmed.startsWith('+') || trimmed.toLowerCase().startsWith('add')) {
-      const clean = trimmed.startsWith('+') ? trimmed.substring(1).trim() : trimmed;
-      return { icon: '+', className: 'icon-add', text: clean };
-    }
-    if (trimmed.startsWith('-') || trimmed.toLowerCase().startsWith('remove')) {
-      const clean = trimmed.startsWith('-') ? trimmed.substring(1).trim() : trimmed;
-      return { icon: '−', className: 'icon-remove', text: clean };
-    }
-    if (trimmed.startsWith('!') || trimmed.toLowerCase().startsWith('fix') || trimmed.toLowerCase().startsWith('resolve')) {
-      const clean = trimmed.startsWith('!') ? trimmed.substring(1).trim() : trimmed;
-      return { icon: '🔧', className: 'icon-fix', text: clean };
-    }
-    if (trimmed.startsWith('*') || trimmed.toLowerCase().startsWith('refine') || trimmed.toLowerCase().startsWith('optimize') || trimmed.toLowerCase().startsWith('update')) {
-      const clean = trimmed.startsWith('*') ? trimmed.substring(1).trim() : trimmed;
-      return { icon: '★', className: 'icon-improve', text: clean };
+  function formatIcon(item) {
+    const trimmed = item.trim();
+    if (trimmed.startsWith('+') || trimmed.toLowerCase().startsWith('add') || trimmed.toLowerCase().startsWith('feat')) {
+      return { icon: '+', className: 'icon-add', text: trimmed.replace(/^[+\-!*]\s*/, '') };
+    } else if (trimmed.startsWith('-') || trimmed.toLowerCase().startsWith('remove')) {
+      return { icon: '−', className: 'icon-remove', text: trimmed.replace(/^[+\-!*]\s*/, '') };
+    } else if (trimmed.startsWith('!') || trimmed.toLowerCase().startsWith('fix')) {
+      return { icon: '🔧', className: 'icon-fix', text: trimmed.replace(/^[+\-!*]\s*/, '') };
+    } else if (trimmed.startsWith('*') || trimmed.toLowerCase().startsWith('refine') || trimmed.toLowerCase().startsWith('opt')) {
+      return { icon: '★', className: 'icon-improve', text: trimmed.replace(/^[+\-!*]\s*/, '') };
     }
     return { icon: '•', className: 'icon-default', text: trimmed };
+  }
+
+  function renderReleases(releases) {
+    const container = document.getElementById('changelogContainer');
+    if (!releases.length) {
+      container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text3);">No releases found matching your search.</div>';
+      return;
+    }
+
+    container.innerHTML = releases.map(rel => {
+      const isBeta = rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
+      const isLatest = rel.isLatest;
+
+      let tagHtml = '';
+      if (isLatest) {
+        tagHtml += '<span class="tag-pill tag-latest">Latest</span>';
+      }
+      if (isBeta) {
+        tagHtml += '<span class="tag-pill tag-beta">Beta Release</span>';
+      } else if (rel.channel === 'priority') {
+        tagHtml += '<span class="tag-pill tag-priority">Priority Release</span>';
+      } else {
+        tagHtml += '<span class="tag-pill tag-stable">Stable Release</span>';
+      }
+
+      const highlightsHtml = (rel.highlights && rel.highlights.length) ? `
+        <div class="highlights-grid">
+          ${rel.highlights.map(h => `
+            <div class="highlight-card">
+              <div class="highlight-title">${h.title}</div>
+              <div class="highlight-desc">${h.description}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : '';
+
+      const itemsHtml = (rel.fullChangelog && rel.fullChangelog.length) ? `
+        <ul class="changelog-list">
+          ${rel.fullChangelog.map(item => {
+            const parsed = formatIcon(item);
+            return `
+              <li class="changelog-item">
+                <span class="item-icon ${parsed.className}">${parsed.icon}</span>
+                <span>${parsed.text}</span>
+              </li>
+            `;
+          }).join('')}
+        </ul>
+      ` : '';
+
+      let downloadHtml = '';
+      if (rel.downloads) {
+        const btns = [];
+        if (rel.downloads.universalApk) {
+          btns.push(`<a href="${rel.downloads.universalApk}" class="download-btn ${isBeta ? 'beta-dl' : ''}" target="_blank" rel="noopener">Download APK</a>`);
+        }
+        if (rel.downloads.arm64Apk) {
+          btns.push(`<a href="${rel.downloads.arm64Apk}" class="download-btn secondary" target="_blank" rel="noopener">ARM64 APK</a>`);
+        }
+        if (btns.length) {
+          downloadHtml = `<div class="download-bar">${btns.join('')}</div>`;
+        }
+      }
+
+      return `
+        <article class="release-card ${isLatest ? 'latest' : ''} ${isBeta ? 'beta-card' : ''}">
+          <div class="release-header">
+            <div>
+              <div class="version-meta">
+                <span class="version-title">v${rel.version}</span>
+                ${tagHtml}
+              </div>
+              <div class="edition-name ${isBeta ? 'beta-edition' : ''}">${rel.edition || ''}</div>
+            </div>
+            <div class="release-date">${rel.releaseDate}</div>
+          </div>
+          ${highlightsHtml}
+          ${itemsHtml}
+          ${downloadHtml}
+        </article>
+      `;
+    }).join('');
+  }
+
+  function filterReleases() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    const filtered = allReleases.filter(rel => {
+      const isBeta = rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
+      
+      if (currentFilter === 'stable' && isBeta) return false;
+      if (currentFilter === 'beta' && !isBeta) return false;
+
+      if (!query) return true;
+
+      const searchContent = [
+        rel.version,
+        rel.edition || '',
+        rel.releaseDate || '',
+        ...(rel.fullChangelog || []),
+        ...(rel.highlights ? rel.highlights.map(h => `${h.title} ${h.description}`) : [])
+      ].join(' ').toLowerCase();
+
+      return searchContent.includes(query);
+    });
+
+    renderReleases(filtered);
   }
 
   async function loadChangelog() {
     try {
       const res = await fetch(GITHUB_CHANGELOG_URL);
       if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          releasesData = data;
-        }
+        allReleases = await res.json();
+        filterReleases();
+        return;
       }
-    } catch (_) {}
-    renderChangelogs(releasesData);
+    } catch (e) {
+      console.warn('Using local fallback changelog data', e);
+    }
   }
 
-  function renderChangelogs(list) {
-    const container = document.getElementById('changelogContainer');
-    if (!list || list.length === 0) {
-      container.innerHTML = '<p style="text-align: center; color: var(--text3); padding: 32px;">No releases found matching your search.</p>';
-      return;
-    }
+  document.getElementById('searchInput').addEventListener('input', filterReleases);
 
-    container.innerHTML = list.map(rel => {
-      const isLatest = rel.isLatest;
-      const highlightsHtml = (rel.highlights && rel.highlights.length > 0)
-        ? `<div class="highlights-grid">
-            ${rel.highlights.map(h => `
-              <div class="highlight-card">
-                <div class="highlight-title">${h.title}</div>
-                <div class="highlight-desc">${h.description || h.desc || ''}</div>
-              </div>
-            `).join('')}
-          </div>`
-        : '';
-
-      const items = rel.fullChangelog || rel.items || [];
-      const itemsHtml = items.map(item => {
-        const meta = getItemMeta(item);
-        return `
-          <li class="changelog-item">
-            <span class="item-icon ${meta.className}">${meta.icon}</span>
-            <span>${meta.text}</span>
-          </li>
-        `;
-      }).join('');
-
-      const downloadsHtml = rel.downloads && rel.downloads.universalApk
-        ? `<div class="download-bar">
-            <a href="${rel.downloads.universalApk}" class="download-btn">⬇ Download APK (v${rel.version})</a>
-            ${rel.downloads.arm64Apk ? `<a href="${rel.downloads.arm64Apk}" class="download-btn secondary">ARM64 APK</a>` : ''}
-          </div>`
-        : '';
-
-      return `
-        <article class="version-card ${isLatest ? 'latest' : ''}">
-          <div class="version-header">
-            <div class="version-title-group">
-              <div class="version-pill">${isLatest ? '✨ Latest' : ''} v${rel.version}</div>
-              <h2 class="edition-name">${rel.edition || 'Release Updates'}</h2>
-            </div>
-            <div class="release-date">${rel.releaseDate || rel.date || ''}</div>
-          </div>
-          ${highlightsHtml}
-          <ul class="changelog-list">
-            ${itemsHtml}
-          </ul>
-          ${downloadsHtml}
-        </article>
-      `;
-    }).join('');
-  }
-
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    if (!query) {
-      renderChangelogs(releasesData);
-      return;
-    }
-    const filtered = releasesData.filter(rel => {
-      const v = (rel.version || '').toLowerCase();
-      const ed = (rel.edition || '').toLowerCase();
-      const items = (rel.fullChangelog || rel.items || []).join(' ').toLowerCase();
-      const highlights = (rel.highlights || []).map(h => (h.title + ' ' + (h.description || '')).toLowerCase()).join(' ');
-      return v.includes(query) || ed.includes(query) || items.includes(query) || highlights.includes(query);
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter');
+      filterReleases();
     });
-    renderChangelogs(filtered);
   });
 
   loadChangelog();
 </script>
+
 </body>
 </html>

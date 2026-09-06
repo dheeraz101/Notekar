@@ -12,26 +12,33 @@
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #000000;
-    --surface: #121214;
+    --surface: #101012;
+    --surface-elevated: #161618;
     --surface2: #1c1c1e;
     --surface3: #2c2c2e;
-    --border: rgba(255, 255, 255, 0.12);
-    --border-accent: rgba(10, 132, 255, 0.35);
-    --text: #ffffff;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.16);
+    --border-accent: rgba(10, 132, 255, 0.4);
+    --text: #f5f5f7;
     --text2: #a1a1a6;
     --text3: #636366;
     --accent: #0A84FF;
-    --accent-glow: rgba(10, 132, 255, 0.18);
+    --accent-glow: rgba(10, 132, 255, 0.16);
     --green: #30D158;
+    --green-glow: rgba(48, 209, 88, 0.14);
     --red: #FF453A;
+    --red-glow: rgba(255, 69, 58, 0.14);
     --orange: #FF9F0A;
+    --orange-glow: rgba(255, 159, 10, 0.14);
     --purple: #BF5AF2;
-    --radius: 20px;
+    --radius-xl: 24px;
+    --radius: 18px;
     --radius-sm: 12px;
+    --radius-pill: 999px;
   }
 
   * {
@@ -44,18 +51,19 @@
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
     line-height: 1.5;
     min-height: 100vh;
     padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: max(48px, env(safe-area-inset-bottom, 24px));
+    padding-bottom: max(56px, env(safe-area-inset-bottom, 24px));
     padding-left: max(16px, env(safe-area-inset-left, 16px));
     padding-right: max(16px, env(safe-area-inset-right, 16px));
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .container {
-    max-width: 760px;
+    max-width: 780px;
     margin: 0 auto;
   }
 
@@ -64,18 +72,18 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.82);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-bottom: 1px solid var(--border);
     margin-left: max(-16px, calc(-1 * env(safe-area-inset-left, 16px)));
     margin-right: max(-16px, calc(-1 * env(safe-area-inset-right, 16px)));
-    margin-bottom: 24px;
-    padding: 12px 18px;
+    margin-bottom: 28px;
+    padding: 12px 20px;
   }
 
   .header-content {
-    max-width: 760px;
+    max-width: 780px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -88,18 +96,24 @@
     gap: 10px;
     text-decoration: none;
     color: var(--text);
+    transition: opacity 0.2s;
+  }
+
+  .brand:hover {
+    opacity: 0.85;
   }
 
   .brand img {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
   }
 
   .brand-text {
     font-size: 16px;
     font-weight: 700;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
   }
 
   .nav-actions {
@@ -111,73 +125,92 @@
   .nav-btn {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-    border-radius: 999px;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
     background: var(--surface2);
     border: 1px solid var(--border);
     color: var(--text);
     text-decoration: none;
-    font-size: 12.5px;
-    font-weight: 600;
-    transition: all 0.2s ease;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     min-height: 34px;
   }
 
   .nav-btn:hover {
     background: var(--surface3);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
   }
 
   /* Hero Section */
   .hero {
     text-align: center;
-    padding: 16px 12px 24px;
+    padding: 24px 12px 32px;
   }
 
   .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    border-radius: 999px;
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
     background: var(--accent-glow);
     border: 1px solid var(--border-accent);
     color: var(--accent);
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin-bottom: 16px;
   }
 
   .hero h1 {
-    font-size: clamp(28px, 6vw, 40px);
+    font-size: clamp(32px, 6vw, 44px);
     font-weight: 800;
-    letter-spacing: -0.8px;
-    margin-bottom: 8px;
-    background: linear-gradient(180deg, #FFFFFF 0%, #A1A1A6 100%);
+    letter-spacing: -1.2px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    background: linear-gradient(180deg, #FFFFFF 30%, #A1A1A6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .hero p {
     color: var(--text2);
-    font-size: 14.5px;
+    font-size: 15px;
     max-width: 540px;
     margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.5;
   }
 
-  /* Controls (Search & Channel Filter Tabs) */
+  /* Controls (Search & Segmented Filter Tabs) */
   .controls-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .search-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 15px;
+    pointer-events: none;
   }
 
   .search-bar {
     width: 100%;
-    padding: 12px 18px;
+    padding: 13px 40px 13px 42px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
@@ -185,69 +218,125 @@
     font-size: 14px;
     font-family: inherit;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
   }
 
   .search-bar:focus {
     border-color: var(--accent);
+    background: var(--surface-elevated);
+    box-shadow: 0 0 0 3px var(--accent-glow);
   }
 
-  .filter-tabs {
-    display: flex;
-    gap: 8px;
+  .search-clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface3);
+    border: none;
+    color: var(--text2);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 11px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .search-clear:hover {
+    background: var(--text3);
+    color: #fff;
+  }
+
+  /* Apple Segmented Control */
+  .segmented-control {
+    display: inline-flex;
+    background: var(--surface);
+    padding: 4px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    gap: 4px;
+    align-self: center;
+    max-width: 100%;
     overflow-x: auto;
-    padding-bottom: 4px;
   }
 
   .filter-btn {
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    border: none;
     color: var(--text2);
-    font-size: 12.5px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .filter-btn .count-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text3);
+  }
+
+  .filter-btn:hover {
+    color: var(--text);
   }
 
   .filter-btn.active {
-    background: var(--accent);
+    background: var(--surface2);
     color: #ffffff;
-    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
-  .filter-btn.beta.active {
+  .filter-btn.active .count-badge {
+    background: var(--accent);
+    color: #ffffff;
+  }
+
+  .filter-btn.beta.active .count-badge {
     background: var(--orange);
-    border-color: var(--orange);
+    color: #000000;
   }
 
   /* Release Card */
   .release-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 20px;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
   }
 
   .release-card.latest {
     border-color: var(--border-accent);
-    box-shadow: 0 8px 32px rgba(10, 132, 255, 0.08);
+    background: linear-gradient(180deg, rgba(10, 132, 255, 0.04) 0%, var(--surface) 100%);
+    box-shadow: 0 12px 40px rgba(10, 132, 255, 0.08);
   }
 
   .release-card.beta-card {
-    border-left: 3px solid var(--orange);
+    border-left: 4px solid var(--orange);
   }
 
   .release-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 
   .version-meta {
@@ -258,37 +347,50 @@
   }
 
   .version-title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
     color: var(--text);
-    letter-spacing: -0.4px;
+    letter-spacing: -0.5px;
+  }
+
+  .build-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .tag-pill {
     font-size: 11px;
     font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
   }
 
-  .tag-latest { background: rgba(10, 132, 255, 0.15); color: var(--accent); border: 1px solid var(--border-accent); }
-  .tag-beta { background: rgba(255, 159, 10, 0.15); color: var(--orange); border: 1px solid rgba(255, 159, 10, 0.35); }
-  .tag-stable { background: rgba(48, 209, 88, 0.15); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.35); }
-  .tag-priority { background: rgba(10, 132, 255, 0.15); color: var(--accent); border: 1px solid var(--border-accent); }
+  .tag-latest { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--border-accent); }
+  .tag-beta { background: var(--orange-glow); color: var(--orange); border: 1px solid rgba(255, 159, 10, 0.35); }
+  .tag-stable { background: var(--green-glow); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.35); }
+  .tag-priority { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--border-accent); }
 
   .release-date {
     color: var(--text3);
-    font-size: 12.5px;
+    font-size: 13px;
     font-weight: 500;
+    white-space: nowrap;
+    margin-top: 4px;
   }
 
   .edition-name {
-    font-size: 13.5px;
+    font-size: 14.5px;
     font-weight: 600;
     color: var(--accent);
-    margin-top: 2px;
+    margin-top: 4px;
+    letter-spacing: -0.2px;
   }
 
   .edition-name.beta-edition {
@@ -300,10 +402,16 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
-    margin: 14px 0;
+    margin: 18px 0;
   }
 
-  @media (min-width: 580px) {
+  @media (min-width: 600px) {
+    .highlights-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 720px) {
     .highlights-grid {
       grid-template-columns: repeat(3, 1fr);
     }
@@ -313,39 +421,48 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .highlight-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
   }
 
   .highlight-title {
     font-size: 13px;
     font-weight: 700;
     color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .highlight-desc {
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--text2);
-    line-height: 1.35;
+    line-height: 1.4;
   }
 
-  /* Items List with Expressive Icons */
+  /* Items List with Apple Colored Icon Pills */
   .changelog-list {
     list-style: none;
-    margin-top: 14px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
 
   .changelog-item {
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--text2);
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
     line-height: 1.45;
   }
 
@@ -353,52 +470,60 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 6px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     flex-shrink: 0;
     margin-top: 1px;
+    user-select: none;
   }
 
-  .icon-add { background: rgba(48, 209, 88, 0.15); color: var(--green); }
-  .icon-remove { background: rgba(255, 69, 58, 0.15); color: var(--red); }
-  .icon-improve { background: rgba(255, 159, 10, 0.15); color: var(--orange); }
-  .icon-fix { background: rgba(10, 132, 255, 0.15); color: var(--accent); }
-  .icon-default { background: rgba(255, 255, 255, 0.08); color: var(--text2); }
+  .icon-add { background: var(--green-glow); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.3); }
+  .icon-remove { background: var(--red-glow); color: var(--red); border: 1px solid rgba(255, 69, 58, 0.3); }
+  .icon-improve { background: var(--orange-glow); color: var(--orange); border: 1px solid rgba(255, 159, 10, 0.3); }
+  .icon-fix { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--border-accent); }
+  .icon-default { background: rgba(255, 255, 255, 0.06); color: var(--text2); border: 1px solid var(--border); }
 
   /* Download Buttons */
   .download-bar {
-    margin-top: 16px;
-    padding-top: 14px;
+    margin-top: 20px;
+    padding-top: 16px;
     border-top: 1px solid var(--border);
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
   }
 
   .download-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
+    gap: 7px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
     background: var(--accent);
     color: #ffffff;
     text-decoration: none;
-    font-size: 12.5px;
+    font-size: 13px;
     font-weight: 600;
     min-height: 38px;
-    transition: opacity 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .download-btn.beta-dl {
     background: var(--orange);
+    color: #000000;
+  }
+
+  .download-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
   }
 
   .download-btn:active {
-    opacity: 0.8;
+    transform: scale(0.97);
   }
 
   .download-btn.secondary {
@@ -407,14 +532,43 @@
     border: 1px solid var(--border);
   }
 
+  .download-btn.secondary:hover {
+    background: var(--surface3);
+    border-color: var(--border-hover);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+  }
+
+  .empty-state svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    stroke: var(--text3);
+  }
+
   /* Footer */
   footer {
     text-align: center;
-    margin-top: 36px;
-    padding-top: 20px;
+    margin-top: 48px;
+    padding-top: 24px;
     border-top: 1px solid var(--border);
     color: var(--text3);
-    font-size: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
   }
 </style>
 </head>
@@ -435,41 +589,312 @@
 
 <div class="container">
   <section class="hero">
-    <div class="hero-badge">Release Archive</div>
+    <div class="hero-badge">The Ledger of Progress</div>
     <h1>Changelog & Updates</h1>
-    <p>Complete official release history and architecture evolutions for NoteKar Android (Stable & Beta).</p>
+    <p>Every line of code, architectural evolution, and release milestone crafted for NoteKar Android.</p>
   </section>
 
   <div class="controls-wrapper">
-    <input type="text" id="searchInput" class="search-bar" placeholder="Search features, fixes, or versions...">
-    <div class="filter-tabs">
-      <button class="filter-btn active" data-filter="all">All Releases</button>
-      <button class="filter-btn" data-filter="stable">Stable Releases</button>
-      <button class="filter-btn beta" data-filter="beta">Beta Releases</button>
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-bar" placeholder="Search features, architectural updates, or versions..." autocomplete="off">
+      <button id="searchClear" class="search-clear" title="Clear search">✕</button>
+    </div>
+
+    <div class="segmented-control" role="tablist">
+      <button class="filter-btn active" data-filter="all" role="tab">All Releases <span class="count-badge" id="countAll">0</span></button>
+      <button class="filter-btn" data-filter="stable" role="tab">Stable Releases <span class="count-badge" id="countStable">0</span></button>
+      <button class="filter-btn beta" data-filter="beta" role="tab">Beta Releases <span class="count-badge" id="countBeta">0</span></button>
     </div>
   </div>
 
   <div id="changelogContainer">
-    <!-- Rendered dynamically -->
+    <!-- Hydrated dynamically -->
   </div>
 
   <footer>
     <p>NoteKar is 100% Offline-First & Open Source under MIT License.</p>
-    <p style="margin-top: 4px;">Crafted with precision by the NoteKar Team.</p>
+    <p>Crafted with obsessive precision. No telemetry, no accounts, no cloud dependencies.</p>
   </footer>
 </div>
 
 <script>
+  // Robust Fallback Array for instant, zero-latency offline rendering
+  const LOCAL_FALLBACK_RELEASES = [
+    {
+      "version": "7.3.2",
+      "buildNumber": "26BR0906a",
+      "releaseDate": "2026-09-06",
+      "channel": "beta",
+      "channelTag": "[Beta]",
+      "isBeta": true,
+      "edition": "Life Ledger Density & iOS Dialog Architecture",
+      "badgeColor": "#FF9F0A",
+      "isLatest": true,
+      "highlights": [
+        {
+          "title": "Compact History Timeline",
+          "description": "Ultra-dense timeline layout presenting 2x–3x more moments with scaled rail markers and micro duration badges."
+        },
+        {
+          "title": "Standardized iOS Dialogs",
+          "description": "All multi-choice alerts upgraded to native CupertinoAlertDialog standard with zero button label truncation."
+        },
+        {
+          "title": "Life Ledger Session Pairing",
+          "description": "Intelligently pairs Two-Way IN/OUT intervals into unified session cards with 1-tap inline live session ending."
+        },
+        {
+          "title": "Executive Intelligence Hub",
+          "description": "Grounded Daily Rhythm hourly charts, 90-day activity intensity grid, and responsive time-scope habit analytics."
+        }
+      ],
+      "fullChangelog": [
+        "+ Add high-density Compact History Mode for TimelineSessionCard and TimelineSingleTile",
+        "+ Automatically suppress empty note placeholder boxes in compact mode to maximize vertical density",
+        "* Standardize all 2+ option confirmation popups to native CupertinoAlertDialog via showCupertinoDialog",
+        "* Upgrade External Navigation warning to native Cupertino alert with verified domain badges and link preview",
+        "* Upgrade Network Warning modal to Cupertino alert with animated check toggle and download size indicators",
+        "* Unify Trash Bin, Backup Deletion, and Feature Conflict dialogs under Apple HIG action stacking rules",
+        "+ Add Life Ledger continuous session cards with emerald start nodes, crimson end nodes, and duration connectors",
+        "+ Add 1-tap live session end button to stop active tracking immediately from inside History",
+        "+ Add Executive Intelligence Hub with Daily Rhythm bar chart and rolling 90-day activity intensity matrix",
+        "+ Add standalone onboarding tour walkthrough pages for the History Timeline and Dashboard Hub",
+        "! Geometrically lock calendar day cell baselines so dates with event activity dots never shift upward",
+        "! Reposition Dashboard hero card pace and trend badges to eliminate horizontal text truncation",
+        "! Ensure history calendar chip immediately launches MomentCalendarDialog on first tap",
+        "* Full automated test coverage across compact timeline cards and Cupertino confirmation alerts"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.2/NoteKar-v7.3.2-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.2/NoteKar-v7.3.2-arm64-v8a-release.apk"
+      }
+    },
+    {
+      "version": "7.3.1",
+      "buildNumber": "26BR0906",
+      "releaseDate": "2026-09-06",
+      "channel": "beta",
+      "channelTag": "[Beta]",
+      "isBeta": true,
+      "edition": "Life Ledger Timeline & Executive Intelligence Hub",
+      "badgeColor": "#FF9F0A",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Life Ledger Timeline",
+          "description": "Reimagined chronological history into a continuous Life Ledger with connected session cards and emerald/crimson nodes."
+        },
+        {
+          "title": "1-Tap Inline Session End",
+          "description": "Active tracking sessions feature an inline live duration badge and immediate stop button right on the card."
+        },
+        {
+          "title": "Executive Intelligence Hub",
+          "description": "Circadian Daily Rhythm hourly bar charts and rolling 90-day activity intensity heatmap matrix."
+        },
+        {
+          "title": "Precision Apple HIG Calendar",
+          "description": "Locked coordinate geometry ensuring day numbers never shift upward when activity dots appear."
+        }
+      ],
+      "fullChangelog": [
+        "+ Add Life Ledger continuous session cards with emerald start nodes and crimson end nodes",
+        "+ Add 1-tap inline live session end button in History to terminate tracking immediately",
+        "+ Add Executive Intelligence Hub with grounded Daily Rhythm chart and 90-day intensity grid",
+        "+ Add standalone interactive onboarding tour pages for History and Dashboard",
+        "+ Add 2-digit sequential single moment numbering (00–99) with daily midnight reset",
+        "! Geometrically lock calendar day cell baselines so dates with activity dots never jitter",
+        "! Reposition Dashboard hero card pace and trend badges to eliminate horizontal clipping",
+        "! Fix calendar icon chip in History to immediately open MomentCalendarDialog on first tap"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.1/NoteKar-v7.3.1-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.1/NoteKar-v7.3.1-arm64-v8a-release.apk"
+      }
+    },
+    {
+      "version": "7.3.0",
+      "buildNumber": "26PR0830",
+      "releaseDate": "2026-08-30",
+      "channel": "priority",
+      "channelTag": "[Priority]",
+      "isBeta": false,
+      "edition": "Sovereign God Mode & Apple HIG Evolution",
+      "badgeColor": "#0A84FF",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Sovereign God Mode Suite",
+          "description": "Secret VIP credential authorization unlocking custom themes, Chrono Focus game, and physics gravity sandbox."
+        },
+        {
+          "title": "Apple HIG Dynamic Island Pill Toasts",
+          "description": "Fluid top-floating capsule banners with frosted translucency, high-contrast glyphs, and contextual haptics."
+        },
+        {
+          "title": "System Bridges & Broadcast APIs",
+          "description": "Custom notekar:// URL schemes, Android text selection context menu, and Tasker broadcast automation."
+        },
+        {
+          "title": "Zero-Wake Battery Architecture",
+          "description": "Doze-compliant RTC non-waking alarms and isolated repaint boundaries eliminating idle battery drain."
+        }
+      ],
+      "fullChangelog": [
+        "+ Add sovereign God Mode suite with secret theme palettes, gravity sandbox & VIP badge",
+        "+ Add Apple HIG Dynamic Island pill toasts with frosted glass translucency",
+        "+ Add notekar:// custom URL scheme support for instant logging, Two-Way tracking, and navigation",
+        "+ Add Android text selection context menu (\"Log in NoteKar\") via ProcessTextActivity",
+        "+ Add Android Share Target (ACTION_SEND text/plain) for instant quote capturing",
+        "+ Add local Tasker / MacroDroid broadcast automation API via ACTION_LOG_MOMENT",
+        "+ Add MarkdownSyncService for Obsidian and Logseq date-grouped journal sync",
+        "+ Add CalendarSyncService for RFC 5545 .ics Two-Way session export to Google/Outlook Calendar",
+        "* Eliminate RTC_WAKEUP battery drain for routine logging reminders (zero-wake Doze)",
+        "+ Add full offline historical changelog archive with dynamic GitHub releases sync",
+        "* Optimize R8 and ProGuard compiler rules with build caching for faster startup",
+        "! Safeguard database initialization when revoking God Mode to prevent preference desynchronization",
+        "- Eliminate nested modal sheets in What's New, Changelog, and Language Center"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.0/NoteKar-v7.3.0-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.0/NoteKar-v7.3.0-arm64-v8a-release.apk"
+      }
+    },
+    {
+      "version": "7.2.0",
+      "buildNumber": "26PR0823a",
+      "releaseDate": "2026-08-23",
+      "channel": "priority",
+      "channelTag": "[Priority]",
+      "isBeta": false,
+      "edition": "Mindfulness, Integrations & Battery Evolution",
+      "badgeColor": "#0A84FF",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "System Bridges & URL Schemes",
+          "description": "Trigger instant logs, Two-Way tracking, or navigate with custom notekar:// links."
+        },
+        {
+          "title": "Android Text Selection & Share Target",
+          "description": "Highlight text in any app and tap 'Log in NoteKar' to capture notes offline with zero friction."
+        },
+        {
+          "title": "Hourly Time Reflection",
+          "description": "Standalone mindful breathing prompts that wake up on lockscreen without exposing private moments."
+        },
+        {
+          "title": "Obsidian & Calendar Live Sync",
+          "description": "Export structured Markdown journal tables and RFC 5545 .ics calendar session blocks."
+        }
+      ],
+      "fullChangelog": [
+        "+ Add notekar:// custom URL scheme support for instant logging, Two-Way tracking, and navigation",
+        "+ Add Android text selection context menu ('Log in NoteKar') via ProcessTextActivity",
+        "+ Add Android Share Target (ACTION_SEND text/plain) for instant quote capturing",
+        "+ Add local Tasker / MacroDroid broadcast automation API via ACTION_LOG_MOMENT",
+        "+ Add MarkdownSyncService for Obsidian and Logseq date-grouped journal sync",
+        "+ Add CalendarSyncService for RFC 5545 .ics Two-Way session export to Google/Outlook Calendar",
+        "+ Add dedicated 'Integrations & Automation' settings page with copyable templates and live test triggers",
+        "* Use iOS Cupertino wheel time picker, rename message row, and simplify editor sheet",
+        "+ Add alarm audio chime, active hours schedule, and onboarding flow",
+        "* Eliminate RTC_WAKEUP battery drain for routine logging reminders",
+        "* Wrap animated widgets in RepaintBoundary for smooth 120 FPS rendering",
+        "! Add early lockscreen reflection launch handler in NoteKarHome",
+        "! Add isDeviceLocked and closeLockscreenActivity to dismiss activity on locked device",
+        "* Enable test coverage in GitHub Actions CI workflow"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.2.0/NoteKar-v7.2.0-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.2.0/NoteKar-v7.2.0-arm64-v8a-release.apk"
+      }
+    },
+    {
+      "version": "7.1.0",
+      "buildNumber": "26PR0821a",
+      "releaseDate": "2026-08-21",
+      "channel": "priority",
+      "channelTag": "[Priority]",
+      "isBeta": false,
+      "edition": "Global Localization Edition",
+      "badgeColor": "#30D158",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Multilingual Global Support",
+          "description": "Full native localization for 7 major languages including French, German, Japanese, and Russian."
+        },
+        {
+          "title": "Localized Numerals & Symbols",
+          "description": "Native numeral systems (Devanagari, etc.) and locale-aware formatting."
+        },
+        {
+          "title": "Modular L10n Engine",
+          "description": "Clean ARB string definitions and dynamic translation pattern interpolation."
+        }
+      ],
+      "fullChangelog": [
+        "+ Add French, German, Japanese, Russian localization and dynamic pattern translation",
+        "+ Add localized numerals and currency symbols across the app",
+        "* Preserve Apple HIG typography in English and normalize toolbar buttons",
+        "* Standardize toolbar button icon containers & fix settings description placement"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.1.0/NoteKar-v7.1.0-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.1.0/NoteKar-v7.1.0-arm64-v8a-release.apk"
+      }
+    },
+    {
+      "version": "7.0.0",
+      "buildNumber": "26SR0816",
+      "releaseDate": "2026-08-16",
+      "channel": "stable",
+      "channelTag": "[Stable]",
+      "isBeta": false,
+      "edition": "Apple HIG Luxury Redesign",
+      "badgeColor": "#AF52DE",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Apple HIG & iOS Redesign",
+          "description": "Top-floating Dynamic Island capsule pill notifications paired with tactile haptics."
+        },
+        {
+          "title": "Modernized App Icon Suite",
+          "description": "8 custom branded logo editions with enlarged gallery preview grid."
+        },
+        {
+          "title": "Sobriety Milestones & Share Sheet",
+          "description": "Export milestone cards directly to native Android share chooser with celebration confetti."
+        }
+      ],
+      "fullChangelog": [
+        "+ Complete Apple HIG & iOS UI redesign upgrade with Dynamic Island pill toasts",
+        "+ Modernized App Icon suite featuring 8 custom branded logo editions",
+        "+ Sobriety milestones card exporter with native Android share sheet & confetti",
+        "* 2-digit single numbering mode (01, 02...), daily reset, and directional badges",
+        "+ Complete local database backup manager with individual Restore and Delete options",
+        "+ Grouped Developer Options under Advanced Settings"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.0.0/NoteKar-v7.0.0-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.0.0/NoteKar-v7.0.0-arm64-v8a-release.apk"
+      }
+    }
+  ];
+
+  const LOCAL_JSON_URL = 'versions/changelog.json';
   const GITHUB_CHANGELOG_URL = 'https://raw.githubusercontent.com/dheeraz101/Notekar-Android/main/versions/changelog.json';
 
-  let allReleases = [];
+  let allReleases = LOCAL_FALLBACK_RELEASES;
   let currentFilter = 'all';
 
   function formatIcon(item) {
     const trimmed = item.trim();
     if (trimmed.startsWith('+') || trimmed.toLowerCase().startsWith('add') || trimmed.toLowerCase().startsWith('feat')) {
       return { icon: '+', className: 'icon-add', text: trimmed.replace(/^[+\-!*]\s*/, '') };
-    } else if (trimmed.startsWith('-') || trimmed.toLowerCase().startsWith('remove')) {
+    } else if (trimmed.startsWith('−') || trimmed.startsWith('-') || trimmed.toLowerCase().startsWith('remove')) {
       return { icon: '−', className: 'icon-remove', text: trimmed.replace(/^[+\-!*]\s*/, '') };
     } else if (trimmed.startsWith('!') || trimmed.toLowerCase().startsWith('fix')) {
       return { icon: '🔧', className: 'icon-fix', text: trimmed.replace(/^[+\-!*]\s*/, '') };
@@ -479,10 +904,36 @@
     return { icon: '•', className: 'icon-default', text: trimmed };
   }
 
+  function updateCounts() {
+    let stableCount = 0;
+    let betaCount = 0;
+
+    allReleases.forEach(rel => {
+      const isBeta = rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
+      if (isBeta) {
+        betaCount++;
+      } else {
+        stableCount++;
+      }
+    });
+
+    document.getElementById('countAll').textContent = allReleases.length;
+    document.getElementById('countStable').textContent = stableCount;
+    document.getElementById('countBeta').textContent = betaCount;
+  }
+
   function renderReleases(releases) {
     const container = document.getElementById('changelogContainer');
     if (!releases.length) {
-      container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text3);">No releases found matching your search.</div>';
+      container.innerHTML = `
+        <div class="empty-state">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+          <div style="font-size:16px; font-weight:600; color:var(--text); margin-bottom:4px;">No matching releases found</div>
+          <div style="font-size:13px; color:var(--text3);">Try adjusting your search query or switching channel filter.</div>
+        </div>
+      `;
       return;
     }
 
@@ -502,11 +953,13 @@
         tagHtml += '<span class="tag-pill tag-stable">Stable Release</span>';
       }
 
+      const buildHtml = rel.buildNumber ? `<span class="build-number">${rel.buildNumber}</span>` : '';
+
       const highlightsHtml = (rel.highlights && rel.highlights.length) ? `
         <div class="highlights-grid">
           ${rel.highlights.map(h => `
             <div class="highlight-card">
-              <div class="highlight-title">${h.title}</div>
+              <div class="highlight-title">★ ${h.title}</div>
               <div class="highlight-desc">${h.description}</div>
             </div>
           `).join('')}
@@ -531,10 +984,10 @@
       if (rel.downloads) {
         const btns = [];
         if (rel.downloads.universalApk) {
-          btns.push(`<a href="${rel.downloads.universalApk}" class="download-btn ${isBeta ? 'beta-dl' : ''}" target="_blank" rel="noopener">Download APK</a>`);
+          btns.push(`<a href="${rel.downloads.universalApk}" class="download-btn ${isBeta ? 'beta-dl' : ''}" target="_blank" rel="noopener">↓ Universal APK</a>`);
         }
         if (rel.downloads.arm64Apk) {
-          btns.push(`<a href="${rel.downloads.arm64Apk}" class="download-btn secondary" target="_blank" rel="noopener">ARM64 APK</a>`);
+          btns.push(`<a href="${rel.downloads.arm64Apk}" class="download-btn secondary" target="_blank" rel="noopener">⚡ ARM64-v8a</a>`);
         }
         if (btns.length) {
           downloadHtml = `<div class="download-bar">${btns.join('')}</div>`;
@@ -548,6 +1001,7 @@
               <div class="version-meta">
                 <span class="version-title">v${rel.version}</span>
                 ${tagHtml}
+                ${buildHtml}
               </div>
               <div class="edition-name ${isBeta ? 'beta-edition' : ''}">${rel.edition || ''}</div>
             </div>
@@ -562,7 +1016,12 @@
   }
 
   function filterReleases() {
-    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    const query = searchInput.value.trim().toLowerCase();
+
+    searchClear.style.display = query ? 'flex' : 'none';
+
     const filtered = allReleases.filter(rel => {
       const isBeta = rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
       
@@ -575,6 +1034,7 @@
         rel.version,
         rel.edition || '',
         rel.releaseDate || '',
+        rel.buildNumber || '',
         ...(rel.fullChangelog || []),
         ...(rel.highlights ? rel.highlights.map(h => `${h.title} ${h.description}`) : [])
       ].join(' ').toLowerCase();
@@ -586,19 +1046,52 @@
   }
 
   async function loadChangelog() {
+    // 1. Try local versions/changelog.json first
     try {
-      const res = await fetch(GITHUB_CHANGELOG_URL);
-      if (res.ok) {
-        allReleases = await res.json();
-        filterReleases();
-        return;
+      const localRes = await fetch(LOCAL_JSON_URL);
+      if (localRes.ok) {
+        const data = await localRes.json();
+        if (Array.isArray(data) && data.length) {
+          allReleases = data;
+          updateCounts();
+          filterReleases();
+          return;
+        }
       }
     } catch (e) {
-      console.warn('Using local fallback changelog data', e);
+      // Local fetch skipped or failed, fallback to remote
     }
+
+    // 2. Try remote GitHub raw
+    try {
+      const remoteRes = await fetch(GITHUB_CHANGELOG_URL);
+      if (remoteRes.ok) {
+        const data = await remoteRes.json();
+        if (Array.isArray(data) && data.length) {
+          allReleases = data;
+          updateCounts();
+          filterReleases();
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Network fetch unavailable, using embedded release fallback.', e);
+    }
+
+    // 3. Fallback already active
+    updateCounts();
+    filterReleases();
   }
 
-  document.getElementById('searchInput').addEventListener('input', filterReleases);
+  const searchInput = document.getElementById('searchInput');
+  const searchClear = document.getElementById('searchClear');
+
+  searchInput.addEventListener('input', filterReleases);
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    filterReleases();
+    searchInput.focus();
+  });
 
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -609,6 +1102,11 @@
     });
   });
 
+  // Initial paint with instant fallback
+  updateCounts();
+  filterReleases();
+
+  // Hydrate with latest JSON
   loadChangelog();
 </script>
 

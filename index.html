@@ -7,7 +7,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000" id="theme-meta">
 <meta name="apple-mobile-web-app-title" content="NoteKar">
-<meta name="description" content="Instant timestamp logger — one tap, one moment saved.">
+<meta name="description" content="Instant timestamp logger: one tap, one moment saved.">
+<meta property="og:title" content="NoteKar - Sovereign Timestamp Logger">
+<meta property="og:description" content="100% offline timestamp logging. Your time. Your truth. Your device.">
+<meta property="og:url" content="https://notekarapp.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NoteKar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NoteKar - Sovereign Timestamp Logger">
+<meta name="twitter:description" content="100% offline timestamp logging. Your time. Your truth. Your device.">
 <title>NoteKar</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="shortcut icon" href="favicon.ico">
@@ -271,7 +279,7 @@ html.performance-mode *{
 .rpl-el{position:fixed;width:50px;height:50px;border-radius:50%;background:var(--accent-bg);pointer-events:none;animation:rpl 400ms var(--ease) forwards;z-index:2;}
 
 /* ─────────────────────────────────────────
-   TAP ZONE — lowest interactive layer
+   TAP ZONE - lowest interactive layer
 ───────────────────────────────────────── */
 #tap-zone{
   position:fixed;inset:0;
@@ -346,7 +354,7 @@ html.performance-mode *{
 #btn-undo:active{opacity:.6;}
 
 /* ─────────────────────────────────────────
-   TOOLBAR — sits above tap-zone
+   TOOLBAR - sits above tap-zone
 ───────────────────────────────────────── */
 #toolbar{
   position:fixed;
@@ -408,7 +416,7 @@ html.performance-mode *{
   z-index:400;
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
-  /* NOT display:none — use opacity+pointer-events for GPU compositing */
+  /* NOT display:none - use opacity+pointer-events for GPU compositing */
 }
 .popup.open{pointer-events:auto;}
 
@@ -1420,7 +1428,7 @@ input[type="range"]::-moz-range-thumb{
 }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE — bigger on wide screens
+   RESPONSIVE - bigger on wide screens
 ───────────────────────────────────────── */
 @media(min-width:540px){
   .pop-sheet{max-width:460px;margin:0 auto;border-radius:var(--r-l);margin-bottom:0;}
@@ -1641,7 +1649,7 @@ input[type="range"]::-moz-range-thumb{
         <div class="android-hero-banner">
           <img class="android-hero-icon" src="icon-maskable-512.png" alt="NoteKar Android" width="46" height="46" />
           <div class="android-hero-text">
-            <div class="android-hero-title">NoteKar for Android <span class="android-v-badge">v7.0</span></div>
+            <div class="android-hero-title">NoteKar for Android <span class="android-v-badge">v7.5.6</span></div>
             <div class="android-hero-sub">The full-featured offline native powerhouse with Sobriety companion & hardware security.</div>
           </div>
         </div>
@@ -1653,7 +1661,7 @@ input[type="range"]::-moz-range-thumb{
         </div>
         <button class="android-dl-btn" id="btn-showcase-apk" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-          <span>Get NoteKar Android (v7.0 APK)</span>
+          <span>Get NoteKar Android (v7.5.6 APK)</span>
         </button>
       </div>
 
@@ -1920,9 +1928,11 @@ input[type="range"]::-moz-range-thumb{
           <img class="about-logo" src="icon-maskable-512.png" width="68" height="68" alt="NoteKar Logo" />
         </div>
         <div class="about-name">NoteKar</div>
-        <div class="about-tag">Instant Timestamp Logger · v7.2.0</div>
+        <div class="about-tag">Instant Timestamp Logger · v7.5.6</div>
         <div class="about-desc">Made with ❤ in India.<br>An initiative of <a class="about-link" href="https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/" target="_blank" rel="noopener noreferrer">YABP (Yet Another Boring Project)</a>.</div>
         <div class="about-legal">
+          <a class="legal-link" href="landing.html">Overview</a>
+          <span class="legal-dot">•</span>
           <a class="legal-link" href="changelog.html">Release Notes</a>
           <span class="legal-dot">•</span>
           <a class="legal-link" href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
@@ -3182,7 +3192,7 @@ async function updateOfflineStatus() {
   try {
     const reg = await navigator.serviceWorker.getRegistration();
     if (!navigator.onLine) {
-      el.textContent = reg ? 'Offline ready' : 'Offline — cache unavailable';
+      el.textContent = reg ? 'Offline ready' : 'Offline - cache unavailable';
     } else {
       el.textContent = reg ? 'Offline ready' : 'Preparing offline support';
     }

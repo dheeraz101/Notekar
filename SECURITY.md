@@ -10,7 +10,7 @@ We provide security updates for the following release channels:
 
 | Version Channel | Supported |
 | :--- | :--- |
-| Latest Release (v3.x / v4.x) | :white_check_mark: |
+| Latest Release (v7.x / v3.x PWA) | :white_check_mark: |
 | Development / Beta Branches | :white_check_mark: |
 | Older Legacy Versions | :x: |
 
@@ -32,5 +32,5 @@ We will acknowledge receipt of your vulnerability report within **48 hours** and
 ---
 
 ## Security Best Practices for Users
-- Always access NoteKar over secure HTTPS protocols ([https://dheeraz101.github.io/Notekar/](https://dheeraz101.github.io/Notekar/)).
+- Always access NoteKar over secure HTTPS protocols ([https://notekarapp.vercel.app/](https://notekarapp.vercel.app/)).
 - Keep your web browser and operating system updated.

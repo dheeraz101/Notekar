@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000" id="theme-meta">
+<meta name="description" content="100% offline timestamp logging. Your time. Your truth. Your device.">
+<meta property="og:title" content="NoteKar - Sovereign Timestamp Logger">
+<meta property="og:description" content="100% offline timestamp logging. Your time. Your truth. Your device.">
+<meta property="og:url" content="https://notekarapp.vercel.app/landing.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NoteKar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NoteKar - Sovereign Timestamp Logger">
+<meta name="twitter:description" content="100% offline timestamp logging. Your time. Your truth. Your device.">
+
+<title>NoteKar - Sovereign Timestamp Logger</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000000;
+  --bg2: #0a0a0a;
+  --surf: rgba(28,28,30,0.95);
+  --surf2: rgba(44,44,46,0.96);
+  --surf3: rgba(60,60,62,0.98);
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.13);
+  --text: rgba(255,255,255,0.90);
+  --text2: rgba(255,255,255,0.55);
+  --text3: rgba(255,255,255,0.30);
+  --accent: #0A84FF;
+  --accent-bg: rgba(10,132,255,0.15);
+  --green: #30D158;
+  --green-bg: rgba(48,209,88,0.14);
+  --orange: #FF9F0A;
+  --orange-bg: rgba(255,159,10,0.14);
+  --blur: blur(28px) saturate(180%);
+  --r-s: 10px; --r-m: 16px; --r-l: 22px; --r-pill: 9999px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+[data-theme="light"] {
+  --bg: #F2F2F7; --bg2: #E5E5EA;
+  --surf: rgba(255,255,255,0.93); --surf2: rgba(242,242,247,0.96); --surf3: rgba(229,229,234,0.98);
+  --border: rgba(0,0,0,0.06); --border2: rgba(0,0,0,0.11);
+  --text: rgba(0,0,0,0.88); --text2: rgba(0,0,0,0.55); --text3: rgba(0,0,0,0.30);
+  --accent: #007AFF; --accent-bg: rgba(0,122,255,0.12);
+  --green: #34C759; --green-bg: rgba(52,199,89,0.12);
+  --orange: #FF9500; --orange-bg: rgba(255,149,0,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; font-family: var(--font); background: var(--bg); color: var(--text); scroll-behavior: smooth; }
+body { min-height: 100vh; transition: background 0.3s ease; line-height: 1.6; }
+
+/* Navigation */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--surf); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.brand { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); text-decoration: none; display: inline-flex; align-items: center; }
+.brand span { color: var(--accent); }
+.brand-img { width: 22px; height: 22px; border-radius: 6px; margin-right: 7px; }
+
+.nav-links { display: flex; align-items: center; gap: 10px; }
+.nav-link {
+  font-size: 13px; color: var(--text2); text-decoration: none;
+  padding: 6px 12px; border-radius: var(--r-pill); transition: color 0.15s ease, background 0.15s ease;
+}
+.nav-link:hover { color: var(--text); background: var(--surf2); }
+
+.theme-toggle {
+  background: var(--surf2); border: 1px solid var(--border);
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2); cursor: pointer; transition: color 0.15s ease, background 0.15s ease;
+}
+.theme-toggle:hover { color: var(--text); background: var(--surf3); }
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: var(--surf2); border: 1px solid var(--border);
+  width: 36px; height: 36px; border-radius: 50%;
+  align-items: center; justify-content: center;
+  color: var(--text2); cursor: pointer; transition: color 0.15s ease, background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.mobile-menu-btn:hover { color: var(--text); background: var(--surf3); }
+
+/* Mobile Menu Dropdown */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 65px; left: 0; right: 0;
+  background: var(--surf);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 20px;
+  z-index: 99;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.35);
+  animation: slideDown 0.18s ease forwards;
+}
+.mobile-menu.open { display: flex; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.mobile-link {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: var(--r-s);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mobile-link:hover, .mobile-link:active {
+  color: var(--text);
+  background: var(--surf2);
+}
+.mobile-menu-cta {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Layout Containers */
+.container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+.section { margin-bottom: 80px; }
+.section-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--text3);
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.section-heading { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; color: var(--text); margin-bottom: 16px; line-height: 1.2; }
+.section-subtitle { font-size: 18px; color: var(--text2); max-width: 600px; margin-bottom: 40px; }
+
+/* Hero Section */
+.hero { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: var(--r-pill);
+  background: var(--accent-bg); color: var(--accent);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 24px;
+}
+.hero-title { font-size: 56px; font-weight: 700; letter-spacing: -0.04em; margin-bottom: 24px; color: var(--text); line-height: 1.1; }
+.hero-subtitle { font-size: 20px; color: var(--text2); margin-bottom: 40px; }
+
+.cta-group { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 14px 24px; border-radius: var(--r-pill); font-size: 15px; font-weight: 600;
+  text-decoration: none; transition: all 0.2s ease; cursor: pointer; border: none;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--surf2); }
+
+.platform-chips { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 6px; background: var(--surf2);
+  border: 1px solid var(--border); font-size: 12px; color: var(--text3);
+}
+
+/* Glass Cards */
+.card {
+  background: var(--surf); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--border); border-radius: var(--r-m); padding: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+.card-icon {
+  width: 48px; height: 48px; border-radius: 12px; margin-bottom: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surf2); border: 1px solid var(--border); color: var(--accent);
+}
+.card-title { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+.card-desc { font-size: 15px; color: var(--text2); line-height: 1.6; }
+
+/* Grids */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+/* Footer */
+.footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 64px 20px 24px;
+}
+.footer-container { max-width: 1100px; margin: 0 auto; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.8fr 1fr 1.6fr;
+  gap: 36px;
+  margin-bottom: 50px;
+}
+.footer-col-title {
+  text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px;
+  font-weight: 600; color: var(--text3); margin-bottom: 16px;
+}
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-link {
+  color: var(--text2); text-decoration: none; font-size: 13.5px;
+  transition: color 0.15s ease;
+}
+.footer-link:hover { color: var(--text); }
+.footer-brand { margin-bottom: 14px; }
+.footer-desc { color: var(--text2); font-size: 13.5px; margin-bottom: 6px; line-height: 1.55; }
+.footer-legal-text {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.footer-legal-text:last-child { margin-bottom: 0; }
+
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 24px; border-top: 1px solid var(--border);
+  color: var(--text3); font-size: 13px; flex-wrap: wrap; gap: 16px;
+}
+
+@media (max-width: 960px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+}
+
+@media (max-width: 768px) {
+  .header { padding: 12px 16px; }
+  .nav-links .nav-link { display: none; }
+  .mobile-menu-btn { display: inline-flex; }
+
+  .hero { padding: 50px 16px 36px; }
+  .hero-title { font-size: 38px; line-height: 1.15; }
+  .hero-subtitle { font-size: 16px; margin-bottom: 28px; }
+
+  .container { padding: 36px 16px; }
+  .section { margin-bottom: 50px; }
+  .section-heading { font-size: 26px; }
+  .section-subtitle { font-size: 15px; margin-bottom: 24px; }
+
+  .card { padding: 22px 18px; }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; gap: 16px; }
+
+  .cta-group {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 24px;
+    gap: 12px;
+  }
+  .btn { width: 100%; text-align: center; }
+
+  .footer { padding: 48px 16px 24px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
+@media (max-width: 580px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 32px; }
+  .hero-subtitle { font-size: 14.5px; }
+  .hero-badge { font-size: 10.5px; padding: 4px 10px; }
+  .card-title { font-size: 18px; }
+  .card-desc { font-size: 13.5px; }
+  .section-heading { font-size: 23px; }
+  .chip { font-size: 11px; padding: 3px 8px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <a href="#" class="brand"><img src="favicon.ico" alt="NoteKar Logo" class="brand-img" onerror="this.src='apple-touch-icon.png'">Note<span>Kar</span></a>
+  </div>
+  <div class="nav-links">
+    <a href="#overview" class="nav-link">Overview</a>
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#download" class="nav-link">Download</a>
+    <a href="privacy.html" class="nav-link">Privacy</a>
+    <a href="terms.html" class="nav-link">Terms</a>
+    <a href="https://github.com/dheeraz101/Notekar-Android" class="nav-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+    </a>
+    <button class="theme-toggle" id="theme-btn" aria-label="Toggle theme">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="menu-icon-svg"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+  <a href="#overview" class="mobile-link">Overview <span>&rarr;</span></a>
+  <a href="#features" class="mobile-link">Features <span>&rarr;</span></a>
+  <a href="#download" class="mobile-link">Downloads <span>&rarr;</span></a>
+  <a href="privacy.html" class="mobile-link">Privacy Policy <span>&rarr;</span></a>
+  <a href="terms.html" class="mobile-link">Terms of Use <span>&rarr;</span></a>
+  <a href="changelog.html" class="mobile-link">Release Notes <span>&rarr;</span></a>
+  <div class="mobile-menu-cta">
+    <a href="index.html" class="btn btn-primary" style="padding:10px 16px;font-size:14px;width:100%;text-align:center;">Launch Web App &rarr;</a>
+    <a href="https://github.com/dheeraz101/Notekar-Android/releases/latest" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" style="padding:10px 16px;font-size:14px;width:100%;text-align:center;">Download Android APK &rarr;</a>
+  </div>
+</nav>
+
+<main>
+  <section id="overview" class="hero">
+    <div class="hero-badge">SOVEREIGN · 100% OFFLINE · OPEN SOURCE</div>
+    <h1 class="hero-title">Your time.<br>Your truth.<br>Your device.</h1>
+    <p class="hero-subtitle">NoteKar is a sovereign timestamp logger: a single-purpose instrument that records the exact moment you tap. No accounts. No cloud. No noise.</p>
+    
+    <div class="cta-group">
+      <a href="index.html" class="btn btn-primary">Launch Web App &rarr;</a>
+      <a href="https://github.com/dheeraz101/Notekar-Android/releases/latest" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Download for Android &rarr;</a>
+    </div>
+
+    <div class="platform-chips">
+      <div class="chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Android
+      </div>
+      <div class="chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Web PWA
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section id="features" class="section">
+      <div class="section-label">Built with Intention</div>
+      <h2 class="section-heading">Precise where it matters. Private about the rest.</h2>
+      <p class="section-subtitle">NoteKar keeps the product focused: a frictionless interface, zero-cloud architecture, and source code anyone can inspect.</p>
+      
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="12" y1="12" x2="12" y2="12"/></svg>
+          </div>
+          <h3 class="card-title">Zero-Cloud Architecture</h3>
+          <p class="card-desc">Your device stores everything locally. No servers, no sync, no accounts. NoteKar has zero network permissions.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="card-title">Precision Timestamps</h3>
+          <p class="card-desc">Millisecond-accurate moment capture with configurable tap delays. Every timestamp is yours to keep.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-5"/></svg>
+          </div>
+          <h3 class="card-title">Total Data Sovereignty</h3>
+          <p class="card-desc">Export anytime in CSV or JSON. Delete with one tap. Your time data never leaves your device.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="download" class="section">
+      <div class="section-label">Downloads</div>
+      <h2 class="section-heading">One app. Every moment.</h2>
+      <p class="section-subtitle">Pick the platform that fits your workflow.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">Android</h3>
+          <p class="card-desc">Install from GitHub Releases or build from source.</p>
+          <div class="footer-links" style="margin-top: 24px;">
+            <a href="https://github.com/dheeraz101/Notekar-Android/releases/latest" class="btn btn-primary" target="_blank" rel="noopener noreferrer" style="text-align: center;">Download Latest APK</a>
+            <a href="https://github.com/dheeraz101/Notekar-Android" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" style="text-align: center;">View Source Code</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Web PWA</h3>
+          <p class="card-desc">Launch instantly in your browser. Works offline.</p>
+          <div class="footer-links" style="margin-top: 24px;">
+            <a href="index.html" class="btn btn-primary" style="text-align: center;">Open Web App</a>
+            <a href="https://github.com/dheeraz101/Notekar" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" style="text-align: center;">View Source Code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="story" class="section">
+      <div class="section-label">The Story</div>
+      <h2 class="section-heading">Why "NoteKar"?</h2>
+      <div class="card">
+        <p class="card-desc" style="margin-bottom: 16px;">The name is Hindi wordplay: Note (नोट, a record) + Kar (कर, "to do"). Literally: "Make a note." It's a call to action disguised as a name: every tap is an act of noting your existence in time.</p>
+        <p class="card-desc" style="margin-bottom: 24px;">NoteKar started as YABP (Yet Another Boring Project), a boilerplate experiment that evolved into a sovereign time-accounting instrument. The "Kar" suffix also nods to the Marathi/Hindi word for "doer": NoteKar is the one who notes.</p>
+        <div class="cta-group" style="margin-bottom: 0; justify-content: flex-start;">
+          <a href="privacy.html" class="btn btn-secondary" style="padding: 10px 20px; font-size: 14px;">Privacy Policy &rarr;</a>
+          <a href="terms.html" class="btn btn-secondary" style="padding: 10px 20px; font-size: 14px;">Terms of Service &rarr;</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Col 1: Brand -->
+      <div>
+        <a href="#" class="brand footer-brand"><img src="favicon.ico" alt="NoteKar Logo" class="brand-img" onerror="this.src='apple-touch-icon.png'">Note<span>Kar</span></a>
+        <p class="footer-desc">&copy; 2024-2026 NoteKar. Sovereign independent instrument.</p>
+        <p class="footer-desc">An open-source initiative of the <a href="https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/" target="_blank" rel="noopener noreferrer" style="color:var(--text2);text-decoration:underline;">YABP Initiative</a>.</p>
+        <p class="footer-desc" style="color:var(--text3);margin-top:10px;">100% offline. Zero cloud. Your data stays on your device.</p>
+      </div>
+
+      <!-- Col 2: Navigation -->
+      <div>
+        <h4 class="footer-col-title">Navigation</h4>
+        <div class="footer-links">
+          <a href="#overview" class="footer-link">Overview</a>
+          <a href="#features" class="footer-link">Features</a>
+          <a href="#download" class="footer-link">Downloads</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms of Use</a>
+          <a href="changelog.html" class="footer-link">Release Notes</a>
+          <a href="mailto:yabp.support@gmail.com" class="footer-link">Support</a>
+        </div>
+      </div>
+      
+      <!-- Col 3: Downloads & Repos -->
+      <div>
+        <h4 class="footer-col-title">Downloads</h4>
+        <div class="footer-links">
+          <a href="https://github.com/dheeraz101/Notekar-Android/releases/latest" class="footer-link" target="_blank" rel="noopener noreferrer">Android APK (GitHub)</a>
+          <a href="index.html" class="footer-link">Launch Web App (PWA)</a>
+          <a href="https://github.com/dheeraz101/Notekar-Android" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub (Android)</a>
+          <a href="https://github.com/dheeraz101/Notekar" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub (Web)</a>
+          <a href="https://www.buymeacoffee.com/dheeraz" class="footer-link" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
+          <a href="https://buymeachai.ezee.li/dheeraz" class="footer-link" target="_blank" rel="noopener noreferrer">Buy Me a Chai</a>
+        </div>
+      </div>
+
+      <!-- Col 4: Legal Disclaimer -->
+      <div class="footer-legal-col">
+        <h4 class="footer-col-title">Legal Disclaimer</h4>
+        <p class="footer-legal-text">&copy; 2024-2026 NoteKar. Sovereign independent instrument. We are not affiliated with, authorized, maintained, sponsored, or endorsed by Google LLC, Apple Inc., or any of their affiliates or subsidiaries. "Android", "Google Play", and "Google Drive" are registered trademarks of Google LLC. "Apple", "iOS", and "iPhone" are registered trademarks of Apple Inc.</p>
+        <p class="footer-legal-text">NoteKar's spatial chronometer typography, dynamic tactile feedback, fluid transitions, and glassmorphic bottom sheets are inspired by the design principles of Apple Human Interface Guidelines (HIG) and iOS modern interfaces. NoteKar is an independent open-source instrument crafted natively for Android and the modern web. It does not use, include, copy, or redistribute proprietary Apple or Google assets.</p>
+        <p class="footer-legal-text">All timestamp logging, session calculation, and life accounting happen entirely offline on your local device. NoteKar does not maintain servers, user accounts, or background data collection relays.</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div>Built with Flutter, Dart &amp; Web standards. Made with ❤ in India.</div>
+      <a href="https://github.com/dheeraz101/Notekar-Android" class="footer-link" target="_blank" rel="noopener noreferrer">Source Code &rarr;</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Simple Theme Manager matching NoteKar
+const savedTheme = localStorage.getItem('m-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+const themeBtn = document.getElementById('theme-btn');
+if (themeBtn) {
+  themeBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('m-theme', next);
+  });
+}
+
+// Mobile menu toggle
+const menuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const menuIconSvg = document.getElementById('menu-icon-svg');
+
+if (menuBtn && mobileMenu) {
+  menuBtn.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', isOpen);
+    if (isOpen) {
+      menuIconSvg.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+    } else {
+      menuIconSvg.innerHTML = '<line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>';
+    }
+  });
+
+  // Close menu on link click
+  mobileMenu.querySelectorAll('.mobile-link, .btn').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuIconSvg.innerHTML = '<line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>';
+    });
+  });
+}
+</script>
+</body>
+</html>

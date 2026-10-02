@@ -9,7 +9,7 @@ globalThis.NOTEKAR_META = {
       isNew: true,
       items: [
         'Hourly Time Reflection: Full-screen standalone mindful breathing alerts that wake on lockscreen without exposing private notes.',
-        'Active Hours & Sleep Protection: Customizable active schedule (09:00 AM – 10:00 PM) with quiet hours sleep rollover.',
+        'Active Hours & Sleep Protection: Customizable active schedule (09:00 AM - 10:00 PM) with quiet hours sleep rollover.',
         'Zero-Wake Battery Conservation: Android Doze-compliant non-waking alarms and RepaintBoundary animation frame isolation.',
         'On-Demand Dynamic Language Packs: Download, hot-swap, and delete language packs dynamically from GitHub without app restart.',
         'Dynamic Apple HIG What\'s New: Glowing version hero cards with expressive change category badges.'

@@ -7,4 +7,4 @@ NoteKar operates on a strict **privacy-first and offline-first model**.
 - 📱 **Android App Integration:** NoteKar Android App stores data locally via Hive and supports standard Android OS Google Drive system backups.
 - 📡 **Minimal Permissions:** Internet permission is used exclusively for checking software updates and bug announcements.
 
-👉 **View full detailed document:** **[privacy.html](privacy.html)** or online at **[https://dheeraz101.github.io/Notekar/privacy.html](https://dheeraz101.github.io/Notekar/privacy.html)**
+👉 **View full detailed document:** **[privacy.html](privacy.html)** or online at **[https://notekarapp.vercel.app/privacy.html](https://notekarapp.vercel.app/privacy.html)**

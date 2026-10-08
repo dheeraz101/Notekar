@@ -1,8 +1,8 @@
 # NoteKar
 
-> **Sovereign Timestamp Logger: Your time. Your truth. Your device.** Zero friction. One tap. 100% Offline-first.
+> **Sovereign Timestamp Logger: Your time. Your truth. Your device.** Zero friction. One tap. Offline-first.
 
-![version](https://img.shields.io/badge/version-3.2.7%20PWA-blue) ![android](https://img.shields.io/badge/Android%20Releases-v7.5.6%2B-green) ![license](https://img.shields.io/badge/license-MIT-green) ![privacy](https://img.shields.io/badge/privacy-100%25%20Offline-brightgreen)
+![version](https://img.shields.io/badge/version-3.2.7%20PWA-blue) ![android](https://img.shields.io/badge/Android%20Releases-v7.5.7%2B-green) ![license](https://img.shields.io/badge/license-MIT-green) ![privacy](https://img.shields.io/badge/privacy-Offline--First-brightgreen)
 
 ---
 
@@ -42,9 +42,9 @@ This repository contains the **NoteKar Companion Web App**, a Progressive Web Ap
 
 ## 🔒 Privacy & Legal
 
-NoteKar is built with a **strict privacy-by-default philosophy**. Your data never leaves your device.
+NoteKar is built with a **strict privacy-by-default philosophy**. Your core logging data never leaves your device.
 
-- 🛡️ **[Privacy Policy](https://notekarapp.vercel.app/privacy.html)**: How NoteKar keeps your data 100% offline.
+- 🛡️ **[Privacy Policy](https://notekarapp.vercel.app/privacy.html)**: How NoteKar safeguards your local data.
 - 📜 **[Terms of Use](https://notekarapp.vercel.app/terms.html)**: MIT License and usage terms.
 
 ---
@@ -95,9 +95,9 @@ Open `http://localhost:8000` in your browser.
 
 ## 📱 Android Application
 
-The full-featured **NoteKar Android** app is developed in a separate repository with advanced features including Life Audit, Sobriety Companion, Executive Intelligence Hub, AES-256 encryption, and more.
+The full-featured **NoteKar Android** app is developed in a separate repository with advanced features including Life Audit, Sobriety Companion, Executive Intelligence Hub, local Isar storage architecture, and more.
 
-👉 **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)**
+👉 **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)**  
 📥 **[Download Latest APK](https://github.com/dheeraz101/Notekar-Android/releases/latest)**
 
 ---
@@ -139,7 +139,7 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 > 
 > **Design Philosophy & Attribution**: NoteKar's spatial chronometer typography, dynamic tactile feedback, fluid transitions, and glassmorphic bottom sheets are inspired by the design principles of Apple Human Interface Guidelines (HIG) and iOS modern interfaces. NoteKar is an independent sovereign craft built natively for Android and modern web browsers. It does not use, include, copy, or redistribute proprietary Apple or Google code, assets, or services.
 > 
-> **Data Sovereignty Guarantee**: All timestamp captures, session durations, and user notes are processed and stored 100% locally on your device (via browser IndexedDB on the web, and AES-256 encrypted Hive storage on Android). NoteKar does not maintain cloud database relays, telemetry collectors, tracking SDKs, or background sync servers.
+> **Data Sovereignty Architecture**: All timestamp captures, session durations, and user notes are processed and stored locally on your device (via browser IndexedDB on the web, and local on-device Isar/SharedPreferences storage on Android). NoteKar does not maintain cloud database relays, telemetry collectors, tracking SDKs, or background sync servers.
 
 ---
 

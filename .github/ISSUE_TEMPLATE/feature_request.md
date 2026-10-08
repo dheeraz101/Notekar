@@ -1,20 +1,26 @@
 ---
 name: ✨ Feature Request
-about: Suggest an idea or enhancement for NoteKar Web PWA
-title: '[FEATURE] '
+about: Suggest an idea or improvement for NoteKar Web PWA
+title: '[FEATURE]: '
 labels: 'enhancement'
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+> [!NOTE]
+> Feature requests are exploratory community proposals for feedback and discussion, not binding commitments or scheduled roadmap promises.
 
-**Describe the solution you'd like**
-A clear description of what you want to happen.
+**Is your feature request related to a problem? Please describe.**
+A clear and concise description of the problem or friction in the current web flow.
+
+**Describe the proposed improvement**
+A clear description of the solution and expected acceptance outcome.
 
 **Describe alternatives you've considered**
-A clear description of any alternative solutions or features you've considered.
+Any alternative approaches or workarounds you have considered.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**Screenshots / Concept References**
+If applicable, attach concept sketches or screenshots (ensure no personal notes or tokens are visible).
+
+**Context**
+Add any other context about the request here.

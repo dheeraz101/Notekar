@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#000000" id="theme-meta">
-<meta name="description" content="NoteKar Terms of Use: Terms and conditions for using NoteKar Web PWA and Android application.">
+<meta name="description" content="NoteKar Terms of Use: Transparent terms covering personal usage, non-medical reflection limits, backup responsibility, and MIT open-source licensing.">
 <title>Terms of Use - NoteKar</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="shortcut icon" href="favicon.ico">
@@ -23,8 +23,8 @@
   --border: rgba(255,255,255,0.08);
   --border2: rgba(255,255,255,0.13);
   --text: rgba(255,255,255,0.90);
-  --text2: rgba(255,255,255,0.55);
-  --text3: rgba(255,255,255,0.30);
+  --text2: rgba(255,255,255,0.60);
+  --text3: rgba(255,255,255,0.35);
   --accent: #0A84FF;
   --accent-bg: rgba(10,132,255,0.15);
   --green: #30D158;
@@ -39,7 +39,7 @@
   --bg: #F2F2F7; --bg2: #E5E5EA;
   --surf: rgba(255,255,255,0.93); --surf2: rgba(242,242,247,0.96); --surf3: rgba(229,229,234,0.98);
   --border: rgba(0,0,0,0.06); --border2: rgba(0,0,0,0.11);
-  --text: rgba(0,0,0,0.88); --text2: rgba(0,0,0,0.55); --text3: rgba(0,0,0,0.30);
+  --text: rgba(0,0,0,0.88); --text2: rgba(0,0,0,0.60); --text3: rgba(0,0,0,0.35);
   --accent: #007AFF; --accent-bg: rgba(0,122,255,0.12);
   --green: #34C759; --green-bg: rgba(52,199,89,0.12);
   --orange: #FF9500; --orange-bg: rgba(255,149,0,0.12);
@@ -47,7 +47,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-font-smoothing: antialiased; font-family: var(--font); background: var(--bg); color: var(--text); }
-body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; line-height: 1.6; }
+body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; line-height: 1.65; }
 
 .header {
   position: sticky; top: 0; z-index: 100;
@@ -84,17 +84,17 @@ body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; l
 }
 .theme-toggle:hover { color: var(--text); background: var(--surf3); }
 
-.container { max-width: 780px; margin: 0 auto; padding: 36px 20px 0; }
+.container { max-width: 820px; margin: 0 auto; padding: 36px 20px 0; }
 
 .hero { margin-bottom: 32px; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 12px; border-radius: var(--r-pill);
-  background: var(--accent-bg); color: var(--accent);
+  background: var(--orange-bg); color: var(--orange);
   font-size: 12px; font-weight: 600; letter-spacing: 0.02em; margin-bottom: 12px;
 }
 .hero-title { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; color: var(--text); }
-.hero-meta { font-size: 14px; color: var(--text2); }
+.hero-meta { font-size: 13.5px; color: var(--text2); }
 
 .card {
   background: var(--surf2); border: 1px solid var(--border);
@@ -112,39 +112,9 @@ body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; l
 }
 .card p { font-size: 14px; color: var(--text2); margin-bottom: 12px; line-height: 1.65; }
 .card p:last-child { margin-bottom: 0; }
-.card ul { margin-left: 20px; margin-bottom: 12px; color: var(--text2); font-size: 14px; }
+.card ul, .card ol { margin-left: 20px; margin-bottom: 12px; color: var(--text2); font-size: 14px; }
 .card li { margin-bottom: 8px; line-height: 1.6; }
 .card strong { color: var(--text); font-weight: 600; }
-
-.highlight-box {
-  background: var(--surf3); border: 1px solid var(--border2);
-  border-radius: var(--r-s); padding: 14px 16px; margin: 14px 0;
-  font-size: 13px; color: var(--text);
-}
-
-.footer {
-  text-align: center; margin-top: 40px; padding-top: 24px;
-  border-top: 1px solid var(--border); color: var(--text3); font-size: 13px;
-}
-.footer a { color: var(--accent); text-decoration: none; }
-.footer a:hover { text-decoration: underline; }
-
-@media (max-width: 640px) {
-  .header { padding: 10px 14px; }
-  .header-left { gap: 8px; }
-  .back-btn { padding: 6px 11px; font-size: 12px; }
-  .brand { font-size: 15px; }
-  .brand-img { width: 18px; height: 18px; margin-right: 5px; }
-  .nav-link.nav-extra { display: none; }
-  .nav-links { gap: 4px; }
-  .nav-link { padding: 5px 9px; font-size: 12.5px; }
-  .theme-toggle { width: 32px; height: 32px; }
-  .hero-title { font-size: 24px; }
-  .card { padding: 16px 14px; margin-bottom: 14px; }
-  .container { padding: 20px 14px 0; }
-  .site-footer { padding: 40px 16px 20px; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
-}
 
 .site-footer {
   margin-top: 60px;
@@ -194,9 +164,21 @@ body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; l
 @media (max-width: 960px) {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
 }
-
-@media (max-width: 580px) {
-  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+@media (max-width: 640px) {
+  .header { padding: 10px 14px; }
+  .header-left { gap: 8px; }
+  .back-btn { padding: 6px 11px; font-size: 12px; }
+  .brand { font-size: 15px; }
+  .brand-img { width: 18px; height: 18px; margin-right: 5px; }
+  .nav-link.nav-extra { display: none; }
+  .nav-links { gap: 4px; }
+  .nav-link { padding: 5px 9px; font-size: 12.5px; }
+  .theme-toggle { width: 32px; height: 32px; }
+  .hero-title { font-size: 24px; }
+  .card { padding: 18px 16px; margin-bottom: 14px; }
+  .container { padding: 20px 14px 0; }
+  .site-footer { padding: 40px 16px 20px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
 </style>
 </head>
@@ -227,121 +209,105 @@ body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; l
   <section class="hero">
     <div class="hero-badge">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      MIT Licensed Open Source
+      Terms of Use
     </div>
     <h1 class="hero-title">Terms of Use</h1>
-    <p class="hero-meta">Effective Date: June 2026 · Applies to NoteKar Web PWA & NoteKar Android App</p>
+    <p class="hero-meta">Effective Date: October 2026 · NoteKar Android, Companion PWA & Website</p>
   </section>
 
+  <!-- 1. Acceptance -->
   <section class="card">
     <h2 class="card-title">
       <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       </span>
-      1. Acceptance of Terms
+      1. Acceptance and Purpose
     </h2>
-    <p>By accessing or using the NoteKar Web Progressive Web App (PWA) or installing the NoteKar Android application, you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, you should discontinue using the app.</p>
+    <p>By using the NoteKar Android application, the companion web application (PWA), or this website, you agree to these Terms of Use. NoteKar is a personal productivity, time-logging, journaling, and mindful reflection tool.</p>
+    <p>You agree to use NoteKar only for lawful personal purposes and in compliance with all laws applicable to you. You must not use the software to stalk, harass, unlawfully surveil others, infringe privacy or intellectual property rights, distribute malware, or bypass security controls.</p>
   </section>
 
-  <section class="card">
-    <h2 class="card-title">
-      <span class="card-icon" style="background:var(--green-bg); color:var(--green)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-      </span>
-      2. License & Open Source Philosophy
-    </h2>
-    <p>NoteKar is built under the <a href="https://github.com/dheeraz101/Notekar/blob/main/LICENSE" target="_blank" style="color:var(--accent)">MIT License</a> as part of the <strong>YABP (Yet Another Boring Project)</strong> initiative.</p>
-    <p>You are free to use, inspect, modify, and distribute the software in accordance with the terms of the MIT License, provided that the original copyright notice and license permission notice remain included in all copies or substantial portions of the software.</p>
-  </section>
-
+  <!-- 2. User Responsibility -->
   <section class="card">
     <h2 class="card-title">
       <span class="card-icon" style="background:var(--orange-bg); color:var(--orange)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       </span>
-      3. Offline Storage & User Responsibility for Data Backups
+      2. User Responsibility and Data Backups
     </h2>
-    <p>Because NoteKar is an <strong>offline-first application</strong> storing data directly on your local device (via IndexedDB on Web and Hive/SharedPreferences on Android):</p>
+    <p>Because NoteKar is an offline-first tool where records are saved directly to your local device:</p>
     <ul>
-      <li><strong>Data Ownership:</strong> You have full ownership and control over your recorded timestamps and notes.</li>
-      <li><strong>Data Retention:</strong> If you clear browser cache, un-install the app without Android OS auto-backup enabled, or lose access to your device, your locally saved logs will be permanently erased.</li>
-      <li><strong>Exporting Data:</strong> We strongly advise using the built-in CSV/JSON export tools in Settings to keep periodic personal backups of important entries. NoteKar developers cannot retrieve or restore lost local data.</li>
+      <li><strong>Content Ownership:</strong> You own and are responsible for the notes, moments, tags, and records you create, import, export, or share.</li>
+      <li><strong>Backup Responsibility:</strong> You are responsible for preserving and backing up your records. Use the built-in JSON and CSV export tools in Settings to maintain offline copies of your data. Because NoteKar maintains no remote user database, the developer cannot reconstruct or recover local records that were erased or lost.</li>
+      <li><strong>Device Security:</strong> You are responsible for maintaining the physical and operational security of your device, PIN/biometrics, and export destinations.</li>
     </ul>
   </section>
 
-  <section class="card">
-    <h2 class="card-title">
-      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </span>
-      4. Permitted Use & Conduct
-    </h2>
-    <p>NoteKar is intended for personal productivity, time logging, and notes. You agree not to use the app for any illegal purposes or to attempt distributing tampered or malicious release binaries posing as official NoteKar releases.</p>
-  </section>
-
+  <!-- 3. Non-Medical Limits -->
   <section class="card">
     <h2 class="card-title">
       <span class="card-icon" style="background:var(--green-bg); color:var(--green)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </span>
-      5. App Updates & Notifications
+      3. Non-Medical and Self-Reflection Boundaries
     </h2>
-    <p>We continuously improve NoteKar by publishing updates, bug fixes, and performance enhancements. The app checks for software releases over public GitHub / web channels. You can control notification preferences directly in your system settings.</p>
+    <p>NoteKar includes informational reflection tools such as the <strong>Life Audit</strong> ledger, <strong>Memento Mori</strong> life horizon estimates, mindful breathing alerts, and sobriety urge surfing counters. These features:</p>
+    <ul>
+      <li>Are provided solely as personal self-reflection, mindfulness, and productivity aids.</li>
+      <li>Do <strong>not</strong> constitute medical, psychiatric, psychological, legal, or financial diagnosis or treatment.</li>
+      <li>Must not be used as a substitute for qualified healthcare, professional therapy, crisis management, or emergency services.</li>
+    </ul>
+    <p>If you are experiencing a mental health crisis or emergency, please contact a qualified healthcare professional or your local emergency support services.</p>
   </section>
 
+  <!-- 4. OS and Availability Limits -->
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </span>
+      4. OS and Delivery Constraints
+    </h2>
+    <p>Timely delivery of hourly mindfulness alerts, persistent notifications, home screen widgets, and background daily maintenance depends on your device operating system, OEM power-saving policies, Doze mode restrictions, notification channel settings, and system clock stability. NoteKar cannot guarantee uninterrupted background execution or alarm delivery across every hardware configuration.</p>
+  </section>
+
+  <!-- 5. Open Source Boundaries -->
+  <section class="card">
+    <h2 class="card-title">
+      <span class="card-icon" style="background:var(--green-bg); color:var(--green)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+      </span>
+      5. Open-Source Licensing Boundaries
+    </h2>
+    <p>NoteKar source code is published under the <a href="https://github.com/dheeraz101/Notekar-Android/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">MIT License</a>.</p>
+    <p>The MIT License applies to the source code covered by the repository LICENSE file. It does not grant trademark rights in the NoteKar or YABP names, icons, brand assets, or third-party fonts and components. Third-party packages and fonts remain governed by their respective licenses.</p>
+  </section>
+
+  <!-- 6. Disclaimers & Support -->
   <section class="card">
     <h2 class="card-title">
       <span class="card-icon" style="background:var(--orange-bg); color:var(--orange)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </span>
-      6. Disclaimer of Warranties & Limitation of Liability
+      6. Limitation of Liability and Support
     </h2>
-    <div class="highlight-box">
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    </div>
+    <p>The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement, to the maximum extent permitted by applicable law.</p>
+    <p>For questions or support regarding these terms, contact <a href="mailto:yabp.support@gmail.com" style="color:var(--accent)">yabp.support@gmail.com</a>.</p>
   </section>
-
-  <section class="card">
-    <h2 class="card-title">
-      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-      </span>
-      7. Changes to Terms
-    </h2>
-    <p>We reserve the right to update or modify these Terms of Use at any time. Any updates will be posted to this page with an updated effective date.</p>
-  </section>
-
-  <section class="card">
-    <h2 class="card-title">
-      <span class="card-icon" style="background:var(--accent-bg); color:var(--accent)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </span>
-      8. Contact
-    </h2>
-    <p>For questions or inquiries regarding these Terms of Use:</p>
-    <ul>
-      <li><strong>Email:</strong> <a href="mailto:yabp.support@gmail.com" style="color:var(--accent)">yabp.support@gmail.com</a></li>
-      <li><strong>Android Repository:</strong> <a href="https://github.com/dheeraz101/Notekar-Android" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">github.com/dheeraz101/Notekar-Android</a></li>
-      <li><strong>Web Repository:</strong> <a href="https://github.com/dheeraz101/Notekar" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">github.com/dheeraz101/Notekar</a></li>
-    </ul>
-  </section>
-
 </main>
 
 <footer class="site-footer">
   <div class="footer-grid">
-    <!-- Col 1: Brand -->
     <div>
       <div class="footer-logo">
         <img src="favicon.ico" alt="NoteKar" width="28" height="28" style="border-radius:7px">
         <span>NoteKar</span>
       </div>
       <p class="footer-copy">&copy; 2024-2026 NoteKar. Sovereign independent instrument.</p>
-      <p class="footer-copy">An open-source initiative of the <a href="https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/" target="_blank" rel="noopener noreferrer" style="color:var(--text2);text-decoration:underline;">YABP Initiative</a>.</p>
-      <p class="footer-tagline" style="margin-top:8px;">100% offline. Zero cloud. Your data stays on your device.</p>
+      <p class="footer-copy">An open-source project by <a href="https://github.com/dheeraz101" target="_blank" rel="noopener noreferrer" style="color:var(--text2);text-decoration:underline;">@dheeraz101</a> under the YABP Initiative.</p>
+      <p class="footer-tagline" style="margin-top:8px;">Offline-first. Local storage. Your data stays on your device.</p>
     </div>
 
-    <!-- Col 2: Navigation -->
     <div>
       <h4 class="footer-heading">Navigation</h4>
       <div class="footer-nav">
@@ -355,7 +321,6 @@ body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; l
       </div>
     </div>
 
-    <!-- Col 3: Downloads & Repos -->
     <div>
       <h4 class="footer-heading">Downloads &amp; Repos</h4>
       <div class="footer-downloads">
@@ -363,17 +328,13 @@ body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; l
         <a href="index.html">Launch Web App (PWA)</a>
         <a href="https://github.com/dheeraz101/Notekar-Android" target="_blank" rel="noopener noreferrer">GitHub (Android)</a>
         <a href="https://github.com/dheeraz101/Notekar" target="_blank" rel="noopener noreferrer">GitHub (Web)</a>
-        <a href="https://www.buymeacoffee.com/dheeraz" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
-        <a href="https://buymeachai.ezee.li/dheeraz" target="_blank" rel="noopener noreferrer">Buy Me a Chai</a>
       </div>
     </div>
 
-    <!-- Col 4: Legal Disclaimer -->
     <div class="footer-legal-col">
       <h4 class="footer-heading">Legal Disclaimer</h4>
-      <p class="footer-legal-text">&copy; 2024-2026 NoteKar. Sovereign independent instrument. We are not affiliated with, authorized, maintained, sponsored, or endorsed by Google LLC, Apple Inc., or any of their affiliates or subsidiaries. "Android", "Google Play", and "Google Drive" are registered trademarks of Google LLC. "Apple", "iOS", and "iPhone" are registered trademarks of Apple Inc.</p>
-      <p class="footer-legal-text">NoteKar's spatial chronometer typography, dynamic tactile feedback, fluid transitions, and glassmorphic bottom sheets are inspired by the design principles of Apple Human Interface Guidelines (HIG) and iOS modern interfaces. NoteKar is an independent open-source instrument crafted natively for Android and the modern web. It does not use, include, copy, or redistribute proprietary Apple or Google assets.</p>
-      <p class="footer-legal-text">All timestamp logging, session calculation, and life accounting happen entirely offline on your local device. NoteKar does not maintain servers, user accounts, or background data collection relays.</p>
+      <p class="footer-legal-text">&copy; 2024-2026 NoteKar. Independent open-source project. Not affiliated with, endorsed, or sponsored by Google LLC or Apple Inc. "Android" is a trademark of Google LLC. "iOS" is a registered trademark of Cisco used under license by Apple Inc.</p>
+      <p class="footer-legal-text">All timestamp logging, session calculation, and life accounting happen locally on your device. NoteKar operates without user accounts or server-side sync pipelines.</p>
     </div>
   </div>
 
@@ -384,7 +345,6 @@ body { min-height: 100vh; padding-bottom: 0; transition: background 0.3s ease; l
 </footer>
 
 <script>
-// Simple Theme Manager matching NoteKar
 const savedTheme = localStorage.getItem('m-theme') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
 

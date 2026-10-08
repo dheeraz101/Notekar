@@ -1,12 +1,31 @@
 globalThis.NOTEKAR_META = {
-  version: '7.2.0',
-  buildDate: '2026-08-23',
+  version: '7.5.0',
+  buildDate: '2026-09-08',
   channel: 'stable',
   changelog: [
     {
+      version: '7.5.0',
+      date: 'September 8, 2026',
+      isNew: true,
+      items: [
+        'Hardened Official Bulletins: 7-language localization parity, dedicated security section, non-blocking offline toast, and silent freshness sync.',
+        'Life Ledger History Calibration: Existential void calculations strictly bounded to verified history, eliminating phantom void hours.',
+        'Unified Settings Navigation: Seamless bulletin category navigation stack and universal back handlers across all modal sheets.'
+      ]
+    },
+    {
+      version: '7.3.0',
+      date: 'August 30, 2026',
+      items: [
+        'Sovereign God Mode Suite: VIP credential authorization unlocking custom themes, Chrono Focus, and physics gravity sandbox.',
+        'Apple HIG Dynamic Island Pill Toasts: Fluid top-floating capsule banners with frosted translucency, high-contrast glyphs, and haptics.',
+        'System Bridges & Broadcast APIs: Custom notekar:// URL schemes, Android text selection context menu, and local Tasker automation.',
+        'Zero-Wake Battery Architecture: Doze-compliant RTC non-waking alarms and isolated repaint boundaries eliminating idle battery drain.'
+      ]
+    },
+    {
       version: '7.2.0',
       date: 'August 23, 2026',
-      isNew: true,
       items: [
         'Hourly Time Reflection: Full-screen standalone mindful breathing alerts that wake on lockscreen without exposing private notes.',
         'Active Hours & Sleep Protection: Customizable active schedule (09:00 AM - 10:00 PM) with quiet hours sleep rollover.',
@@ -41,7 +60,7 @@ globalThis.NOTEKAR_META = {
       date: 'July 31, 2026',
       items: [
         'Duolingo-style milestone path with 21 neuroscience recovery peaks and 34 narrative themes.',
-        'Hardware AES-256 Android Keystore encryption for database security.',
+        'App lock and screen content obfuscation for local privacy.',
         'Interactive 2x2 Android home screen widget.',
         'Streak shields (freeze protection) and insights analytics dashboard.'
       ]
@@ -76,7 +95,6 @@ globalThis.NOTEKAR_META = {
     {
       version: '3.2.4',
       date: 'May 28, 2026',
-      isNew: true,
       items: [
         'Fixed a bug where the app would crash on startup on some devices.',
         'Improved the performance of the search functionality.',
@@ -86,7 +104,6 @@ globalThis.NOTEKAR_META = {
     {
       version: '3.2.2',
       date: 'May 28, 2026',
-      isNew: true,
       items: [
         'Fixed a bug where the app would crash on startup on some devices.',
         'Improved the performance of the search functionality.',
@@ -96,7 +113,6 @@ globalThis.NOTEKAR_META = {
     {
       version: '3.2.0',
       date: 'May 28, 2026',
-      isNew: true,
       items: [
         'Optimized Settings sheet to load instantly with smooth scrolling on low-end devices.',
         'Optimized History sheet with deferred rendering and paint containment for 60fps scrolling.',

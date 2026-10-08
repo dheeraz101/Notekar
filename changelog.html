@@ -597,14 +597,14 @@
   <div class="controls-wrapper">
     <div class="search-container">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-bar" placeholder="Search features, architectural updates, or versions..." autocomplete="off">
-      <button id="searchClear" class="search-clear" title="Clear search">✕</button>
+      <input type="text" id="searchInput" class="search-bar" aria-label="Search changelog" placeholder="Search features, architectural updates, or versions..." autocomplete="off">
+      <button id="searchClear" class="search-clear" title="Clear search" aria-label="Clear search">✕</button>
     </div>
 
-    <div class="segmented-control" role="tablist">
-      <button class="filter-btn active" data-filter="all" role="tab">All Releases <span class="count-badge" id="countAll">0</span></button>
-      <button class="filter-btn" data-filter="stable" role="tab">Stable Releases <span class="count-badge" id="countStable">0</span></button>
-      <button class="filter-btn beta" data-filter="beta" role="tab">Beta Releases <span class="count-badge" id="countBeta">0</span></button>
+    <div class="segmented-control" role="group" aria-label="Filter releases by channel">
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">All Releases <span class="count-badge" id="countAll">0</span></button>
+      <button class="filter-btn" data-filter="stable" aria-pressed="false">Stable Releases <span class="count-badge" id="countStable">0</span></button>
+      <button class="filter-btn beta" data-filter="beta" aria-pressed="false">Beta Releases <span class="count-badge" id="countBeta">0</span></button>
     </div>
   </div>
 
@@ -613,7 +613,7 @@
   </div>
 
   <footer>
-    <p>NoteKar is 100% Offline-First & Open Source under MIT License.</p>
+    <p>NoteKar is Offline-First & Open Source under MIT License.</p>
     <p>Crafted with obsessive precision. No telemetry, no accounts, no cloud dependencies.</p>
   </footer>
 </div>
@@ -621,268 +621,532 @@
 <script>
   // Robust Fallback Array for instant, zero-latency offline rendering
   const LOCAL_FALLBACK_RELEASES = [
-    {
-      "version": "7.3.2",
-      "buildNumber": "26BR0906a",
-      "releaseDate": "2026-09-06",
-      "channel": "beta",
-      "channelTag": "[Beta]",
-      "isBeta": true,
-      "edition": "Life Ledger Density & iOS Dialog Architecture",
-      "badgeColor": "#FF9F0A",
-      "isLatest": true,
-      "highlights": [
-        {
-          "title": "Compact History Timeline",
-          "description": "Ultra-dense timeline layout presenting 2x-3x more moments with scaled rail markers and micro duration badges."
-        },
-        {
-          "title": "Standardized iOS Dialogs",
-          "description": "All multi-choice alerts upgraded to native CupertinoAlertDialog standard with zero button label truncation."
-        },
-        {
-          "title": "Life Ledger Session Pairing",
-          "description": "Intelligently pairs Two-Way IN/OUT intervals into unified session cards with 1-tap inline live session ending."
-        },
-        {
-          "title": "Executive Intelligence Hub",
-          "description": "Grounded Daily Rhythm hourly charts, 90-day activity intensity grid, and responsive time-scope habit analytics."
-        }
-      ],
-      "fullChangelog": [
-        "+ Add high-density Compact History Mode for TimelineSessionCard and TimelineSingleTile",
-        "+ Automatically suppress empty note placeholder boxes in compact mode to maximize vertical density",
-        "* Standardize all 2+ option confirmation popups to native CupertinoAlertDialog via showCupertinoDialog",
-        "* Upgrade External Navigation warning to native Cupertino alert with verified domain badges and link preview",
-        "* Upgrade Network Warning modal to Cupertino alert with animated check toggle and download size indicators",
-        "* Unify Trash Bin, Backup Deletion, and Feature Conflict dialogs under Apple HIG action stacking rules",
-        "+ Add Life Ledger continuous session cards with emerald start nodes, crimson end nodes, and duration connectors",
-        "+ Add 1-tap live session end button to stop active tracking immediately from inside History",
-        "+ Add Executive Intelligence Hub with Daily Rhythm bar chart and rolling 90-day activity intensity matrix",
-        "+ Add standalone onboarding tour walkthrough pages for the History Timeline and Dashboard Hub",
-        "! Geometrically lock calendar day cell baselines so dates with event activity dots never shift upward",
-        "! Reposition Dashboard hero card pace and trend badges to eliminate horizontal text truncation",
-        "! Ensure history calendar chip immediately launches MomentCalendarDialog on first tap",
-        "* Full automated test coverage across compact timeline cards and Cupertino confirmation alerts"
-      ],
-      "downloads": {
-        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.2/NoteKar-v7.3.2-universal-release.apk",
-        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.2/NoteKar-v7.3.2-arm64-v8a-release.apk"
+  {
+    "version": "7.5.7",
+    "buildNumber": "26BR1004",
+    "releaseDate": "2026-10-04",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "High-Performance Engine & Fault Isolation",
+    "badgeColor": "#FF9F0A",
+    "isLatest": true,
+    "highlights": [
+      {
+        "title": "Concurrency Engine (Isolates)",
+        "description": "Heavy analytical computations across Life Audit and Executive Dashboard offloaded to background isolates for locked 120fps UI scrolling.",
+        "icon": "bolt_rounded"
+      },
+      {
+        "title": "High-Performance Search Indexing",
+        "description": "Sub-millisecond inverted token index engine with prefix trie hashtag autocomplete and candidate relevance ranking.",
+        "icon": "search_rounded"
+      },
+      {
+        "title": "Circuit Breaker Fault Isolation",
+        "description": "Automated 3-strike circuit breaker protecting Digital Wellbeing and third-party integrations from cascading crashes.",
+        "icon": "offline_bolt_rounded"
+      },
+      {
+        "title": "Secondary Indices & Binary Range Slices",
+        "description": "In-memory secondary ID index for O(1) lookups and O(log N) binary range slicing for instant date queries in MomentRepository.",
+        "icon": "layers_rounded"
+      },
+      {
+        "title": "Guaranteed Daily Maintenance Scheduler",
+        "description": "Native Android AlarmManager midnight maintenance trigger for automated rolling snapshots, 30-day trash auto-purging, and storage compaction.",
+        "icon": "schedule_rounded"
+      },
+      {
+        "title": "Life Audit Ledger in History",
+        "description": "Direct Life Audit action sheet route from History and PageStorageKey scroll position preservation.",
+        "icon": "auto_graph_rounded"
       }
-    },
-    {
-      "version": "7.3.1",
-      "buildNumber": "26BR0906",
-      "releaseDate": "2026-09-06",
-      "channel": "beta",
-      "channelTag": "[Beta]",
-      "isBeta": true,
-      "edition": "Life Ledger Timeline & Executive Intelligence Hub",
-      "badgeColor": "#FF9F0A",
-      "isLatest": false,
-      "highlights": [
-        {
-          "title": "Life Ledger Timeline",
-          "description": "Reimagined chronological history into a continuous Life Ledger with connected session cards and emerald/crimson nodes."
-        },
-        {
-          "title": "1-Tap Inline Session End",
-          "description": "Active tracking sessions feature an inline live duration badge and immediate stop button right on the card."
-        },
-        {
-          "title": "Executive Intelligence Hub",
-          "description": "Circadian Daily Rhythm hourly bar charts and rolling 90-day activity intensity heatmap matrix."
-        },
-        {
-          "title": "Precision Apple HIG Calendar",
-          "description": "Locked coordinate geometry ensuring day numbers never shift upward when activity dots appear."
-        }
-      ],
-      "fullChangelog": [
-        "+ Add Life Ledger continuous session cards with emerald start nodes and crimson end nodes",
-        "+ Add 1-tap inline live session end button in History to terminate tracking immediately",
-        "+ Add Executive Intelligence Hub with grounded Daily Rhythm chart and 90-day intensity grid",
-        "+ Add standalone interactive onboarding tour pages for History and Dashboard",
-        "+ Add 2-digit sequential single moment numbering (00-99) with daily midnight reset",
-        "! Geometrically lock calendar day cell baselines so dates with activity dots never jitter",
-        "! Reposition Dashboard hero card pace and trend badges to eliminate horizontal clipping",
-        "! Fix calendar icon chip in History to immediately open MomentCalendarDialog on first tap"
-      ],
-      "downloads": {
-        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.1/NoteKar-v7.3.1-universal-release.apk",
-        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.1/NoteKar-v7.3.1-arm64-v8a-release.apk"
-      }
-    },
-    {
-      "version": "7.3.0",
-      "buildNumber": "26PR0830",
-      "releaseDate": "2026-08-30",
-      "channel": "priority",
-      "channelTag": "[Priority]",
-      "isBeta": false,
-      "edition": "Sovereign God Mode & Apple HIG Evolution",
-      "badgeColor": "#0A84FF",
-      "isLatest": false,
-      "highlights": [
-        {
-          "title": "Sovereign God Mode Suite",
-          "description": "Secret VIP credential authorization unlocking custom themes, Chrono Focus game, and physics gravity sandbox."
-        },
-        {
-          "title": "Apple HIG Dynamic Island Pill Toasts",
-          "description": "Fluid top-floating capsule banners with frosted translucency, high-contrast glyphs, and contextual haptics."
-        },
-        {
-          "title": "System Bridges & Broadcast APIs",
-          "description": "Custom notekar:// URL schemes, Android text selection context menu, and Tasker broadcast automation."
-        },
-        {
-          "title": "Zero-Wake Battery Architecture",
-          "description": "Doze-compliant RTC non-waking alarms and isolated repaint boundaries eliminating idle battery drain."
-        }
-      ],
-      "fullChangelog": [
-        "+ Add sovereign God Mode suite with secret theme palettes, gravity sandbox & VIP badge",
-        "+ Add Apple HIG Dynamic Island pill toasts with frosted glass translucency",
-        "+ Add notekar:// custom URL scheme support for instant logging, Two-Way tracking, and navigation",
-        "+ Add Android text selection context menu (\"Log in NoteKar\") via ProcessTextActivity",
-        "+ Add Android Share Target (ACTION_SEND text/plain) for instant quote capturing",
-        "+ Add local Tasker / MacroDroid broadcast automation API via ACTION_LOG_MOMENT",
-        "+ Add MarkdownSyncService for Obsidian and Logseq date-grouped journal sync",
-        "+ Add CalendarSyncService for RFC 5545 .ics Two-Way session export to Google/Outlook Calendar",
-        "* Eliminate RTC_WAKEUP battery drain for routine logging reminders (zero-wake Doze)",
-        "+ Add full offline historical changelog archive with dynamic GitHub releases sync",
-        "* Optimize R8 and ProGuard compiler rules with build caching for faster startup",
-        "! Safeguard database initialization when revoking God Mode to prevent preference desynchronization",
-        "- Eliminate nested modal sheets in What's New, Changelog, and Language Center"
-      ],
-      "downloads": {
-        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.0/NoteKar-v7.3.0-universal-release.apk",
-        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.0/NoteKar-v7.3.0-arm64-v8a-release.apk"
-      }
-    },
-    {
-      "version": "7.2.0",
-      "buildNumber": "26PR0823a",
-      "releaseDate": "2026-08-23",
-      "channel": "priority",
-      "channelTag": "[Priority]",
-      "isBeta": false,
-      "edition": "Mindfulness, Integrations & Battery Evolution",
-      "badgeColor": "#0A84FF",
-      "isLatest": false,
-      "highlights": [
-        {
-          "title": "System Bridges & URL Schemes",
-          "description": "Trigger instant logs, Two-Way tracking, or navigate with custom notekar:// links."
-        },
-        {
-          "title": "Android Text Selection & Share Target",
-          "description": "Highlight text in any app and tap 'Log in NoteKar' to capture notes offline with zero friction."
-        },
-        {
-          "title": "Hourly Time Reflection",
-          "description": "Standalone mindful breathing prompts that wake up on lockscreen without exposing private moments."
-        },
-        {
-          "title": "Obsidian & Calendar Live Sync",
-          "description": "Export structured Markdown journal tables and RFC 5545 .ics calendar session blocks."
-        }
-      ],
-      "fullChangelog": [
-        "+ Add notekar:// custom URL scheme support for instant logging, Two-Way tracking, and navigation",
-        "+ Add Android text selection context menu ('Log in NoteKar') via ProcessTextActivity",
-        "+ Add Android Share Target (ACTION_SEND text/plain) for instant quote capturing",
-        "+ Add local Tasker / MacroDroid broadcast automation API via ACTION_LOG_MOMENT",
-        "+ Add MarkdownSyncService for Obsidian and Logseq date-grouped journal sync",
-        "+ Add CalendarSyncService for RFC 5545 .ics Two-Way session export to Google/Outlook Calendar",
-        "+ Add dedicated 'Integrations & Automation' settings page with copyable templates and live test triggers",
-        "* Use iOS Cupertino wheel time picker, rename message row, and simplify editor sheet",
-        "+ Add alarm audio chime, active hours schedule, and onboarding flow",
-        "* Eliminate RTC_WAKEUP battery drain for routine logging reminders",
-        "* Wrap animated widgets in RepaintBoundary for smooth 120 FPS rendering",
-        "! Add early lockscreen reflection launch handler in NoteKarHome",
-        "! Add isDeviceLocked and closeLockscreenActivity to dismiss activity on locked device",
-        "* Enable test coverage in GitHub Actions CI workflow"
-      ],
-      "downloads": {
-        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.2.0/NoteKar-v7.2.0-universal-release.apk",
-        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.2.0/NoteKar-v7.2.0-arm64-v8a-release.apk"
-      }
-    },
-    {
-      "version": "7.1.0",
-      "buildNumber": "26PR0821a",
-      "releaseDate": "2026-08-21",
-      "channel": "priority",
-      "channelTag": "[Priority]",
-      "isBeta": false,
-      "edition": "Global Localization Edition",
-      "badgeColor": "#30D158",
-      "isLatest": false,
-      "highlights": [
-        {
-          "title": "Multilingual Global Support",
-          "description": "Full native localization for 7 major languages including French, German, Japanese, and Russian."
-        },
-        {
-          "title": "Localized Numerals & Symbols",
-          "description": "Native numeral systems (Devanagari, etc.) and locale-aware formatting."
-        },
-        {
-          "title": "Modular L10n Engine",
-          "description": "Clean ARB string definitions and dynamic translation pattern interpolation."
-        }
-      ],
-      "fullChangelog": [
-        "+ Add French, German, Japanese, Russian localization and dynamic pattern translation",
-        "+ Add localized numerals and currency symbols across the app",
-        "* Preserve Apple HIG typography in English and normalize toolbar buttons",
-        "* Standardize toolbar button icon containers & fix settings description placement"
-      ],
-      "downloads": {
-        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.1.0/NoteKar-v7.1.0-universal-release.apk",
-        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.1.0/NoteKar-v7.1.0-arm64-v8a-release.apk"
-      }
-    },
-    {
-      "version": "7.0.0",
-      "buildNumber": "26SR0816",
-      "releaseDate": "2026-08-16",
-      "channel": "stable",
-      "channelTag": "[Stable]",
-      "isBeta": false,
-      "edition": "Apple HIG Luxury Redesign",
-      "badgeColor": "#AF52DE",
-      "isLatest": false,
-      "highlights": [
-        {
-          "title": "Apple HIG & iOS Redesign",
-          "description": "Top-floating Dynamic Island capsule pill notifications paired with tactile haptics."
-        },
-        {
-          "title": "Modernized App Icon Suite",
-          "description": "8 custom branded logo editions with enlarged gallery preview grid."
-        },
-        {
-          "title": "Sobriety Milestones & Share Sheet",
-          "description": "Export milestone cards directly to native Android share chooser with celebration confetti."
-        }
-      ],
-      "fullChangelog": [
-        "+ Complete Apple HIG & iOS UI redesign upgrade with Dynamic Island pill toasts",
-        "+ Modernized App Icon suite featuring 8 custom branded logo editions",
-        "+ Sobriety milestones card exporter with native Android share sheet & confetti",
-        "* 2-digit single numbering mode (01, 02...), daily reset, and directional badges",
-        "+ Complete local database backup manager with individual Restore and Delete options",
-        "+ Grouped Developer Options under Advanced Settings"
-      ],
-      "downloads": {
-        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.0.0/NoteKar-v7.0.0-universal-release.apk",
-        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.0.0/NoteKar-v7.0.0-arm64-v8a-release.apk"
-      }
+    ],
+    "fullChangelog": [
+      "Concurrency Engine: LifeAuditService and DashboardMetricsService computeAsync offloaded to background isolates via Isolate.run",
+      "High-Performance Search: Inverted token index and O(K) hashtag autocomplete in SearchIndexService",
+      "Storage Engine Evolution: O(1) ID lookups and O(log N) binary range queries in MomentRepository",
+      "Circuit Breaker Service: 3-strike failure isolation with manual resets in Diagnostics & God Mode",
+      "Guaranteed OS Maintenance: Android AlarmManager midnight maintenance trigger (ACTION_DAILY_MAINTENANCE)",
+      "History & Life Audit: Direct Life Audit action sheet route and PageStorageKey scroll preservation",
+      "State Decoupling: Native SettingsController migration and synchronized Android Kotlin-Flutter pause state",
+      "Settings Search Indexing: Indexed routing for Fault Isolation, Floating Timer Pill, and Acoustic Feedback",
+      "Apple HIG Polish: Unified 28pt continuous squircle cards, expanded history layout, and refined typography",
+      "Automated unit and widget test suites passing with zero analyzer issues and offline-first core architecture"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.7/NoteKar-v7.5.7-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.7/NoteKar-v7.5.7-arm64-v8a-release.apk"
     }
-  ];
+  },
+  {
+    "version": "7.5.6",
+    "buildNumber": "26BR1002",
+    "releaseDate": "2026-10-02",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "Sovereign Goals, Activity Tags & Sensory Precision",
+    "badgeColor": "#FF9F0A",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Apple HIG Goals & Pacing Engine",
+        "description": "Full-width goal cards, custom deadlines, pacing indicators, and Life Ledger session attribution.",
+        "icon": "track_changes_rounded"
+      },
+      {
+        "title": "Activity Quick-Tags & Note Pills",
+        "description": "15 research-backed daily activity tags with Cupertino glyphs and automatic timeline #tag pills.",
+        "icon": "tag_rounded"
+      },
+      {
+        "title": "Motivation Quick-Logging Popup",
+        "description": "Interactive notification quick-log dialog and photorealistic home screen widget previews.",
+        "icon": "bolt_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "Apple HIG goals redesign with custom deadlines, pacing indicators, and session attribution",
+      "15 daily activity quick-tags with dedicated settings page and automatic hashtag rendering",
+      "Interactive notification quick-log dialog in QuickNoteActivity with activity tag chips",
+      "Unified header rhythm card in DynamicHeaderCapsule; removed bottom clock complication and startup popups",
+      "Upgraded launcher widget previews with photorealistic antialiased Bebas Neue assets",
+      "Fixed MainActivity Kotlin compilation for notification logging and enabled AOT icon tree-shaking"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.6/NoteKar-v7.5.6-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.6/NoteKar-v7.5.6-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.5.5",
+    "buildNumber": "26BR0927",
+    "releaseDate": "2026-09-27",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "Dynamic Momentum & Digital Wellbeing",
+    "badgeColor": "#FF9F0A",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Dynamic Momentum Capsule",
+        "description": "Today's Momentum card now opens seamlessly inside the top pill, keeping the home canvas pure.",
+        "icon": "speed_rounded"
+      },
+      {
+        "title": "Android Digital Wellbeing",
+        "description": "Smart Buckets and Intentionality Reality Delta dashboard comparing focus to total screen time.",
+        "icon": "pie_chart_outline_rounded"
+      },
+      {
+        "title": "Data Safety & Shield Recovery",
+        "description": "Automated corrupted-box snapshots prevent data loss; streak grace shields restored.",
+        "icon": "shield_rounded"
+      },
+      {
+        "title": "Apple HIG Goals Engine",
+        "description": "Pacing metrics, WhatsApp doodle splash, and 1-tap session launching.",
+        "icon": "track_changes_rounded"
+      },
+      {
+        "title": "Platform Security Hardening",
+        "description": "Secured broadcast receivers with signature permissions against external intent spoofing.",
+        "icon": "security_rounded"
+      },
+      {
+        "title": "Authentic Analytics Engine",
+        "description": "Purged fabricated 15m durations and corrected 12 PM noon risk radar display.",
+        "icon": "insights_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "+ Dynamic Momentum Capsule: Today's Momentum card embedded inside DynamicHeaderCapsule with live metrics",
+      "+ Android Digital Wellbeing: Opt-in Smart Buckets and Intentionality Reality Delta dashboard",
+      "+ Apple HIG Goals Engine: Pacing metrics, Cupertino segmented controls, and 1-tap session launch",
+      "+ WhatsApp Doodle Splash: Static dark OLED doodle wallpaper with official NoteKar squircle emblem",
+      "+ Corrupted-Box Snapshots: Automatic database backup before repair to eliminate silent data loss",
+      "+ Streak Guardian Repair: Fixed permanent shield lockout on relapse, restoring streak forgiveness",
+      "+ Platform Security: Exported broadcast receivers protected with signature-level permissions",
+      "+ God-Class Deconstruction: Split 12,000+ lines into modular lifecycle delegates and NkTokens",
+      "! Analytics Duration Fix: Removed fabricated 15-minute single tap durations for authentic tracking",
+      "! Noon Risk Radar Fix: Corrected '12 AM' display for 12:00 PM noon time blocks",
+      "* 100% offline privacy standard with all 234 automated tests passing"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.5/NoteKar-v7.5.5-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.5/NoteKar-v7.5.5-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.5.4",
+    "buildNumber": "26BR0925",
+    "releaseDate": "2026-09-25",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "Personal Identity & Life Horizons",
+    "badgeColor": "#FF9F0A",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Personal Identity & Memento Mori",
+        "description": "Custom avatar personalization, dedicated DOB picker, and Memento Mori Life Horizon metrics.",
+        "icon": "person_rounded"
+      },
+      {
+        "title": "Adaptive 'Last Used' Startup Mode",
+        "description": "Seamlessly remembers and restores whichever logging mode was active during your previous session.",
+        "icon": "history_toggle_off_rounded"
+      },
+      {
+        "title": "Exponential Habit Strength Decay",
+        "description": "12-day half-life habit retention calculation with vacation and rest neutrality in Streak Guardian.",
+        "icon": "trending_up_rounded"
+      },
+      {
+        "title": "Universal Migration Importer",
+        "description": "Offline import engine for Loop Habit Tracker CSV and HabitKit JSON archives.",
+        "icon": "move_to_inbox_rounded"
+      },
+      {
+        "title": "Shareable Life Horizon Card",
+        "description": "High-fidelity social milestone export card with concise typography and local rendering.",
+        "icon": "share_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "+ Personal Identity: Custom profile avatar and user alias with real-time sync across Settings and views",
+      "+ Memento Mori Horizon: Interactive life elapsed percentage, weeks lived, and seasons remaining",
+      "+ Modular Date Picker: System-grade Cupertino bottom sheet for Date of Birth configuration",
+      "+ Last Used Startup: Automatically remembers and restores active logging mode across app closures",
+      "+ Habit Strength Decay: Exponential 12-day half-life calculation reflecting behavioral retention",
+      "+ Rest Day Neutrality: Vacation and sabbath neutrality in Streak Guardian prevents streak penalties",
+      "+ Migration Importer: Dedicated offline import card supporting Loop Habit Tracker and HabitKit formats",
+      "+ Device Telemetry: Hardware diagnostics card showing memory, refresh rate, and thermal envelope",
+      "+ Responsive 2-Card Time Format: Replaced 24-hour switch with responsive 2-card Cupertino selector",
+      "+ Modal Geometry Fix: Eliminated double corner radius visual bug on modal sheets and note dialogs",
+      "+ Instant Avatar Sync: Immediate preview reflection and robust slider assertion guards",
+      "! Session Continuity: Resolved edge-case storage crashes and IPC state synchronization",
+      "* All 215 automated unit and widget test suites passing with zero lints and 100% offline privacy"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.4/NoteKar-v7.5.4-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.4/NoteKar-v7.5.4-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.5.3",
+    "buildNumber": "26BR0923",
+    "releaseDate": "2026-09-23",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "Sensory Horology & Surface Harmony",
+    "badgeColor": "#FF9F0A",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Apple HIG Dark Surface Harmony",
+        "description": "Monotonic Gray surface hierarchy across modal sheets, cards, and controls with visible hairline borders.",
+        "icon": "palette_rounded"
+      },
+      {
+        "title": "Auto-Collapsing Dynamic Capsule",
+        "description": "Auto-collapses header capsule on clock canvas touch or timeline scroll with 320ms spring physics.",
+        "icon": "animation_rounded"
+      },
+      {
+        "title": "Swiss Horology Detent Haptics",
+        "description": "Tactile detent click when swiping between Single and Two-Way modes past the 50% threshold.",
+        "icon": "vibration_rounded"
+      },
+      {
+        "title": "Timeline Gap Rest Quick-Claim",
+        "description": "Convert empty gaps ≥ 15m into conscious recovery moments with one-tap Rest button and undo.",
+        "icon": "bedtime_rounded"
+      },
+      {
+        "title": "Live Ambient Radial Glow",
+        "description": "Soft 8% category-tinted ambient glow behind complication capsule without visual clutter.",
+        "icon": "blur_on_rounded"
+      },
+      {
+        "title": "Manual Entry & History Parity",
+        "description": "Full retrospective single and two-way session logging with inline mode creation and zero text underlines.",
+        "icon": "schedule_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "+ Dark Theme Harmony: Apple Secondary Grouped Background (#1C1C1E) for modal sheets and pinned timeline filter headers",
+      "+ Apple Surface Hierarchy: Monotonic layering from canvas (#000000) to sheets (#1C1C1E), cards (#2C2C2E), controls (#3A3A3C), and borders (#48484A)",
+      "+ Border Visibility: 0.6px Apple hairline separators on SettingsGroupCard, SettingsSearchBox, and timeline cards",
+      "+ Elevated Control Pills: Luminous fill and subtle ambient shadows for active segments in filters and dialogs",
+      "+ Auto-Collapsing Capsule: Smooth 320ms spring physics collapse to resting 32px pill on canvas touch or timeline scroll",
+      "+ Horology Detent Haptics: Tactile crown click at 50% swipe threshold between Single and Two-Way tracking modes",
+      "+ Rest Quick-Claim: One-tap button on gap cards ≥ 15m to reclaim void time as conscious restorative moments with undo",
+      "+ Complication Radial Glow: Soft 8% ambient light behind complication capsule matching active mode color",
+      "+ Retrospective Entry: Complete Single and Two-Way manual entry parity with inline custom mode creation and zero yellow underlines",
+      "+ Rendering Resilience: Hardened Android GPU pipeline and eliminated startup green screen anomalies",
+      "* All 201 automated unit and widget test suites passing with zero lints and 100% offline privacy"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.3/NoteKar-v7.5.3-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.3/NoteKar-v7.5.3-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.5.2",
+    "buildNumber": "26BR0916",
+    "releaseDate": "2026-09-16",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "Plus Notes & Spatial Widgets",
+    "badgeColor": "#FF9F0A",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Plus Notes & Journaling",
+        "description": "Unrestricted long-form canvas with dedicated Plus button, history editing parity, and customizable hashtags.",
+        "icon": "note_add_rounded"
+      },
+      {
+        "title": "Home Screen Widgets Restored",
+        "description": "Sobriety and Life Audit launcher widgets fixed with zero-state prompts, deep linking & crash immunity.",
+        "icon": "widgets_rounded"
+      },
+      {
+        "title": "Pure 12H Clock & Single Tactile Touch",
+        "description": "Clean digits without AM/PM clutter on home clock face, paired with unified single-burst haptic clicks.",
+        "icon": "schedule_rounded"
+      },
+      {
+        "title": "Condensed 5-Page Onboarding",
+        "description": "Streamlined welcome sheet featuring a unified Permissions & System Reliability center.",
+        "icon": "verified_user_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "+ Plus Notes: Dedicated long-form writing canvas with top-left Plus button and unrestricted character capacity",
+      "+ History Note Editing: Fixed note retrieval in timeline session cards with seamless editing for long entries",
+      "+ Customizable Hashtags: Long-press any quick tag in the note dialog to customize shortcuts for your workflow",
+      "+ Home Screen Widgets: Resolved RemoteViews layout inflation crash for Sobriety and Life Audit widgets",
+      "+ Widget Intelligence: Added graceful zero-states, compact sizing fixes, and direct settings deep-linking",
+      "+ Distraction-Free Clock: Pure 12-hour clock face digits with explicit AM/PM tags in History and Search Notes",
+      "+ Single Tactile Touch: Unified crisp single-burst haptic feedback across all buttons, eliminating double bursts",
+      "+ 5-Page Welcome Onboarding: Streamlined setup with consolidated Notifications, Battery, and Update permissions",
+      "+ Settings Update Center: Added \"Rm -rf Cache\" switch for instant installer cleanup with search indexing",
+      "* All 160 automated unit and widget test suites passing with zero lints and 100% offline security"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.2/NoteKar-v7.5.2-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.2/NoteKar-v7.5.2-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.5.1",
+    "buildNumber": "26BR0912",
+    "releaseDate": "2026-09-12",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "Universal Themes & Spatial Modes",
+    "badgeColor": "#FF9F0A",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Universal Theme Harmony",
+        "description": "Full Light, Dark, and AMOLED theme parity across all popups, pickers, action sheets, and alerts.",
+        "icon": "palette_rounded"
+      },
+      {
+        "title": "Dedicated Mode Workspaces",
+        "description": "Individual mode settings pages with native back routing, 15-character naming limit, and iOS confirmation dialogs.",
+        "icon": "tune_rounded"
+      },
+      {
+        "title": "Android Home Widgets",
+        "description": "3 dedicated launcher widgets (Quick Capture, Sobriety, Life Audit) and dynamic persistent notification.",
+        "icon": "widgets_rounded"
+      },
+      {
+        "title": "120Hz Decoupled Motion",
+        "description": "Stutter-free high-refresh rendering, ergonomic touch safety zone, and 80/20 Search Notes.",
+        "icon": "speed_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "Elegance inside and out - universal themes, dedicated modes, and tactile home widgets.",
+      "Add full Light, Dark, and AMOLED theme support across all popups, Cupertino sheets, pickers, and pills",
+      "Add dedicated settings pages for logging modes with native back routing and 15-character naming limit",
+      "Relocate destructive mode deletion with Apple-style confirmation to individual mode pages",
+      "Introduce 3 dedicated Android Home Screen widgets: Quick Capture, Sobriety Companion, and Life Audit",
+      "Implement dynamic persistent notification reflecting live session state, check-in time, and daily counts",
+      "Add ergonomic tap safety zone to prevent accidental ghost touches while maintaining full edge reach",
+      "Decouple accelerometer motion with RepaintBoundary for silky 120Hz high-refresh rendering",
+      "Redesign Search Notes into an 80/20 layout with single/two-way metadata and dynamic #hashtag pills",
+      "Add depleting animated progress bar to note undo pills with instant single-tap restoration",
+      "Ensure smooth, jitter-free sheet transitions from History timeline directly into Search Notes"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.1/NoteKar-v7.5.1-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.1/NoteKar-v7.5.1-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.5.0",
+    "buildNumber": "26PR0908a",
+    "releaseDate": "2026-09-08",
+    "channel": "priority",
+    "channelTag": "[Priority]",
+    "isBeta": false,
+    "edition": "Official Bulletins & Life Ledger Calibration",
+    "badgeColor": "#0A84FF",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Hardened Official Bulletins",
+        "description": "7-language localization parity, dedicated security section, non-blocking offline toast, and silent freshness sync.",
+        "icon": "campaign_rounded"
+      },
+      {
+        "title": "Life Ledger History Calibration",
+        "description": "Existential void calculations strictly bounded to verified history, eliminating phantom void hours.",
+        "icon": "auto_graph_rounded"
+      },
+      {
+        "title": "Unified Settings Navigation",
+        "description": "Seamless bulletin category navigation stack and universal back handlers across all modal sheets.",
+        "icon": "settings_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "NoteKar has revisioned itself - honoring the truth of human history.",
+      "Add native 7-language support (EN, HI, ES, DE, FR, JA, RU) to AppNotice and local-first NoticeService defaults",
+      "Introduce full notification hierarchy: Critical, Security (dedicated section), Release Bulletins, and Curated Tips",
+      "Remove status circle dot next to 'Notice Engine Active' for clean visual hierarchy",
+      "Replace blocking modal alerts with non-blocking Apple-style iOS pill toast on manual refresh",
+      "Implement silent background auto-sync for stale cache (> 4h) and automatic recovery from corrupted cache",
+      "Add contextual action routing and localized action button labels (releases, settings, audit, history, web links)",
+      "Calibrate existential wastage metrics to recorded history bounds, preventing uncalibrated void hours for new users",
+      "Equalize card dimensions for Waking Days and Earth Days lost under 'The Cost of Void'",
+      "Resolve text truncation and header collision in Life Audit dashboard card",
+      "Integrate Official Bulletins into Settings category navigation stack with seamless back button routing",
+      "Add universal back handlers to all secondary modal dialogs and bottom sheets",
+      "Harden CI/CD GitHub Action workflow for VirusTotal verification link injection in release notes"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.0/NoteKar-v7.5.0-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.0/NoteKar-v7.5.0-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.4.0",
+    "buildNumber": "26PR0908",
+    "releaseDate": "2026-09-08",
+    "channel": "priority",
+    "channelTag": "[Priority]",
+    "isBeta": false,
+    "edition": "Life Audit, Spatial Harmony & Sovereign Signal",
+    "badgeColor": "#7000FF",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Life Audit & The Void",
+        "description": "Daily 24h partition engine confronting unaccounted hours across 6 horizons.",
+        "icon": "auto_graph_rounded"
+      },
+      {
+        "title": "Spatial Bebas Neue Clock",
+        "description": "Optically centered usable-viewport chronometer face with authentic tall typography.",
+        "icon": "schedule_rounded"
+      },
+      {
+        "title": "Two-Way Session Continuity",
+        "description": "Unbroken stopwatch and note state preservation across Single and Two-Way modes.",
+        "icon": "sync_alt_rounded"
+      },
+      {
+        "title": "WhatsApp-Grade Note Input",
+        "description": "Instantaneous note entry with sentence capitalization and composition safety.",
+        "icon": "edit_note_rounded"
+      },
+      {
+        "title": "Smart Onboarding & 7 Locales",
+        "description": "Tours integrated into onboarding, unseen cards for updating users, and full 7-language support.",
+        "icon": "translate_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "NoteKar has revisioned itself. Moving beyond a minimalist clicker into an existential compass: accounting for finite conscious hours, confronting the cost of the void, and perfecting sensory chronometer craft.",
+      "+ Add Life Audit time wastage engine with 24-hour conscious partitions and 6 temporal horizons",
+      "+ Implement The Cost of the Void existential metrics: Waking Days Lost and Earth Days Lost",
+      "+ Introduce Executive Dashboard Life Audit card with dynamic horizon indicators and overflow guards",
+      "+ Optically center main clock within usable viewport between top insights and bottom toolbar",
+      "+ Bundle authentic Bebas Neue tall typography for chronometer and active session countdowns",
+      "+ Guarantee Two-Way session continuity across Single and Two-Way mode toggles with zero state loss",
+      "+ Overhaul NoteDialog with WhatsApp-grade zero-lag input, sentence capitalization, and composition safety",
+      "+ Migrate feature tours from settings to onboarding, adding standalone unseen cards for updating users",
+      "+ Expand offline multilingual localizations across 7 languages (EN, HI, ES, FR, DE, JA, RU)",
+      "* Full automated test suite passing across all unit, widget, and state continuity verifications"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.4.0/NoteKar-v7.4.0-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.4.0/NoteKar-v7.4.0-arm64-v8a-release.apk"
+    }
+  },
+  {
+    "version": "7.3.3",
+    "buildNumber": "26BR0906b",
+    "releaseDate": "2026-09-06",
+    "channel": "beta",
+    "channelTag": "[Beta]",
+    "isBeta": true,
+    "edition": "Physical Swipe Geometry & Sovereign Signal",
+    "badgeColor": "#0A84FF",
+    "isLatest": false,
+    "highlights": [
+      {
+        "title": "Physical Bed of Red",
+        "description": "SwipeableCardBed matches exact card corner geometry with solid crimson ground.",
+        "icon": "swipe_rounded"
+      },
+      {
+        "title": "Sovereign Bulletins",
+        "description": "Official advisories coupled with App Notices toggle and socket-level offline verification.",
+        "icon": "campaign_rounded"
+      },
+      {
+        "title": "Keynote Architecture",
+        "description": "Flush settings width, proportioned pill tags, and Steve Jobs design colophon.",
+        "icon": "auto_awesome_rounded"
+      },
+      {
+        "title": "Refined App Philosophy",
+        "description": "Streamlined About manifesto with focused typography and zero redundant subtitles.",
+        "icon": "lightbulb_outline_rounded"
+      }
+    ],
+    "fullChangelog": [
+      "Re-engineer swipe-to-delete with SwipeableCardBed matching exact 16pt/12pt card corner radii",
+      "Eliminate all background straight-line cutouts and gaps behind sliding session and single moment cards",
+      "Standardize What's New keynote hero card and innovation cards to flush settings group bounds",
+      "Align keynote pill tags, release edition badges, and date metadata to eliminate horizontal overflows",
+      "Couple Official Bulletins visibility with App Notices preference switch in Notifications & Updates",
+      "Add 1-second deliberate activity feedback spinner and socket-level DNS verification to bulletin checks",
+      "Refine App Philosophy card in About with elevated typography, removing redundant subtitle copy",
+      "Simplify Reset page description to minimal text and subtle warning icon",
+      "Update in-app guides, help FAQs, and settings search indexing for recent sovereign feature additions"
+    ],
+    "downloads": {
+      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.3/NoteKar-v7.3.3-universal-release.apk",
+      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.3/NoteKar-v7.3.3-arm64-v8a-release.apk"
+    }
+  }
+];
 
   const LOCAL_JSON_URL = 'versions/changelog.json';
   const GITHUB_CHANGELOG_URL = 'https://raw.githubusercontent.com/dheeraz101/Notekar-Android/main/versions/changelog.json';
@@ -1096,7 +1360,7 @@
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true');
       currentFilter = btn.getAttribute('data-filter');
       filterReleases();
     });

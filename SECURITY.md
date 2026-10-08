@@ -1,33 +1,34 @@
 # Security Policy: NoteKar
 
-NoteKar takes software security and user privacy very seriously. Because NoteKar is an **offline-first application with zero backend databases**, all user logs and entries reside strictly on local client devices.
+NoteKar takes software security and user privacy seriously. Because NoteKar is an **offline-first application**, user timestamps, notes, and local configurations reside strictly on client devices (using browser IndexedDB / `localStorage` for the Web PWA, and Isar / `SharedPreferences` for the Android app).
 
 ---
 
 ## Supported Versions
 
-We provide security updates for the following release channels:
+Security patches and maintenance are provided for active channels:
 
 | Version Channel | Supported |
 | :--- | :--- |
-| Latest Release (v7.x / v3.x PWA) | :white_check_mark: |
-| Development / Beta Branches | :white_check_mark: |
+| Latest Active Release (v7.x Android / v3.x PWA) | :white_check_mark: |
+| Active Beta Releases | :white_check_mark: |
 | Older Legacy Versions | :x: |
 
 ---
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability or potential privacy leak in NoteKar, please **do not open a public GitHub issue**. Instead, report it privately to our team:
+If you discover a security vulnerability or potential privacy issue in NoteKar, please **do not open a public GitHub issue**. Instead, report it privately to the maintainer:
 
 - 📧 **Email:** [yabp.support@gmail.com](mailto:yabp.support@gmail.com)
 
 ### Please Include:
-- Description of the vulnerability and potential impact.
+- A clear description of the vulnerability and its potential impact.
 - Steps to reproduce or proof-of-concept payload/code.
-- Browser/OS details where the issue was observed.
+- Browser/OS or Android device details where the issue was observed.
+- ⚠️ **Redaction Warning:** Do not attach unredacted personal logs, private notes, tokens, or identifiers.
 
-We will acknowledge receipt of your vulnerability report within **48 hours** and provide periodic updates regarding patch deployment.
+Reports are reviewed on a best-effort basis, with critical fixes prioritized for subsequent releases.
 
 ---
 

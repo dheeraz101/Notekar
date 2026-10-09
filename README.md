@@ -1,150 +1,109 @@
-# NoteKar
+<div align="center">
 
-> **Sovereign Timestamp Logger: Your time. Your truth. Your device.** Zero friction. One tap. Offline-first.
+# 🌐 NoteKar Web PWA
 
-![version](https://img.shields.io/badge/version-3.2.7%20PWA-blue) ![android](https://img.shields.io/badge/Android%20Releases-v7.5.7%2B-green) ![license](https://img.shields.io/badge/license-MIT-green) ![privacy](https://img.shields.io/badge/privacy-Offline--First-brightgreen)
+[![Version](https://img.shields.io/badge/version-3.2.7%20PWA-0070F3.svg?style=flat-square)](https://notekarapp.vercel.app/)
+[![Android Releases](https://img.shields.io/badge/Android%20Releases-v7.5.7%2B-248A3D.svg?style=flat-square&logo=android&logoColor=white)](https://github.com/dheeraz101/Notekar-Android)
+[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg?style=flat-square&logo=ghostery&logoColor=white)](https://notekarapp.vercel.app/privacy.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-EAB308.svg?style=flat-square)](LICENSE)
+
+### *Sovereign Timestamp Logging in Modern Web Browsers*
+
+**Zero Friction • 1-Tap Glass Logging • IndexedDB Local Storage • 100% Private & Air-Gapped**
+
+<p align="center">
+  <a href="https://notekarapp.vercel.app/">
+    <img src="https://img.shields.io/badge/🚀_Launch_Live_PWA-notekarapp.vercel.app-0070F3?style=for-the-badge&logo=vercel&logoColor=white" alt="Launch Web App" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/dheeraz101/Notekar-Android">
+    <img src="https://img.shields.io/badge/📱_Native_Android_App-GitHub_Repo-248A3D?style=for-the-badge&logo=android&logoColor=white" alt="Android App Repo" />
+  </a>
+</p>
+
+</div>
 
 ---
 
 > [!IMPORTANT]
-> **NoteKar has evolved.** The Android application is the primary development focus, with full native features including Life Audit, Sobriety Companion, Executive Intelligence Hub, and more.
->
-> 👉 **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)**: Latest releases, APK downloads, and source code.
+> **Companion Web App & Sovereign Architecture**  
+> This repository contains the **NoteKar Progressive Web App (PWA)** and product website. It mirrors NoteKar's core timestamp logging experience directly in any modern browser using local IndexedDB storage.
+> 
+> For the flagship Android experience with Life Audit, The Cost of the Void, Life Ledger Timeline, Sobriety Companion, and local Isar database, visit the **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)**.
 
 ---
 
-## 🌐 What is This Repo?
+## 📸 Web PWA Interface
 
-This repository contains the **NoteKar Companion Web App**, a Progressive Web App (PWA) that mirrors the core timestamp logging experience in your browser. It also hosts the **product website**, privacy policy, and terms of use.
+<div align="center">
 
-| Resource | Link |
-|:---------|:-----|
-| **Live Web App** | [notekarapp.vercel.app](https://notekarapp.vercel.app/) |
-| **Landing Page** | [notekarapp.vercel.app/landing.html](https://notekarapp.vercel.app/landing.html) |
-| **Privacy Policy** | [notekarapp.vercel.app/privacy.html](https://notekarapp.vercel.app/privacy.html) |
-| **Terms of Use** | [notekarapp.vercel.app/terms.html](https://notekarapp.vercel.app/terms.html) |
-| **Android App** | [github.com/dheeraz101/Notekar-Android](https://github.com/dheeraz101/Notekar-Android) |
+| Instant Glass Chronometer | Settings & Local Controls |
+| :---: | :---: |
+| <img src="screenshot.png" width="260" alt="NoteKar Web Chronometer" /> | <img src="screenshot-2.png" width="260" alt="NoteKar Web Settings" /> |
+| *One-tap timestamp recording on glass* | *Appearance, delay guard, and 1-tap exports* |
 
----
-
-## ✨ Key Features (Web PWA)
-
-- **Instant Tap Logging**: One tap = one timestamp recorded instantly.
-- **Dual Modes**: Two-way (IN/OUT session pairs) or Single (one-shot) logging.
-- **Rich History**: Filter by timeframe or entry type with full search.
-- **Optional Notes**: Long-press any entry to add context.
-- **Configurable Tap Delay**: Prevent accidental double-taps (0s-1 minute).
-- **Offline-First Storage**: All data stored locally via IndexedDB. Zero cloud.
-- **Data Export**: CSV and JSON export. Your data, your format.
-- **Zero Tracking**: No analytics, no ads, no accounts, no telemetry.
+</div>
 
 ---
 
-## 🔒 Privacy & Legal
+## ✨ Key Capabilities
 
-NoteKar is built with a **strict privacy-by-default philosophy**. Your core logging data never leaves your device.
-
-- 🛡️ **[Privacy Policy](https://notekarapp.vercel.app/privacy.html)**: How NoteKar safeguards your local data.
-- 📜 **[Terms of Use](https://notekarapp.vercel.app/terms.html)**: MIT License and usage terms.
-
----
-
-## 📦 Project Structure
-
-```
-.
-├── landing.html            # Product landing page
-├── index.html              # Web PWA application (single-page app)
-├── privacy.html            # Privacy Policy page
-├── terms.html              # Terms of Use page
-├── sw.js                   # Service Worker (offline PWA caching)
-├── manifest.json           # PWA Web App Manifest
-├── health.json             # Version and release channel tracking
-├── changelog.html          # Version changelog viewer
-├── releases/
-│   ├── stable.js           # Production release metadata
-│   └── beta.js             # Beta release metadata
-├── app_icons/              # Branded app icon assets
-├── CONTRIBUTING.md         # Contribution guidelines
-├── CODE_OF_CONDUCT.md      # Community Code of Conduct
-├── SECURITY.md             # Security policy
-└── LICENSE                 # MIT License
-```
+- **Instant Tap Logging**: One tap logs the exact second with zero input friction.
+- **Dual Operating Modes**: Switch between Two-Way (`IN` / `OUT` session intervals) and Single counters.
+- **Zero Cloud & Air-Gapped**: All timestamps and notes are stored strictly in client-side **IndexedDB**.
+- **Configurable Tap Delay Guard**: Prevent accidental double-taps (0s to 60s cooldown).
+- **Data Portability**: 1-tap export to clean CSV and JSON. Your records remain yours.
+- **Zero Tracking**: No Google Analytics, no Firebase, no advertising pixels, no mandatory accounts.
 
 ---
 
-## 🚀 Getting Started
+## 🔒 Privacy & Sovereignty
 
-### Option 1: Use the Live App
-Visit **[notekarapp.vercel.app](https://notekarapp.vercel.app/)**: works instantly, installs as a PWA.
+NoteKar is architected around strict privacy-by-default:
 
-### Option 2: Run Locally
+- 🛡️ **[Privacy Policy](https://notekarapp.vercel.app/privacy.html)**: Explains our zero-telemetry, offline-first data model.
+- 📜 **[Terms of Service](https://notekarapp.vercel.app/terms.html)**: Open-source terms and usage policies.
+
+---
+
+## 🚀 Running Locally
+
 ```bash
+# Clone the repository
 git clone https://github.com/dheeraz101/Notekar.git
 cd Notekar
 
-# Python 3
+# Start a local static server
+# Option A: Python 3
 python -m http.server 8000
 
-# OR Node.js
-npx http-server
+# Option B: Node.js
+npx http-server -p 8000
 ```
-Open `http://localhost:8000` in your browser.
+
+Open `http://localhost:8000` in any web browser.
 
 ---
 
-## 📱 Android Application
+## ☕ Support & Community
 
-The full-featured **NoteKar Android** app is developed in a separate repository with advanced features including Life Audit, Sobriety Companion, Executive Intelligence Hub, local Isar storage architecture, and more.
-
-👉 **[NoteKar Android Repository](https://github.com/dheeraz101/Notekar-Android)**  
-📥 **[Download Latest APK](https://github.com/dheeraz101/Notekar-Android/releases/latest)**
-
----
-
-## ☕ Support
-
-If NoteKar brings value to your daily workflow, consider supporting its open-source journey:
+If NoteKar brings value to your workflow, consider supporting its open-source journey:
 
 <p align="center">
   <a href="https://www.buymeacoffee.com/dheeraz">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" width="190" alt="Buy Me a Coffee" />
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" width="180" alt="Buy Me a Coffee" />
   </a>
   &nbsp;&nbsp;
   <a href="https://buymeachai.ezee.li/dheeraz">
-    <img src="https://buymeachai.ezee.li/assets/images/buymeachai-button.png" width="190" alt="Buy Me A Chai" />
+    <img src="https://buymeachai.ezee.li/assets/images/buymeachai-button.png" width="180" alt="Buy Me A Chai" />
   </a>
 </p>
 
 ---
 
-## 🤝 Contributing
+## 📄 License & Attribution
 
-Contributions are welcome! Please review **[CONTRIBUTING.md](CONTRIBUTING.md)** and **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** before submitting pull requests.
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
-
----
-
-## ⚖️ Legal Disclaimer & Trademark Notice
-
-> [!IMPORTANT]
-> **Independent Open-Source Instrument**: NoteKar is an independent sovereign utility created under the **[YABP (Yet Another Boring Project)](https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/)** initiative. NoteKar is not affiliated with, authorized, maintained, sponsored, or endorsed by Google LLC, Apple Inc., or any of their affiliates or subsidiaries.
-> 
-> "Android", "Google Play", and "Google Drive" are registered trademarks of Google LLC. "Apple", "iOS", and "iPhone" are registered trademarks of Apple Inc. All other trademarks belong to their respective owners.
-> 
-> **Design Philosophy & Attribution**: NoteKar's spatial chronometer typography, dynamic tactile feedback, fluid transitions, and glassmorphic bottom sheets are inspired by the design principles of Apple Human Interface Guidelines (HIG) and iOS modern interfaces. NoteKar is an independent sovereign craft built natively for Android and modern web browsers. It does not use, include, copy, or redistribute proprietary Apple or Google code, assets, or services.
-> 
-> **Data Sovereignty Architecture**: All timestamp captures, session durations, and user notes are processed and stored locally on your device (via browser IndexedDB on the web, and local on-device Isar/SharedPreferences storage on Android). NoteKar does not maintain cloud database relays, telemetry collectors, tracking SDKs, or background sync servers.
-
----
-
-## 🙏 Credits
-
-- **Made with ❤ in India**
-- Part of the **[YABP Initiative](https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/)**
-- Maintained by [Dheeraz](https://github.com/dheeraz101)
+- **License**: Distributed under the **[MIT License](LICENSE)**.
+- **Initiative**: Created under the **[YABP (Yet Another Boring Project)](https://yabp.netlify.app/?verify=https://notekarapp.vercel.app/)** initiative.
+- **Developer**: [Dheeraz](https://github.com/dheeraz101)  
+- **Made with ❤️ in India.**

@@ -6,38 +6,35 @@
 <meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="Official release notes and changelog history for NoteKar Android (Stable & Beta).">
+<meta name="description" content="Official release notes and changelog history for NoteKar Android (Stable & Beta). Apple HIG design, fast offline-ready performance.">
 <title>Release Notes & Changelog - NoteKar</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #000000;
-    --surface: #101012;
-    --surface-elevated: #161618;
-    --surface2: #1c1c1e;
-    --surface3: #2c2c2e;
+    --surface: #121214;
+    --surface-elevated: #18181b;
+    --surface-secondary: #1c1c1e;
+    --surface-tertiary: #2c2c2e;
     --border: rgba(255, 255, 255, 0.08);
     --border-hover: rgba(255, 255, 255, 0.16);
-    --border-accent: rgba(10, 132, 255, 0.4);
+    --border-accent: rgba(10, 132, 255, 0.35);
     --text: #f5f5f7;
-    --text2: #a1a1a6;
-    --text3: #636366;
+    --text-secondary: #86868b;
+    --text-muted: #636366;
     --accent: #0A84FF;
-    --accent-glow: rgba(10, 132, 255, 0.16);
+    --accent-glow: rgba(10, 132, 255, 0.12);
     --green: #30D158;
-    --green-glow: rgba(48, 209, 88, 0.14);
-    --red: #FF453A;
-    --red-glow: rgba(255, 69, 58, 0.14);
+    --green-glow: rgba(48, 209, 88, 0.12);
     --orange: #FF9F0A;
-    --orange-glow: rgba(255, 159, 10, 0.14);
-    --purple: #BF5AF2;
-    --radius-xl: 24px;
-    --radius: 18px;
-    --radius-sm: 12px;
+    --orange-glow: rgba(255, 159, 10, 0.12);
+    --radius-xl: 20px;
+    --radius-lg: 16px;
+    --radius-md: 12px;
     --radius-pill: 999px;
   }
 
@@ -51,39 +48,40 @@
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', sans-serif;
     line-height: 1.5;
     min-height: 100vh;
     padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: max(56px, env(safe-area-inset-bottom, 24px));
+    padding-bottom: max(64px, env(safe-area-inset-bottom, 32px));
     padding-left: max(16px, env(safe-area-inset-left, 16px));
     padding-right: max(16px, env(safe-area-inset-right, 16px));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   .container {
-    max-width: 780px;
+    max-width: 760px;
     margin: 0 auto;
   }
 
-  /* Header Bar */
+  /* Navigation Bar */
   header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.78);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid var(--border);
     margin-left: max(-16px, calc(-1 * env(safe-area-inset-left, 16px)));
     margin-right: max(-16px, calc(-1 * env(safe-area-inset-right, 16px)));
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     padding: 12px 20px;
   }
 
   .header-content {
-    max-width: 780px;
+    max-width: 760px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -96,30 +94,19 @@
     gap: 10px;
     text-decoration: none;
     color: var(--text);
-    transition: opacity 0.2s;
-  }
-
-  .brand:hover {
-    opacity: 0.85;
   }
 
   .brand img {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
     border: 1px solid var(--border);
   }
 
   .brand-text {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.4px;
-  }
-
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
   }
 
   .nav-btn {
@@ -128,165 +115,129 @@
     gap: 6px;
     padding: 6px 14px;
     border-radius: var(--radius-pill);
-    background: var(--surface2);
+    background: var(--surface-secondary);
     border: 1px solid var(--border);
     color: var(--text);
     text-decoration: none;
     font-size: 13px;
     font-weight: 500;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    min-height: 34px;
+    transition: all 0.15s ease;
   }
 
   .nav-btn:hover {
-    background: var(--surface3);
+    background: var(--surface-tertiary);
     border-color: var(--border-hover);
-    transform: translateY(-1px);
   }
 
   /* Hero Section */
   .hero {
     text-align: center;
-    padding: 24px 12px 32px;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
-    border-radius: var(--radius-pill);
-    background: var(--accent-glow);
-    border: 1px solid var(--border-accent);
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.2px;
-    margin-bottom: 16px;
+    padding: 16px 8px 24px;
   }
 
   .hero h1 {
-    font-size: clamp(32px, 6vw, 44px);
-    font-weight: 800;
-    letter-spacing: -1.2px;
+    font-size: clamp(28px, 5.5vw, 40px);
+    font-weight: 700;
+    letter-spacing: -1px;
     line-height: 1.15;
-    margin-bottom: 12px;
-    background: linear-gradient(180deg, #FFFFFF 30%, #A1A1A6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    color: #ffffff;
   }
 
   .hero p {
-    color: var(--text2);
-    font-size: 15px;
-    max-width: 540px;
-    margin: 0 auto;
+    color: var(--text-secondary);
+    font-size: 14.5px;
+    max-width: 520px;
+    margin: 0 auto 16px;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
-  /* Controls (Search & Segmented Filter Tabs) */
-  .controls-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-bottom: 28px;
-  }
-
-  .search-container {
-    position: relative;
-    width: 100%;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text3);
-    font-size: 15px;
-    pointer-events: none;
-  }
-
-  .search-bar {
-    width: 100%;
-    padding: 13px 40px 13px 42px;
+  .stats-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: all 0.2s ease;
+    font-size: 12px;
+    color: var(--text-secondary);
   }
 
-  .search-bar:focus {
-    border-color: var(--accent);
-    background: var(--surface-elevated);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
-
-  .search-clear {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--surface3);
-    border: none;
-    color: var(--text2);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: 11px;
-    cursor: pointer;
-    display: none;
+  .stats-strip span {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
+    gap: 4px;
   }
 
-  .search-clear:hover {
-    background: var(--text3);
-    color: #fff;
+  .stats-strip strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* Sticky Controls Bar (Search + Segmented Tabs) */
+  .controls-bar {
+    position: sticky;
+    top: 57px;
+    z-index: 90;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 10px 0 14px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .controls-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  @media (min-width: 600px) {
+    .controls-flex {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 
   /* Apple Segmented Control */
   .segmented-control {
     display: inline-flex;
-    background: var(--surface);
-    padding: 4px;
-    border-radius: var(--radius-pill);
+    background: var(--surface-secondary);
+    padding: 3px;
+    border-radius: 10px;
     border: 1px solid var(--border);
-    gap: 4px;
-    align-self: center;
-    max-width: 100%;
-    overflow-x: auto;
+    gap: 2px;
+    width: 100%;
+  }
+
+  @media (min-width: 600px) {
+    .segmented-control {
+      width: auto;
+    }
   }
 
   .filter-btn {
-    padding: 6px 16px;
-    border-radius: var(--radius-pill);
+    flex: 1;
+    padding: 6px 14px;
+    border-radius: 8px;
     background: transparent;
     border: none;
-    color: var(--text2);
+    color: var(--text-secondary);
     font-size: 13px;
     font-weight: 500;
+    font-family: inherit;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
+    text-align: center;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
-  }
-
-  .filter-btn .count-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 1px 6px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--text3);
   }
 
   .filter-btn:hover {
@@ -294,49 +245,112 @@
   }
 
   .filter-btn.active {
-    background: var(--surface2);
+    background: #2c2c2e;
     color: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    font-weight: 600;
   }
 
-  .filter-btn.active .count-badge {
-    background: var(--accent);
-    color: #ffffff;
+  .filter-btn .count {
+    font-size: 11px;
+    opacity: 0.7;
   }
 
-  .filter-btn.beta.active .count-badge {
-    background: var(--orange);
-    color: #000000;
+  /* Search Input */
+  .search-box {
+    position: relative;
+    width: 100%;
   }
 
-  /* Release Card */
+  @media (min-width: 600px) {
+    .search-box {
+      width: 240px;
+    }
+  }
+
+  .search-box svg.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    fill: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 34px;
+    padding: 6px 32px 6px 34px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.15s ease;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+    background: var(--surface-elevated);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #3a3a3c;
+    border: none;
+    color: #aeaeb2;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 10px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Release Cards List */
+  #releasesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* CSS Optimization: content-visibility for 120fps scrolling */
   .release-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
-    padding: 24px;
-    margin-bottom: 24px;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    position: relative;
-    overflow: hidden;
+    padding: 22px;
+    transition: border-color 0.15s ease;
+    content-visibility: auto;
+    contain-intrinsic-size: 260px;
+  }
+
+  .release-card:hover {
+    border-color: var(--border-hover);
   }
 
   .release-card.latest {
     border-color: var(--border-accent);
     background: linear-gradient(180deg, rgba(10, 132, 255, 0.04) 0%, var(--surface) 100%);
-    box-shadow: 0 12px 40px rgba(10, 132, 255, 0.08);
-  }
-
-  .release-card.beta-card {
-    border-left: 4px solid var(--orange);
+    box-shadow: 0 8px 30px rgba(10, 132, 255, 0.06);
   }
 
   .release-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: 12px;
+    margin-bottom: 12px;
   }
 
   .version-meta {
@@ -344,231 +358,254 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    margin-bottom: 4px;
   }
 
   .version-title {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.5px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.4px;
   }
 
-  .build-number {
+  .build-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    color: var(--text3);
+    color: var(--text-muted);
     padding: 2px 6px;
     background: rgba(255, 255, 255, 0.04);
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .tag-pill {
+  .badge-pill {
     font-size: 11px;
-    font-weight: 700;
-    padding: 3px 9px;
+    font-weight: 600;
+    padding: 2px 8px;
     border-radius: var(--radius-pill);
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.2px;
   }
 
-  .tag-latest { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--border-accent); }
-  .tag-beta { background: var(--orange-glow); color: var(--orange); border: 1px solid rgba(255, 159, 10, 0.35); }
-  .tag-stable { background: var(--green-glow); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.35); }
-  .tag-priority { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--border-accent); }
+  .badge-latest { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--border-accent); }
+  .badge-stable { background: var(--green-glow); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.3); }
+  .badge-beta { background: var(--orange-glow); color: var(--orange); border: 1px solid rgba(255, 159, 10, 0.3); }
 
   .release-date {
-    color: var(--text3);
-    font-size: 13px;
-    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 12.5px;
     white-space: nowrap;
     margin-top: 4px;
   }
 
-  .edition-name {
-    font-size: 14.5px;
+  .edition-title {
+    font-size: 15px;
     font-weight: 600;
-    color: var(--accent);
-    margin-top: 4px;
+    color: var(--text);
+    margin-bottom: 14px;
     letter-spacing: -0.2px;
   }
 
-  .edition-name.beta-edition {
-    color: var(--orange);
-  }
-
-  /* Highlights Matrix */
-  .highlights-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin: 18px 0;
-  }
-
-  @media (min-width: 600px) {
-    .highlights-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 720px) {
-    .highlights-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .highlight-card {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px;
+  /* Highlights Section */
+  .highlights-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    transition: transform 0.2s, border-color 0.2s;
+    gap: 10px;
+    margin-bottom: 16px;
   }
 
-  .highlight-card:hover {
-    border-color: var(--border-hover);
-    transform: translateY(-2px);
-  }
-
-  .highlight-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
+  .highlight-item {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
   }
 
-  .highlight-desc {
-    font-size: 12px;
-    color: var(--text2);
+  .highlight-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .highlight-item.beta .highlight-bullet {
+    background: var(--orange);
+  }
+
+  .highlight-content h4 {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .highlight-content p {
+    font-size: 12.5px;
+    color: var(--text-secondary);
     line-height: 1.4;
   }
 
-  /* Items List with Apple Colored Icon Pills */
-  .changelog-list {
-    list-style: none;
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  /* Apple Expandable Full Changelog Details */
+  details.full-changelog-toggle {
+    margin: 14px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 12px;
   }
 
-  .changelog-item {
-    font-size: 13.5px;
-    color: var(--text2);
+  details.full-changelog-toggle summary {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.15s;
+  }
+
+  details.full-changelog-toggle summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details.full-changelog-toggle summary:hover {
+    opacity: 0.85;
+  }
+
+  details.full-changelog-toggle summary::before {
+    content: '›';
+    font-size: 14px;
+    font-weight: 700;
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  details.full-changelog-toggle[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .changelog-items-list {
+    margin-top: 10px;
+    padding-left: 18px;
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .changelog-items-list li {
+    font-size: 12.5px;
+    color: var(--text-secondary);
     line-height: 1.45;
   }
 
-  .item-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 800;
-    flex-shrink: 0;
-    margin-top: 1px;
-    user-select: none;
-  }
-
-  .icon-add { background: var(--green-glow); color: var(--green); border: 1px solid rgba(48, 209, 88, 0.3); }
-  .icon-remove { background: var(--red-glow); color: var(--red); border: 1px solid rgba(255, 69, 58, 0.3); }
-  .icon-improve { background: var(--orange-glow); color: var(--orange); border: 1px solid rgba(255, 159, 10, 0.3); }
-  .icon-fix { background: var(--accent-glow); color: var(--accent); border: 1px solid var(--border-accent); }
-  .icon-default { background: rgba(255, 255, 255, 0.06); color: var(--text2); border: 1px solid var(--border); }
-
-  /* Download Buttons */
+  /* Download Action Bar */
   .download-bar {
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .download-btn {
+  .download-pill {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 8px 16px;
+    gap: 6px;
+    padding: 7px 14px;
     border-radius: var(--radius-pill);
-    background: var(--accent);
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
-    min-height: 38px;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    transition: all 0.15s ease;
   }
 
-  .download-btn.beta-dl {
-    background: var(--orange);
-    color: #000000;
+  .download-pill.primary {
+    background: #0071e3;
+    color: #ffffff;
   }
 
-  .download-btn:hover {
+  .download-pill.primary:hover {
+    background: #0077ed;
     transform: translateY(-1px);
-    opacity: 0.92;
   }
 
-  .download-btn:active {
-    transform: scale(0.97);
-  }
-
-  .download-btn.secondary {
-    background: var(--surface2);
+  .download-pill.secondary {
+    background: var(--surface-secondary);
     color: var(--text);
     border: 1px solid var(--border);
   }
 
-  .download-btn.secondary:hover {
-    background: var(--surface3);
+  .download-pill.secondary:hover {
+    background: var(--surface-tertiary);
+    border-color: var(--border-hover);
+  }
+
+  /* Load More Trigger */
+  .load-more-container {
+    text-align: center;
+    padding: 24px 0 12px;
+  }
+
+  .load-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+
+  .load-more-btn:hover {
+    background: var(--surface-tertiary);
     border-color: var(--border-hover);
   }
 
   /* Empty State */
   .empty-state {
     text-align: center;
-    padding: 60px 20px;
-    color: var(--text3);
+    padding: 48px 16px;
+    color: var(--text-secondary);
   }
 
-  .empty-state svg {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
-    stroke: var(--text3);
+  .empty-state h3 {
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .empty-state p {
+    font-size: 13.5px;
   }
 
   /* Footer */
   footer {
     text-align: center;
-    margin-top: 48px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    color: var(--text3);
-    font-size: 13px;
-    line-height: 1.6;
+    padding: 40px 16px 20px;
+    color: var(--text-muted);
+    font-size: 12.5px;
   }
 
   footer a {
-    color: var(--accent);
+    color: var(--text-secondary);
     text-decoration: none;
   }
 
   footer a:hover {
-    text-decoration: underline;
+    color: var(--accent);
   }
 </style>
 </head>
@@ -576,725 +613,332 @@
 
 <header>
   <div class="header-content">
-    <a href="index.html" class="brand">
-      <img src="icon-192.png" alt="NoteKar Logo">
-      <span class="brand-text">NoteKar</span>
+    <a href="landing.html" class="brand">
+      <img src="app_icons/black.png" alt="NoteKar" onerror="this.src='icon-192.png'">
+      <span class="brand-text">NoteKar Releases</span>
     </a>
-    <div class="nav-actions">
-      <a href="index.html" class="nav-btn">← Home</a>
-      <a href="https://github.com/dheeraz101/Notekar-Android" target="_blank" rel="noopener" class="nav-btn">GitHub</a>
-    </div>
+    <a href="index.html" class="nav-btn">← Back to App</a>
   </div>
 </header>
 
-<div class="container">
+<main class="container">
   <section class="hero">
-    <div class="hero-badge">The Ledger of Progress</div>
-    <h1>Changelog & Updates</h1>
-    <p>Every line of code, architectural evolution, and release milestone crafted for NoteKar Android.</p>
+    <h1>Release Notes</h1>
+    <p>Explore official release notes, performance upgrades, and architectural evolution across NoteKar Android.</p>
+    <div class="stats-strip">
+      <span><strong id="statCount">47</strong> Releases</span>
+      <span>•</span>
+      <span>Latest: <strong id="statLatest">v7.5.7</strong></span>
+      <span>•</span>
+      <span>Updated: <strong>Oct 2026</strong></span>
+    </div>
   </section>
 
-  <div class="controls-wrapper">
-    <div class="search-container">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-bar" aria-label="Search changelog" placeholder="Search features, architectural updates, or versions..." autocomplete="off">
-      <button id="searchClear" class="search-clear" title="Clear search" aria-label="Clear search">✕</button>
-    </div>
+  <div class="controls-bar">
+    <div class="controls-flex">
+      <div class="segmented-control" role="tablist">
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">
+          All <span class="count" id="countAll"></span>
+        </button>
+        <button class="filter-btn" data-filter="stable" role="tab" aria-selected="false">
+          Stable <span class="count" id="countStable"></span>
+        </button>
+        <button class="filter-btn" data-filter="beta" role="tab" aria-selected="false">
+          Beta <span class="count" id="countBeta"></span>
+        </button>
+      </div>
 
-    <div class="segmented-control" role="group" aria-label="Filter releases by channel">
-      <button class="filter-btn active" data-filter="all" aria-pressed="true">All Releases <span class="count-badge" id="countAll">0</span></button>
-      <button class="filter-btn" data-filter="stable" aria-pressed="false">Stable Releases <span class="count-badge" id="countStable">0</span></button>
-      <button class="filter-btn beta" data-filter="beta" aria-pressed="false">Beta Releases <span class="count-badge" id="countBeta">0</span></button>
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search updates..." aria-label="Search release notes">
+        <button id="searchClear" class="search-clear" aria-label="Clear search">✕</button>
+      </div>
     </div>
   </div>
 
-  <div id="changelogContainer">
-    <!-- Hydrated dynamically -->
+  <section id="releasesContainer" aria-label="Releases list">
+    <!-- Rendered dynamically -->
+  </section>
+
+  <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+    <button id="loadMoreBtn" class="load-more-btn">Show Older Updates ↓</button>
   </div>
 
-  <footer>
-    <p>NoteKar is Offline-First & Open Source under MIT License.</p>
-    <p>Crafted with obsessive precision. No telemetry, no accounts, no cloud dependencies.</p>
-  </footer>
-</div>
+  <div class="empty-state" id="emptyState" style="display: none;">
+    <h3>No Updates Found</h3>
+    <p>Try searching for a different keyword, version number, or filter.</p>
+  </div>
+</main>
+
+<footer>
+  <p>NoteKar is an offline-first sovereign time instrument. <a href="https://github.com/dheeraz101/Notekar-Android" target="_blank" rel="noopener">GitHub Repository</a> • <a href="privacy.html">Privacy</a></p>
+</footer>
 
 <script>
-  // Robust Fallback Array for instant, zero-latency offline rendering
-  const LOCAL_FALLBACK_RELEASES = [
-  {
-    "version": "7.5.7",
-    "buildNumber": "26BR1004",
-    "releaseDate": "2026-10-04",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "High-Performance Engine & Fault Isolation",
-    "badgeColor": "#FF9F0A",
-    "isLatest": true,
-    "highlights": [
-      {
-        "title": "Concurrency Engine (Isolates)",
-        "description": "Heavy analytical computations across Life Audit and Executive Dashboard offloaded to background isolates for locked 120fps UI scrolling.",
-        "icon": "bolt_rounded"
-      },
-      {
-        "title": "High-Performance Search Indexing",
-        "description": "Sub-millisecond inverted token index engine with prefix trie hashtag autocomplete and candidate relevance ranking.",
-        "icon": "search_rounded"
-      },
-      {
-        "title": "Circuit Breaker Fault Isolation",
-        "description": "Automated 3-strike circuit breaker protecting Digital Wellbeing and third-party integrations from cascading crashes.",
-        "icon": "offline_bolt_rounded"
-      },
-      {
-        "title": "Secondary Indices & Binary Range Slices",
-        "description": "In-memory secondary ID index for O(1) lookups and O(log N) binary range slicing for instant date queries in MomentRepository.",
-        "icon": "layers_rounded"
-      },
-      {
-        "title": "Guaranteed Daily Maintenance Scheduler",
-        "description": "Native Android AlarmManager midnight maintenance trigger for automated rolling snapshots, 30-day trash auto-purging, and storage compaction.",
-        "icon": "schedule_rounded"
-      },
-      {
-        "title": "Life Audit Ledger in History",
-        "description": "Direct Life Audit action sheet route from History and PageStorageKey scroll position preservation.",
-        "icon": "auto_graph_rounded"
+  // Top recent releases fallback embedded directly for instant 0ms first-paint
+  const EMBEDDED_RELEASES = [
+    {
+      "version": "7.5.7",
+      "buildNumber": "26BR1004",
+      "releaseDate": "2026-10-04",
+      "channel": "beta",
+      "channelTag": "[Beta]",
+      "isBeta": true,
+      "edition": "High-Performance Engine & Fault Isolation",
+      "isLatest": true,
+      "highlights": [
+        {
+          "title": "Concurrency Engine (Isolates)",
+          "description": "Heavy analytical computations offloaded to background isolates for locked 120fps UI scrolling."
+        },
+        {
+          "title": "High-Performance Search Indexing",
+          "description": "Sub-millisecond inverted token index engine with prefix trie hashtag autocomplete."
+        },
+        {
+          "title": "Circuit Breaker Fault Isolation",
+          "description": "Automated 3-strike circuit breaker protecting Digital Wellbeing and third-party integrations from cascading crashes."
+        },
+        {
+          "title": "Guaranteed Daily Maintenance",
+          "description": "Native AlarmManager midnight maintenance trigger for rolling snapshots and compaction."
+        }
+      ],
+      "fullChangelog": [
+        "Concurrency Engine: LifeAuditService and DashboardMetricsService computeAsync offloaded to background isolates via Isolate.run",
+        "High-Performance Search: Inverted token index and O(K) hashtag autocomplete in SearchIndexService",
+        "Storage Engine Evolution: O(1) ID lookups and O(log N) binary range queries in MomentRepository",
+        "Circuit Breaker Service: 3-strike failure isolation with manual resets in Diagnostics & God Mode",
+        "Guaranteed OS Maintenance: Android AlarmManager midnight maintenance trigger (ACTION_DAILY_MAINTENANCE)",
+        "History & Life Audit: Direct Life Audit action sheet route and PageStorageKey scroll preservation",
+        "State Decoupling: Native SettingsController migration and synchronized Android Kotlin-Flutter pause state",
+        "Automated test suites passing with zero analyzer issues and offline-first core architecture"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.7/NoteKar-v7.5.7-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.7/NoteKar-v7.5.7-arm64-v8a-release.apk"
       }
-    ],
-    "fullChangelog": [
-      "Concurrency Engine: LifeAuditService and DashboardMetricsService computeAsync offloaded to background isolates via Isolate.run",
-      "High-Performance Search: Inverted token index and O(K) hashtag autocomplete in SearchIndexService",
-      "Storage Engine Evolution: O(1) ID lookups and O(log N) binary range queries in MomentRepository",
-      "Circuit Breaker Service: 3-strike failure isolation with manual resets in Diagnostics & God Mode",
-      "Guaranteed OS Maintenance: Android AlarmManager midnight maintenance trigger (ACTION_DAILY_MAINTENANCE)",
-      "History & Life Audit: Direct Life Audit action sheet route and PageStorageKey scroll preservation",
-      "State Decoupling: Native SettingsController migration and synchronized Android Kotlin-Flutter pause state",
-      "Settings Search Indexing: Indexed routing for Fault Isolation, Floating Timer Pill, and Acoustic Feedback",
-      "Apple HIG Polish: Unified 28pt continuous squircle cards, expanded history layout, and refined typography",
-      "Automated unit and widget test suites passing with zero analyzer issues and offline-first core architecture"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.7/NoteKar-v7.5.7-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.7/NoteKar-v7.5.7-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.5.6",
-    "buildNumber": "26BR1002",
-    "releaseDate": "2026-10-02",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "Sovereign Goals, Activity Tags & Sensory Precision",
-    "badgeColor": "#FF9F0A",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Apple HIG Goals & Pacing Engine",
-        "description": "Full-width goal cards, custom deadlines, pacing indicators, and Life Ledger session attribution.",
-        "icon": "track_changes_rounded"
-      },
-      {
-        "title": "Activity Quick-Tags & Note Pills",
-        "description": "15 research-backed daily activity tags with Cupertino glyphs and automatic timeline #tag pills.",
-        "icon": "tag_rounded"
-      },
-      {
-        "title": "Motivation Quick-Logging Popup",
-        "description": "Interactive notification quick-log dialog and photorealistic home screen widget previews.",
-        "icon": "bolt_rounded"
+    },
+    {
+      "version": "7.5.6",
+      "buildNumber": "26BR1002",
+      "releaseDate": "2026-10-02",
+      "channel": "beta",
+      "channelTag": "[Beta]",
+      "isBeta": true,
+      "edition": "Sovereign Goals, Activity Tags & Sensory Precision",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Apple HIG Goals & Pacing Engine",
+          "description": "Full-width goal cards, custom deadlines, pacing indicators, and session attribution."
+        },
+        {
+          "title": "Activity Quick-Tags & Note Pills",
+          "description": "15 research-backed daily activity tags with Cupertino glyphs and automatic timeline #tag pills."
+        },
+        {
+          "title": "Motivation Quick-Logging Popup",
+          "description": "Interactive notification quick-log dialog and photorealistic home screen widget previews."
+        }
+      ],
+      "fullChangelog": [
+        "Apple HIG goals redesign with custom deadlines, pacing indicators, and session attribution",
+        "15 daily activity quick-tags with dedicated settings page and automatic hashtag rendering",
+        "Interactive notification quick-log dialog in QuickNoteActivity with activity tag chips",
+        "Unified header rhythm card in DynamicHeaderCapsule; removed bottom clock complication",
+        "Upgraded launcher widget previews with photorealistic antialiased Bebas Neue assets"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.6/NoteKar-v7.5.6-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.6/NoteKar-v7.5.6-arm64-v8a-release.apk"
       }
-    ],
-    "fullChangelog": [
-      "Apple HIG goals redesign with custom deadlines, pacing indicators, and session attribution",
-      "15 daily activity quick-tags with dedicated settings page and automatic hashtag rendering",
-      "Interactive notification quick-log dialog in QuickNoteActivity with activity tag chips",
-      "Unified header rhythm card in DynamicHeaderCapsule; removed bottom clock complication and startup popups",
-      "Upgraded launcher widget previews with photorealistic antialiased Bebas Neue assets",
-      "Fixed MainActivity Kotlin compilation for notification logging and enabled AOT icon tree-shaking"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.6/NoteKar-v7.5.6-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.6/NoteKar-v7.5.6-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.5.5",
-    "buildNumber": "26BR0927",
-    "releaseDate": "2026-09-27",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "Dynamic Momentum & Digital Wellbeing",
-    "badgeColor": "#FF9F0A",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Dynamic Momentum Capsule",
-        "description": "Today's Momentum card now opens seamlessly inside the top pill, keeping the home canvas pure.",
-        "icon": "speed_rounded"
-      },
-      {
-        "title": "Android Digital Wellbeing",
-        "description": "Smart Buckets and Intentionality Reality Delta dashboard comparing focus to total screen time.",
-        "icon": "pie_chart_outline_rounded"
-      },
-      {
-        "title": "Data Safety & Shield Recovery",
-        "description": "Automated corrupted-box snapshots prevent data loss; streak grace shields restored.",
-        "icon": "shield_rounded"
-      },
-      {
-        "title": "Apple HIG Goals Engine",
-        "description": "Pacing metrics, WhatsApp doodle splash, and 1-tap session launching.",
-        "icon": "track_changes_rounded"
-      },
-      {
-        "title": "Platform Security Hardening",
-        "description": "Secured broadcast receivers with signature permissions against external intent spoofing.",
-        "icon": "security_rounded"
-      },
-      {
-        "title": "Authentic Analytics Engine",
-        "description": "Purged fabricated 15m durations and corrected 12 PM noon risk radar display.",
-        "icon": "insights_rounded"
+    },
+    {
+      "version": "7.5.5",
+      "buildNumber": "26BR0927",
+      "releaseDate": "2026-09-27",
+      "channel": "beta",
+      "channelTag": "[Beta]",
+      "isBeta": true,
+      "edition": "Dynamic Momentum & Digital Wellbeing",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Dynamic Momentum Capsule",
+          "description": "Today's Momentum card embedded inside the top header pill, keeping the home canvas pure."
+        },
+        {
+          "title": "Android Digital Wellbeing",
+          "description": "Smart Buckets and Intentionality Reality Delta dashboard comparing focus to total screen time."
+        },
+        {
+          "title": "Data Safety & Shield Recovery",
+          "description": "Automated corrupted-box snapshots prevent data loss; streak grace shields restored."
+        }
+      ],
+      "fullChangelog": [
+        "Dynamic Momentum Capsule: Today's Momentum card embedded inside DynamicHeaderCapsule",
+        "Android Digital Wellbeing: Opt-in Smart Buckets and Intentionality Reality Delta dashboard",
+        "WhatsApp Doodle Splash: Static dark OLED doodle wallpaper with official squircle emblem",
+        "Streak Guardian Repair: Fixed permanent shield lockout on relapse, restoring streak forgiveness"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.5/NoteKar-v7.5.5-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.5/NoteKar-v7.5.5-arm64-v8a-release.apk"
       }
-    ],
-    "fullChangelog": [
-      "+ Dynamic Momentum Capsule: Today's Momentum card embedded inside DynamicHeaderCapsule with live metrics",
-      "+ Android Digital Wellbeing: Opt-in Smart Buckets and Intentionality Reality Delta dashboard",
-      "+ Apple HIG Goals Engine: Pacing metrics, Cupertino segmented controls, and 1-tap session launch",
-      "+ WhatsApp Doodle Splash: Static dark OLED doodle wallpaper with official NoteKar squircle emblem",
-      "+ Corrupted-Box Snapshots: Automatic database backup before repair to eliminate silent data loss",
-      "+ Streak Guardian Repair: Fixed permanent shield lockout on relapse, restoring streak forgiveness",
-      "+ Platform Security: Exported broadcast receivers protected with signature-level permissions",
-      "+ God-Class Deconstruction: Split 12,000+ lines into modular lifecycle delegates and NkTokens",
-      "! Analytics Duration Fix: Removed fabricated 15-minute single tap durations for authentic tracking",
-      "! Noon Risk Radar Fix: Corrected '12 AM' display for 12:00 PM noon time blocks",
-      "* 100% offline privacy standard with all 234 automated tests passing"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.5/NoteKar-v7.5.5-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.5/NoteKar-v7.5.5-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.5.4",
-    "buildNumber": "26BR0925",
-    "releaseDate": "2026-09-25",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "Personal Identity & Life Horizons",
-    "badgeColor": "#FF9F0A",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Personal Identity & Memento Mori",
-        "description": "Custom avatar personalization, dedicated DOB picker, and Memento Mori Life Horizon metrics.",
-        "icon": "person_rounded"
-      },
-      {
-        "title": "Adaptive 'Last Used' Startup Mode",
-        "description": "Seamlessly remembers and restores whichever logging mode was active during your previous session.",
-        "icon": "history_toggle_off_rounded"
-      },
-      {
-        "title": "Exponential Habit Strength Decay",
-        "description": "12-day half-life habit retention calculation with vacation and rest neutrality in Streak Guardian.",
-        "icon": "trending_up_rounded"
-      },
-      {
-        "title": "Universal Migration Importer",
-        "description": "Offline import engine for Loop Habit Tracker CSV and HabitKit JSON archives.",
-        "icon": "move_to_inbox_rounded"
-      },
-      {
-        "title": "Shareable Life Horizon Card",
-        "description": "High-fidelity social milestone export card with concise typography and local rendering.",
-        "icon": "share_rounded"
+    },
+    {
+      "version": "7.5.4",
+      "buildNumber": "26BR0925",
+      "releaseDate": "2026-09-25",
+      "channel": "beta",
+      "channelTag": "[Beta]",
+      "isBeta": true,
+      "edition": "Personal Identity & Life Horizons",
+      "isLatest": false,
+      "highlights": [
+        {
+          "title": "Personal Identity & Memento Mori",
+          "description": "Custom avatar personalization, dedicated DOB picker, and Memento Mori Life Horizon metrics."
+        },
+        {
+          "title": "Adaptive 'Last Used' Startup Mode",
+          "description": "Seamlessly remembers and restores whichever logging mode was active during your previous session."
+        },
+        {
+          "title": "Universal Migration Importer",
+          "description": "Offline import engine for Loop Habit Tracker CSV and HabitKit JSON archives."
+        }
+      ],
+      "fullChangelog": [
+        "Personal Identity: Custom profile avatar and user alias with real-time sync across Settings",
+        "Memento Mori Horizon: Interactive life elapsed percentage, weeks lived, and seasons remaining",
+        "Modular Date Picker: System-grade Cupertino bottom sheet for Date of Birth configuration",
+        "Migration Importer: Dedicated offline import card supporting Loop Habit Tracker and HabitKit"
+      ],
+      "downloads": {
+        "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.4/NoteKar-v7.5.4-universal-release.apk",
+        "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.4/NoteKar-v7.5.4-arm64-v8a-release.apk"
       }
-    ],
-    "fullChangelog": [
-      "+ Personal Identity: Custom profile avatar and user alias with real-time sync across Settings and views",
-      "+ Memento Mori Horizon: Interactive life elapsed percentage, weeks lived, and seasons remaining",
-      "+ Modular Date Picker: System-grade Cupertino bottom sheet for Date of Birth configuration",
-      "+ Last Used Startup: Automatically remembers and restores active logging mode across app closures",
-      "+ Habit Strength Decay: Exponential 12-day half-life calculation reflecting behavioral retention",
-      "+ Rest Day Neutrality: Vacation and sabbath neutrality in Streak Guardian prevents streak penalties",
-      "+ Migration Importer: Dedicated offline import card supporting Loop Habit Tracker and HabitKit formats",
-      "+ Device Telemetry: Hardware diagnostics card showing memory, refresh rate, and thermal envelope",
-      "+ Responsive 2-Card Time Format: Replaced 24-hour switch with responsive 2-card Cupertino selector",
-      "+ Modal Geometry Fix: Eliminated double corner radius visual bug on modal sheets and note dialogs",
-      "+ Instant Avatar Sync: Immediate preview reflection and robust slider assertion guards",
-      "! Session Continuity: Resolved edge-case storage crashes and IPC state synchronization",
-      "* All 215 automated unit and widget test suites passing with zero lints and 100% offline privacy"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.4/NoteKar-v7.5.4-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.4/NoteKar-v7.5.4-arm64-v8a-release.apk"
     }
-  },
-  {
-    "version": "7.5.3",
-    "buildNumber": "26BR0923",
-    "releaseDate": "2026-09-23",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "Sensory Horology & Surface Harmony",
-    "badgeColor": "#FF9F0A",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Apple HIG Dark Surface Harmony",
-        "description": "Monotonic Gray surface hierarchy across modal sheets, cards, and controls with visible hairline borders.",
-        "icon": "palette_rounded"
-      },
-      {
-        "title": "Auto-Collapsing Dynamic Capsule",
-        "description": "Auto-collapses header capsule on clock canvas touch or timeline scroll with 320ms spring physics.",
-        "icon": "animation_rounded"
-      },
-      {
-        "title": "Swiss Horology Detent Haptics",
-        "description": "Tactile detent click when swiping between Single and Two-Way modes past the 50% threshold.",
-        "icon": "vibration_rounded"
-      },
-      {
-        "title": "Timeline Gap Rest Quick-Claim",
-        "description": "Convert empty gaps ≥ 15m into conscious recovery moments with one-tap Rest button and undo.",
-        "icon": "bedtime_rounded"
-      },
-      {
-        "title": "Live Ambient Radial Glow",
-        "description": "Soft 8% category-tinted ambient glow behind complication capsule without visual clutter.",
-        "icon": "blur_on_rounded"
-      },
-      {
-        "title": "Manual Entry & History Parity",
-        "description": "Full retrospective single and two-way session logging with inline mode creation and zero text underlines.",
-        "icon": "schedule_rounded"
-      }
-    ],
-    "fullChangelog": [
-      "+ Dark Theme Harmony: Apple Secondary Grouped Background (#1C1C1E) for modal sheets and pinned timeline filter headers",
-      "+ Apple Surface Hierarchy: Monotonic layering from canvas (#000000) to sheets (#1C1C1E), cards (#2C2C2E), controls (#3A3A3C), and borders (#48484A)",
-      "+ Border Visibility: 0.6px Apple hairline separators on SettingsGroupCard, SettingsSearchBox, and timeline cards",
-      "+ Elevated Control Pills: Luminous fill and subtle ambient shadows for active segments in filters and dialogs",
-      "+ Auto-Collapsing Capsule: Smooth 320ms spring physics collapse to resting 32px pill on canvas touch or timeline scroll",
-      "+ Horology Detent Haptics: Tactile crown click at 50% swipe threshold between Single and Two-Way tracking modes",
-      "+ Rest Quick-Claim: One-tap button on gap cards ≥ 15m to reclaim void time as conscious restorative moments with undo",
-      "+ Complication Radial Glow: Soft 8% ambient light behind complication capsule matching active mode color",
-      "+ Retrospective Entry: Complete Single and Two-Way manual entry parity with inline custom mode creation and zero yellow underlines",
-      "+ Rendering Resilience: Hardened Android GPU pipeline and eliminated startup green screen anomalies",
-      "* All 201 automated unit and widget test suites passing with zero lints and 100% offline privacy"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.3/NoteKar-v7.5.3-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.3/NoteKar-v7.5.3-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.5.2",
-    "buildNumber": "26BR0916",
-    "releaseDate": "2026-09-16",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "Plus Notes & Spatial Widgets",
-    "badgeColor": "#FF9F0A",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Plus Notes & Journaling",
-        "description": "Unrestricted long-form canvas with dedicated Plus button, history editing parity, and customizable hashtags.",
-        "icon": "note_add_rounded"
-      },
-      {
-        "title": "Home Screen Widgets Restored",
-        "description": "Sobriety and Life Audit launcher widgets fixed with zero-state prompts, deep linking & crash immunity.",
-        "icon": "widgets_rounded"
-      },
-      {
-        "title": "Pure 12H Clock & Single Tactile Touch",
-        "description": "Clean digits without AM/PM clutter on home clock face, paired with unified single-burst haptic clicks.",
-        "icon": "schedule_rounded"
-      },
-      {
-        "title": "Condensed 5-Page Onboarding",
-        "description": "Streamlined welcome sheet featuring a unified Permissions & System Reliability center.",
-        "icon": "verified_user_rounded"
-      }
-    ],
-    "fullChangelog": [
-      "+ Plus Notes: Dedicated long-form writing canvas with top-left Plus button and unrestricted character capacity",
-      "+ History Note Editing: Fixed note retrieval in timeline session cards with seamless editing for long entries",
-      "+ Customizable Hashtags: Long-press any quick tag in the note dialog to customize shortcuts for your workflow",
-      "+ Home Screen Widgets: Resolved RemoteViews layout inflation crash for Sobriety and Life Audit widgets",
-      "+ Widget Intelligence: Added graceful zero-states, compact sizing fixes, and direct settings deep-linking",
-      "+ Distraction-Free Clock: Pure 12-hour clock face digits with explicit AM/PM tags in History and Search Notes",
-      "+ Single Tactile Touch: Unified crisp single-burst haptic feedback across all buttons, eliminating double bursts",
-      "+ 5-Page Welcome Onboarding: Streamlined setup with consolidated Notifications, Battery, and Update permissions",
-      "+ Settings Update Center: Added \"Rm -rf Cache\" switch for instant installer cleanup with search indexing",
-      "* All 160 automated unit and widget test suites passing with zero lints and 100% offline security"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.2/NoteKar-v7.5.2-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.2/NoteKar-v7.5.2-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.5.1",
-    "buildNumber": "26BR0912",
-    "releaseDate": "2026-09-12",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "Universal Themes & Spatial Modes",
-    "badgeColor": "#FF9F0A",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Universal Theme Harmony",
-        "description": "Full Light, Dark, and AMOLED theme parity across all popups, pickers, action sheets, and alerts.",
-        "icon": "palette_rounded"
-      },
-      {
-        "title": "Dedicated Mode Workspaces",
-        "description": "Individual mode settings pages with native back routing, 15-character naming limit, and iOS confirmation dialogs.",
-        "icon": "tune_rounded"
-      },
-      {
-        "title": "Android Home Widgets",
-        "description": "3 dedicated launcher widgets (Quick Capture, Sobriety, Life Audit) and dynamic persistent notification.",
-        "icon": "widgets_rounded"
-      },
-      {
-        "title": "120Hz Decoupled Motion",
-        "description": "Stutter-free high-refresh rendering, ergonomic touch safety zone, and 80/20 Search Notes.",
-        "icon": "speed_rounded"
-      }
-    ],
-    "fullChangelog": [
-      "Elegance inside and out - universal themes, dedicated modes, and tactile home widgets.",
-      "Add full Light, Dark, and AMOLED theme support across all popups, Cupertino sheets, pickers, and pills",
-      "Add dedicated settings pages for logging modes with native back routing and 15-character naming limit",
-      "Relocate destructive mode deletion with Apple-style confirmation to individual mode pages",
-      "Introduce 3 dedicated Android Home Screen widgets: Quick Capture, Sobriety Companion, and Life Audit",
-      "Implement dynamic persistent notification reflecting live session state, check-in time, and daily counts",
-      "Add ergonomic tap safety zone to prevent accidental ghost touches while maintaining full edge reach",
-      "Decouple accelerometer motion with RepaintBoundary for silky 120Hz high-refresh rendering",
-      "Redesign Search Notes into an 80/20 layout with single/two-way metadata and dynamic #hashtag pills",
-      "Add depleting animated progress bar to note undo pills with instant single-tap restoration",
-      "Ensure smooth, jitter-free sheet transitions from History timeline directly into Search Notes"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.1/NoteKar-v7.5.1-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.1/NoteKar-v7.5.1-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.5.0",
-    "buildNumber": "26PR0908a",
-    "releaseDate": "2026-09-08",
-    "channel": "priority",
-    "channelTag": "[Priority]",
-    "isBeta": false,
-    "edition": "Official Bulletins & Life Ledger Calibration",
-    "badgeColor": "#0A84FF",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Hardened Official Bulletins",
-        "description": "7-language localization parity, dedicated security section, non-blocking offline toast, and silent freshness sync.",
-        "icon": "campaign_rounded"
-      },
-      {
-        "title": "Life Ledger History Calibration",
-        "description": "Existential void calculations strictly bounded to verified history, eliminating phantom void hours.",
-        "icon": "auto_graph_rounded"
-      },
-      {
-        "title": "Unified Settings Navigation",
-        "description": "Seamless bulletin category navigation stack and universal back handlers across all modal sheets.",
-        "icon": "settings_rounded"
-      }
-    ],
-    "fullChangelog": [
-      "NoteKar has revisioned itself - honoring the truth of human history.",
-      "Add native 7-language support (EN, HI, ES, DE, FR, JA, RU) to AppNotice and local-first NoticeService defaults",
-      "Introduce full notification hierarchy: Critical, Security (dedicated section), Release Bulletins, and Curated Tips",
-      "Remove status circle dot next to 'Notice Engine Active' for clean visual hierarchy",
-      "Replace blocking modal alerts with non-blocking Apple-style iOS pill toast on manual refresh",
-      "Implement silent background auto-sync for stale cache (> 4h) and automatic recovery from corrupted cache",
-      "Add contextual action routing and localized action button labels (releases, settings, audit, history, web links)",
-      "Calibrate existential wastage metrics to recorded history bounds, preventing uncalibrated void hours for new users",
-      "Equalize card dimensions for Waking Days and Earth Days lost under 'The Cost of Void'",
-      "Resolve text truncation and header collision in Life Audit dashboard card",
-      "Integrate Official Bulletins into Settings category navigation stack with seamless back button routing",
-      "Add universal back handlers to all secondary modal dialogs and bottom sheets",
-      "Harden CI/CD GitHub Action workflow for VirusTotal verification link injection in release notes"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.0/NoteKar-v7.5.0-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.5.0/NoteKar-v7.5.0-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.4.0",
-    "buildNumber": "26PR0908",
-    "releaseDate": "2026-09-08",
-    "channel": "priority",
-    "channelTag": "[Priority]",
-    "isBeta": false,
-    "edition": "Life Audit, Spatial Harmony & Sovereign Signal",
-    "badgeColor": "#7000FF",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Life Audit & The Void",
-        "description": "Daily 24h partition engine confronting unaccounted hours across 6 horizons.",
-        "icon": "auto_graph_rounded"
-      },
-      {
-        "title": "Spatial Bebas Neue Clock",
-        "description": "Optically centered usable-viewport chronometer face with authentic tall typography.",
-        "icon": "schedule_rounded"
-      },
-      {
-        "title": "Two-Way Session Continuity",
-        "description": "Unbroken stopwatch and note state preservation across Single and Two-Way modes.",
-        "icon": "sync_alt_rounded"
-      },
-      {
-        "title": "WhatsApp-Grade Note Input",
-        "description": "Instantaneous note entry with sentence capitalization and composition safety.",
-        "icon": "edit_note_rounded"
-      },
-      {
-        "title": "Smart Onboarding & 7 Locales",
-        "description": "Tours integrated into onboarding, unseen cards for updating users, and full 7-language support.",
-        "icon": "translate_rounded"
-      }
-    ],
-    "fullChangelog": [
-      "NoteKar has revisioned itself. Moving beyond a minimalist clicker into an existential compass: accounting for finite conscious hours, confronting the cost of the void, and perfecting sensory chronometer craft.",
-      "+ Add Life Audit time wastage engine with 24-hour conscious partitions and 6 temporal horizons",
-      "+ Implement The Cost of the Void existential metrics: Waking Days Lost and Earth Days Lost",
-      "+ Introduce Executive Dashboard Life Audit card with dynamic horizon indicators and overflow guards",
-      "+ Optically center main clock within usable viewport between top insights and bottom toolbar",
-      "+ Bundle authentic Bebas Neue tall typography for chronometer and active session countdowns",
-      "+ Guarantee Two-Way session continuity across Single and Two-Way mode toggles with zero state loss",
-      "+ Overhaul NoteDialog with WhatsApp-grade zero-lag input, sentence capitalization, and composition safety",
-      "+ Migrate feature tours from settings to onboarding, adding standalone unseen cards for updating users",
-      "+ Expand offline multilingual localizations across 7 languages (EN, HI, ES, FR, DE, JA, RU)",
-      "* Full automated test suite passing across all unit, widget, and state continuity verifications"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.4.0/NoteKar-v7.4.0-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.4.0/NoteKar-v7.4.0-arm64-v8a-release.apk"
-    }
-  },
-  {
-    "version": "7.3.3",
-    "buildNumber": "26BR0906b",
-    "releaseDate": "2026-09-06",
-    "channel": "beta",
-    "channelTag": "[Beta]",
-    "isBeta": true,
-    "edition": "Physical Swipe Geometry & Sovereign Signal",
-    "badgeColor": "#0A84FF",
-    "isLatest": false,
-    "highlights": [
-      {
-        "title": "Physical Bed of Red",
-        "description": "SwipeableCardBed matches exact card corner geometry with solid crimson ground.",
-        "icon": "swipe_rounded"
-      },
-      {
-        "title": "Sovereign Bulletins",
-        "description": "Official advisories coupled with App Notices toggle and socket-level offline verification.",
-        "icon": "campaign_rounded"
-      },
-      {
-        "title": "Keynote Architecture",
-        "description": "Flush settings width, proportioned pill tags, and Steve Jobs design colophon.",
-        "icon": "auto_awesome_rounded"
-      },
-      {
-        "title": "Refined App Philosophy",
-        "description": "Streamlined About manifesto with focused typography and zero redundant subtitles.",
-        "icon": "lightbulb_outline_rounded"
-      }
-    ],
-    "fullChangelog": [
-      "Re-engineer swipe-to-delete with SwipeableCardBed matching exact 16pt/12pt card corner radii",
-      "Eliminate all background straight-line cutouts and gaps behind sliding session and single moment cards",
-      "Standardize What's New keynote hero card and innovation cards to flush settings group bounds",
-      "Align keynote pill tags, release edition badges, and date metadata to eliminate horizontal overflows",
-      "Couple Official Bulletins visibility with App Notices preference switch in Notifications & Updates",
-      "Add 1-second deliberate activity feedback spinner and socket-level DNS verification to bulletin checks",
-      "Refine App Philosophy card in About with elevated typography, removing redundant subtitle copy",
-      "Simplify Reset page description to minimal text and subtle warning icon",
-      "Update in-app guides, help FAQs, and settings search indexing for recent sovereign feature additions"
-    ],
-    "downloads": {
-      "universalApk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.3/NoteKar-v7.3.3-universal-release.apk",
-      "arm64Apk": "https://github.com/dheeraz101/Notekar-Android/releases/download/v7.3.3/NoteKar-v7.3.3-arm64-v8a-release.apk"
-    }
-  }
-];
+  ];
 
-  const LOCAL_JSON_URL = 'versions/changelog.json';
-  const GITHUB_CHANGELOG_URL = 'https://raw.githubusercontent.com/dheeraz101/Notekar-Android/main/versions/changelog.json';
-
-  let allReleases = LOCAL_FALLBACK_RELEASES;
+  let allReleases = EMBEDDED_RELEASES;
   let currentFilter = 'all';
+  let filteredReleases = [];
+  const BATCH_SIZE = 8;
+  let currentlyRenderedCount = 0;
 
-  function formatIcon(item) {
-    const trimmed = item.trim();
-    if (trimmed.startsWith('+') || trimmed.toLowerCase().startsWith('add') || trimmed.toLowerCase().startsWith('feat')) {
-      return { icon: '+', className: 'icon-add', text: trimmed.replace(/^[+\-!*]\s*/, '') };
-    } else if (trimmed.startsWith('−') || trimmed.startsWith('-') || trimmed.toLowerCase().startsWith('remove')) {
-      return { icon: '−', className: 'icon-remove', text: trimmed.replace(/^[+\-!*]\s*/, '') };
-    } else if (trimmed.startsWith('!') || trimmed.toLowerCase().startsWith('fix')) {
-      return { icon: '🔧', className: 'icon-fix', text: trimmed.replace(/^[+\-!*]\s*/, '') };
-    } else if (trimmed.startsWith('*') || trimmed.toLowerCase().startsWith('refine') || trimmed.toLowerCase().startsWith('opt')) {
-      return { icon: '★', className: 'icon-improve', text: trimmed.replace(/^[+\-!*]\s*/, '') };
-    }
-    return { icon: '•', className: 'icon-default', text: trimmed };
+  function isBetaRelease(rel) {
+    return rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
   }
 
   function updateCounts() {
-    let stableCount = 0;
-    let betaCount = 0;
+    const total = allReleases.length;
+    const betaCount = allReleases.filter(isBetaRelease).length;
+    const stableCount = total - betaCount;
 
-    allReleases.forEach(rel => {
-      const isBeta = rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
-      if (isBeta) {
-        betaCount++;
-      } else {
-        stableCount++;
-      }
-    });
-
-    document.getElementById('countAll').textContent = allReleases.length;
-    document.getElementById('countStable').textContent = stableCount;
-    document.getElementById('countBeta').textContent = betaCount;
+    document.getElementById('statCount').textContent = total;
+    document.getElementById('countAll').textContent = `(${total})`;
+    document.getElementById('countStable').textContent = `(${stableCount})`;
+    document.getElementById('countBeta').textContent = `(${betaCount})`;
+    if (allReleases[0]) {
+      document.getElementById('statLatest').textContent = `v${allReleases[0].version}`;
+    }
   }
 
-  function renderReleases(releases) {
-    const container = document.getElementById('changelogContainer');
-    if (!releases.length) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-          </svg>
-          <div style="font-size:16px; font-weight:600; color:var(--text); margin-bottom:4px;">No matching releases found</div>
-          <div style="font-size:13px; color:var(--text3);">Try adjusting your search query or switching channel filter.</div>
-        </div>
-      `;
-      return;
+  function renderReleaseCard(rel, index) {
+    const isBeta = isBetaRelease(rel);
+    const isLatest = rel.isLatest || index === 0;
+
+    let badgeHtml = '';
+    if (isLatest) {
+      badgeHtml += `<span class="badge-pill badge-latest">Latest</span>`;
+    }
+    if (isBeta) {
+      badgeHtml += `<span class="badge-pill badge-beta">Beta</span>`;
+    } else {
+      badgeHtml += `<span class="badge-pill badge-stable">Stable</span>`;
     }
 
-    container.innerHTML = releases.map(rel => {
-      const isBeta = rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
-      const isLatest = rel.isLatest;
+    let buildHtml = rel.buildNumber ? `<span class="build-tag">${rel.buildNumber}</span>` : '';
 
-      let tagHtml = '';
-      if (isLatest) {
-        tagHtml += '<span class="tag-pill tag-latest">Latest</span>';
-      }
-      if (isBeta) {
-        tagHtml += '<span class="tag-pill tag-beta">Beta Release</span>';
-      } else if (rel.channel === 'priority') {
-        tagHtml += '<span class="tag-pill tag-priority">Priority Release</span>';
-      } else {
-        tagHtml += '<span class="tag-pill tag-stable">Stable Release</span>';
-      }
-
-      const buildHtml = rel.buildNumber ? `<span class="build-number">${rel.buildNumber}</span>` : '';
-
-      const highlightsHtml = (rel.highlights && rel.highlights.length) ? `
-        <div class="highlights-grid">
-          ${rel.highlights.map(h => `
-            <div class="highlight-card">
-              <div class="highlight-title">★ ${h.title}</div>
-              <div class="highlight-desc">${h.description}</div>
-            </div>
-          `).join('')}
-        </div>
-      ` : '';
-
-      const itemsHtml = (rel.fullChangelog && rel.fullChangelog.length) ? `
-        <ul class="changelog-list">
-          ${rel.fullChangelog.map(item => {
-            const parsed = formatIcon(item);
-            return `
-              <li class="changelog-item">
-                <span class="item-icon ${parsed.className}">${parsed.icon}</span>
-                <span>${parsed.text}</span>
-              </li>
-            `;
-          }).join('')}
-        </ul>
-      ` : '';
-
-      let downloadHtml = '';
-      if (rel.downloads) {
-        const btns = [];
-        if (rel.downloads.universalApk) {
-          btns.push(`<a href="${rel.downloads.universalApk}" class="download-btn ${isBeta ? 'beta-dl' : ''}" target="_blank" rel="noopener">↓ Universal APK</a>`);
-        }
-        if (rel.downloads.arm64Apk) {
-          btns.push(`<a href="${rel.downloads.arm64Apk}" class="download-btn secondary" target="_blank" rel="noopener">⚡ ARM64-v8a</a>`);
-        }
-        if (btns.length) {
-          downloadHtml = `<div class="download-bar">${btns.join('')}</div>`;
-        }
-      }
-
-      return `
-        <article class="release-card ${isLatest ? 'latest' : ''} ${isBeta ? 'beta-card' : ''}">
-          <div class="release-header">
-            <div>
-              <div class="version-meta">
-                <span class="version-title">v${rel.version}</span>
-                ${tagHtml}
-                ${buildHtml}
-              </div>
-              <div class="edition-name ${isBeta ? 'beta-edition' : ''}">${rel.edition || ''}</div>
-            </div>
-            <div class="release-date">${rel.releaseDate}</div>
+    let highlightsHtml = '';
+    if (Array.isArray(rel.highlights) && rel.highlights.length) {
+      const items = rel.highlights.map(h => `
+        <div class="highlight-item ${isBeta ? 'beta' : ''}">
+          <div class="highlight-bullet"></div>
+          <div class="highlight-content">
+            <h4>${h.title}</h4>
+            <p>${h.description}</p>
           </div>
-          ${highlightsHtml}
-          ${itemsHtml}
-          ${downloadHtml}
-        </article>
+        </div>
+      `).join('');
+      highlightsHtml = `<div class="highlights-list">${items}</div>`;
+    }
+
+    let changelogHtml = '';
+    if (Array.isArray(rel.fullChangelog) && rel.fullChangelog.length) {
+      const isOpen = isLatest ? 'open' : '';
+      const listItems = rel.fullChangelog.map(item => `<li>${item}</li>`).join('');
+      changelogHtml = `
+        <details class="full-changelog-toggle" ${isOpen}>
+          <summary>Full Improvements & Changes (${rel.fullChangelog.length})</summary>
+          <ul class="changelog-items-list">${listItems}</ul>
+        </details>
       `;
-    }).join('');
+    }
+
+    let downloadsHtml = '';
+    if (rel.downloads) {
+      const btns = [];
+      if (rel.downloads.universalApk) {
+        btns.push(`<a href="${rel.downloads.universalApk}" class="download-pill primary" target="_blank" rel="noopener">↓ Universal APK</a>`);
+      }
+      if (rel.downloads.arm64Apk) {
+        btns.push(`<a href="${rel.downloads.arm64Apk}" class="download-pill secondary" target="_blank" rel="noopener">⚡ ARM64-v8a</a>`);
+      }
+      if (btns.length) {
+        downloadsHtml = `<div class="download-bar">${btns.join('')}</div>`;
+      }
+    }
+
+    return `
+      <article class="release-card ${isLatest ? 'latest' : ''}">
+        <div class="release-header">
+          <div>
+            <div class="version-meta">
+              <span class="version-title">v${rel.version}</span>
+              ${badgeHtml}
+              ${buildHtml}
+            </div>
+            <div class="edition-title">${rel.edition || 'Official Release'}</div>
+          </div>
+          <div class="release-date">${rel.releaseDate || ''}</div>
+        </div>
+        ${highlightsHtml}
+        ${changelogHtml}
+        ${downloadsHtml}
+      </article>
+    `;
   }
 
-  function filterReleases() {
+  function filterAndReset() {
     const searchInput = document.getElementById('searchInput');
     const searchClear = document.getElementById('searchClear');
     const query = searchInput.value.trim().toLowerCase();
 
     searchClear.style.display = query ? 'flex' : 'none';
 
-    const filtered = allReleases.filter(rel => {
-      const isBeta = rel.isBeta || rel.channel === 'beta' || (rel.channelTag && rel.channelTag.includes('Beta'));
-      
+    filteredReleases = allReleases.filter(rel => {
+      const isBeta = isBetaRelease(rel);
       if (currentFilter === 'stable' && isBeta) return false;
       if (currentFilter === 'beta' && !isBeta) return false;
 
       if (!query) return true;
 
-      const searchContent = [
+      const searchable = [
         rel.version,
         rel.edition || '',
         rel.releaseDate || '',
@@ -1303,75 +947,123 @@
         ...(rel.highlights ? rel.highlights.map(h => `${h.title} ${h.description}`) : [])
       ].join(' ').toLowerCase();
 
-      return searchContent.includes(query);
+      return searchable.includes(query);
     });
 
-    renderReleases(filtered);
+    const container = document.getElementById('releasesContainer');
+    const emptyState = document.getElementById('emptyState');
+    const loadMoreContainer = document.getElementById('loadMoreContainer');
+
+    container.innerHTML = '';
+    currentlyRenderedCount = 0;
+
+    if (filteredReleases.length === 0) {
+      emptyState.style.display = 'block';
+      loadMoreContainer.style.display = 'none';
+      return;
+    }
+
+    emptyState.style.display = 'none';
+    renderNextBatch();
   }
 
-  async function loadChangelog() {
-    // 1. Try local versions/changelog.json first
+  function renderNextBatch() {
+    const container = document.getElementById('releasesContainer');
+    const loadMoreContainer = document.getElementById('loadMoreContainer');
+    
+    const nextBatch = filteredReleases.slice(currentlyRenderedCount, currentlyRenderedCount + BATCH_SIZE);
+    if (nextBatch.length === 0) {
+      loadMoreContainer.style.display = 'none';
+      return;
+    }
+
+    const html = nextBatch.map((rel, i) => renderReleaseCard(rel, currentlyRenderedCount + i)).join('');
+    container.insertAdjacentHTML('beforeend', html);
+    currentlyRenderedCount += nextBatch.length;
+
+    if (currentlyRenderedCount < filteredReleases.length) {
+      loadMoreContainer.style.display = 'block';
+    } else {
+      loadMoreContainer.style.display = 'none';
+    }
+  }
+
+  // Infinite scroll intersection observer for ultra-smooth scrolling
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && currentlyRenderedCount < filteredReleases.length) {
+      renderNextBatch();
+    }
+  }, { rootMargin: '300px' });
+
+  const loadMoreContainer = document.getElementById('loadMoreContainer');
+  observer.observe(loadMoreContainer);
+
+  document.getElementById('loadMoreBtn').addEventListener('click', renderNextBatch);
+
+  // Search handlers
+  const searchInput = document.getElementById('searchInput');
+  const searchClear = document.getElementById('searchClear');
+
+  searchInput.addEventListener('input', () => {
+    filterAndReset();
+  });
+
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    filterAndReset();
+    searchInput.focus();
+  });
+
+  // Filter tabs
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      currentFilter = btn.getAttribute('data-filter');
+      filterAndReset();
+    });
+  });
+
+  // Fetch full changelog JSON asynchronously
+  async function loadFullChangelog() {
     try {
-      const localRes = await fetch(LOCAL_JSON_URL);
-      if (localRes.ok) {
-        const data = await localRes.json();
+      const res = await fetch('versions/changelog.json');
+      if (res.ok) {
+        const data = await res.json();
         if (Array.isArray(data) && data.length) {
           allReleases = data;
           updateCounts();
-          filterReleases();
+          filterAndReset();
           return;
         }
       }
     } catch (e) {
-      // Local fetch skipped or failed, fallback to remote
+      // Offline or local file fallback
     }
 
-    // 2. Try remote GitHub raw
     try {
-      const remoteRes = await fetch(GITHUB_CHANGELOG_URL);
+      const remoteRes = await fetch('https://raw.githubusercontent.com/dheeraz101/Notekar-Android/main/versions/changelog.json');
       if (remoteRes.ok) {
         const data = await remoteRes.json();
         if (Array.isArray(data) && data.length) {
           allReleases = data;
           updateCounts();
-          filterReleases();
-          return;
+          filterAndReset();
         }
       }
     } catch (e) {
-      console.warn('Network fetch unavailable, using embedded release fallback.', e);
+      // Remote fallback silent
     }
-
-    // 3. Fallback already active
-    updateCounts();
-    filterReleases();
   }
 
-  const searchInput = document.getElementById('searchInput');
-  const searchClear = document.getElementById('searchClear');
-
-  searchInput.addEventListener('input', filterReleases);
-  searchClear.addEventListener('click', () => {
-    searchInput.value = '';
-    filterReleases();
-    searchInput.focus();
-  });
-
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); btn.setAttribute('aria-pressed', 'true');
-      currentFilter = btn.getAttribute('data-filter');
-      filterReleases();
-    });
-  });
-
-  // Initial paint with instant fallback
+  // Initial setup
   updateCounts();
-  filterReleases();
-
-  // Hydrate with latest JSON
-  loadChangelog();
+  filterAndReset();
+  loadFullChangelog();
 </script>
 
 </body>

@@ -1,16 +1,43 @@
-# Operating System Files
+# ----------------------------------------------------------------------
+# NoteKar Web PWA Master .gitignore
+# Ensures ZERO sensitive keys, build outputs, local metadata, or
+# developer scratch files are ever committed to GitHub.
+# ----------------------------------------------------------------------
+
+# 🖥️ Operating System Files
+# macOS
 .DS_Store
+**/.DS_Store
 .DS_Store?
+**/.DS_Store?
 ._*
+**/._*
 .Spotlight-V100
 .Trashes
+Icon?
+
+# Windows
 ehthumbs.db
 Thumbs.db
+**/Thumbs.db
 desktop.ini
+**/desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.suo
+*.user
 
-# IDEs and Editors
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# 💻 IDEs, Editors & Module Files
 .idea/
+**/.idea/
 .vscode/
+**/.vscode/
 *.iml
 *.ipr
 *.iws
@@ -20,26 +47,53 @@ desktop.ini
 .project
 .settings/
 .buildpath
+*.sublime-project
+*.sublime-workspace
 
-# Environment & Secrets
+# 🤖 AI Assistants, Scratch & Agent Workspace Artifacts
+.artifacts/
+**/.artifacts/
+.gemini/
+**/.gemini/
+.cursor/
+**/.cursor/
+.windsurf/
+**/.windsurf/
+.cline/
+**/.cline/
+scratch/
+**/scratch/
+tmp/
+**/tmp/
+
+# 🔐 Environment & Secrets
 .env
 .env.*
 !.env.example
 secrets.json
+credentials.json
 *.pem
 *.key
 *.cert
+*.crt
 
-# Node / Build Outputs (if any)
+# 📦 Node / Web Build Outputs & Caches
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 .build/
 dist/
+build/
+.cache/
+.parcel-cache/
 
-# Temporary and Log files
+# 📝 Temporary, Backup & Log Files
 *.log
 *.tmp
 *.temp
 *.bak
+*.docx
+*.doc
+*.pdf

@@ -2205,7 +2205,7 @@ const APP_META = updateChannel === 'beta' ? BETA_META : STABLE_META;
 const APP_VERSION = APP_META.version || globalThis.NOTEKAR_VERSION || '3.2.7';
 const APP_BUILD_DATE = APP_META.buildDate || '';
 const APP_CHANNEL_LABEL = updateChannel === 'beta' ? 'Beta' : 'Stable';
-const NOTIFICATION_FEED_URL = globalThis.NOTEKAR_NOTIFICATION_FEED || '';
+const NOTIFICATION_FEED_URL = globalThis.NOTEKAR_NOTIFICATION_FEED || 'https://raw.githubusercontent.com/dheeraz101/NotekarN/main/notification.json';
 const GITHUB_RELEASES_URL = 'https://github.com/dheeraz101/Notekar-Android/releases';
 const GITHUB_RELEASES_API = 'https://api.github.com/repos/dheeraz101/Notekar-Android/releases?per_page=10';
 const CHANGELOG = Array.isArray(APP_META.changelog)
@@ -3987,30 +3987,82 @@ async function enableNotifications() {
   }
 }
 
+function compareSemVer(v1, v2) {
+  if (!v1 || !v2) return 0;
+  const parse = v => {
+    const [numPart, prePart] = String(v).trim().replace(/^v/i, '').split('-');
+    const nums = numPart.split('.').map(n => parseInt(n, 10) || 0);
+    while (nums.length < 3) nums.push(0);
+    return { nums, pre: prePart || '' };
+  };
+  const p1 = parse(v1);
+  const p2 = parse(v2);
+  for (let i = 0; i < 3; i++) {
+    if (p1.nums[i] > p2.nums[i]) return 1;
+    if (p1.nums[i] < p2.nums[i]) return -1;
+  }
+  if (p1.pre === p2.pre) return 0;
+  if (!p1.pre && p2.pre) return 1;
+  if (p1.pre && !p2.pre) return -1;
+  return p1.pre.localeCompare(p2.pre);
+}
+
 async function checkRemoteNotice() {
   if (!NOTIFICATION_FEED_URL || !('Notification' in window) || Notification.permission !== 'granted') return;
   try {
     const res = await fetch(`${NOTIFICATION_FEED_URL}?t=${Date.now()}`, {cache:'reload'});
     if (!res.ok) return;
-    const cfg = await res.json();
-    if (!cfg || cfg.enabled === false) return;
-    const channels = Array.isArray(cfg.channels) ? cfg.channels : ['stable','beta'];
-    if (!channels.includes(updateChannel)) return;
+    const data = await res.json();
+    if (!data) return;
+    const items = Array.isArray(data) ? data : [data];
     const now = Date.now();
-    if (cfg.showAfter && now < Date.parse(cfg.showAfter)) return;
-    if (cfg.showUntil && now > Date.parse(cfg.showUntil)) return;
-    const id = String(cfg.id || cfg.title || 'notice');
-    const shownKey = `m-notice-${id}-shown`;
-    const lastKey = `m-notice-${id}-last`;
-    const shown = parseInt(localStorage.getItem(shownKey) || '0', 10);
-    const maxShows = Number.isFinite(cfg.maxShows) ? cfg.maxShows : 1;
-    const cooldownMs = (Number.isFinite(cfg.cooldownHours) ? cfg.cooldownHours : 24) * 60 * 60 * 1000;
-    const last = parseInt(localStorage.getItem(lastKey) || '0', 10);
-    if (shown >= maxShows || now - last < cooldownMs) return;
+    const userLang = (navigator.language || 'en').split('-')[0].toLowerCase();
+
+    const eligible = [];
+    for (const cfg of items) {
+      if (!cfg || cfg.enabled === false) continue;
+      const channels = Array.isArray(cfg.channels) ? cfg.channels : ['stable','beta'];
+      if (!channels.includes(updateChannel)) continue;
+      const platforms = Array.isArray(cfg.platforms) ? cfg.platforms : (cfg.platforms ? [cfg.platforms] : []);
+      if (platforms.length > 0 && !platforms.includes('pwa') && !platforms.includes('all')) continue;
+      if (cfg.minVersion && compareSemVer(APP_VERSION, cfg.minVersion) < 0) continue;
+      if (cfg.maxVersion && compareSemVer(APP_VERSION, cfg.maxVersion) > 0) continue;
+      if (cfg.showAfter && now < Date.parse(cfg.showAfter)) continue;
+      if (cfg.showUntil && now > Date.parse(cfg.showUntil)) continue;
+
+      const id = String(cfg.id || cfg.title || 'notice');
+      const shownKey = `m-notice-${id}-shown`;
+      const lastKey = `m-notice-${id}-last`;
+      const shown = parseInt(localStorage.getItem(shownKey) || '0', 10);
+      const maxShows = Number.isFinite(cfg.maxShows) ? cfg.maxShows : 1;
+      const cooldownHours = Number.isFinite(cfg.cooldownHours) ? cfg.cooldownHours : 24;
+      const cooldownMs = cooldownHours * 60 * 60 * 1000;
+      const last = parseInt(localStorage.getItem(lastKey) || '0', 10);
+
+      const isHighPriority = cfg.priority === 'high' || cfg.priority === 'urgent';
+      if (shown >= maxShows) continue;
+      if (!isHighPriority && (now - last < cooldownMs)) continue;
+
+      eligible.push({ cfg, id, shownKey, lastKey, shown, isHighPriority });
+    }
+
+    if (eligible.length === 0) return;
+
+    eligible.sort((a, b) => {
+      if (a.isHighPriority && !b.isHighPriority) return -1;
+      if (!a.isHighPriority && b.isHighPriority) return 1;
+      return 0;
+    });
+
+    const candidate = eligible[0];
+    const { cfg, id, shownKey, lastKey, shown } = candidate;
+
+    const title = cfg[`title_${userLang}`] || cfg.title || 'NoteKar';
+    const body = cfg[`body_${userLang}`] || cfg.body || '';
+
     const reg = await navigator.serviceWorker.getRegistration();
-    const title = cfg.title || 'NoteKar';
     const options = {
-      body: cfg.body || '',
+      body: body,
       tag: id,
       icon: cfg.icon || './icon-192.png',
       badge: cfg.badge || './icon-maskable-192.png',
